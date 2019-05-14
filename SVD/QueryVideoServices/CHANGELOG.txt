@@ -1,0 +1,32 @@
+﻿=== QueryVideoServices ===
+
+Version 2.1.0.0
+	02/10/2010
+	* Built against Client 1.3.0.0 for new ServerConfig client
+	kdixon
+
+Version 2.0.0.2
+	10/01/2009
+	* Adds support for StreamSourceInfo.Hidden flag
+	kdixon
+
+Version 2.0.0.1
+	07/08/2009
+	* Built against Client 1.1.2.0 for QueryMediaServers enhancement
+
+Version 2.0.0.0
+	05/19/2009
+	* Can query restreamers
+	  Mantis: 699
+	* Made an interactive console program with new features
+	* Commands can be put on the command line, or via a command prompt
+	  - "list"		list all visible AX services
+	  - "get <ip>"	fetch the server info for a given IP
+	  - "getall"	fetch the server info for all visible AX services
+	  - "watch"		fire up a QueryMediaServices object and watch for changes (emulates SVD)
+
+Version 1.0.0.0
+	pre 05/19/2009
+	* Written by Dave
+	* Ported from Vault
+	darnold

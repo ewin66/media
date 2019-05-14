@@ -1,0 +1,88 @@
+﻿@model WebVideoViewer.Models.source
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>source</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.client_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.client_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.device_source_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.device_source_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.source_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.source_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.restream_source_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.restream_source_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.source_description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.source_description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.camera_control_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.camera_control_address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_audio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.has_audio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mime_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mime_type)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

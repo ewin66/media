@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WebVideoViewer.Models.source>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.client_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.device_source_url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.source_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.restream_source_url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.source_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.camera_control_address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.has_audio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mime_type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.client_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.device_source_url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.source_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.restream_source_url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.source_description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.camera_control_address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.has_audio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mime_type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

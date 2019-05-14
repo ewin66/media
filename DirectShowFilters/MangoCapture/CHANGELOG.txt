@@ -1,0 +1,61 @@
+=== MangoCapture Filter ===
+
+Version 1.3.0.3
+	08/12/2011
+	* Fixed err_callback to not crash if the mangoX runtime returns a null message
+	  Mantis: 4809
+	* Fix crash on DllRegisterServer, because number of pins was specified wrong
+	kdixon
+
+Version 1.3.0.2
+	04/24/2011
+	* Changed CAVCPropPage::OnReceivedMessage return type from BOOL to INT_PTR.
+	  - was causing compile error under VS2010 (overriding virtual method return types don't match)
+	kdixon
+
+Version 1.3.0.1
+	02/09/2010
+	* Increased D2H timeout from (interval between frames + 2 sec) to (interval between frames + 5 sec)
+	kdixon
+
+Version 1.3.0.0
+	09/22/2009
+	* Added try/catch to following code:
+	  - around DeleteGraph/CreateGraph in VideoStream::SetValue
+	  - MangoStream::OnThreadDestroy
+	  - MangoStream::~MangoStream
+	  Mantis: 832
+	09/21/2009
+	* If a MXException with error code (MANGOERROR_SUCCESS - 1) is created, it will be translated to HRESULT 0x8004DEAD.
+	  - The HRESULT 0x8004DEAD code should be translated by host applications to indicate that the Mango card cannot be enabled.
+	* Added MXException.ToHRESULT method to make sure HRESULTs are computed in a standardized way
+	* If the Mango_CardEnable Timeout occurs 10 times, then an MXException with MANGOERROR_SUCCESS - 1 will be thrown.
+	  Mantis: 829
+	kdixon
+
+Version 1.2.0.1
+	05/26/2009
+	* Calculate timeout on D2H based on framerate for VideoStream class and descendents
+	  - MangoStream implements a default for 10000ms
+	  Mantis: 1188
+	kdixon
+
+Version 1.2.0.0
+	01/16/2009
+	* Include Frame rate filter at all times, even at 30fps.
+	* Interlocked Increment/Decrement on sReferenceCount to try to avoid Create and DeleteGraph races
+	* Only try card-enabled-timeout 10 times instead of infinitely
+	* Change D2H timeout from FOREVER to 10000ms for time tag and 5000ms for filter buffer
+	* Throw exceptions on TimeTag fetch failure
+	* Init and Finish methods for the whole mango card are executed only on DLL ATTACH and DETACH
+	darnold
+	
+Version 1.1.0.0
+	08/13/2008
+	* Fix to find mango binary in Media Server path
+	* increase MangoStream buffersize from 0x40000 to 0x80000
+	darnold
+
+Version 1.0.0.0
+	pre-07/25/2008
+	darnold

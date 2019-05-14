@@ -1,0 +1,82 @@
+﻿@model WebVideoViewer.Models.source
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>source</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.client_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.client_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.device_source_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.device_source_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.source_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.source_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.restream_source_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.restream_source_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.source_description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.source_description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.camera_control_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.camera_control_address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_audio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.has_audio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mime_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mime_type)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

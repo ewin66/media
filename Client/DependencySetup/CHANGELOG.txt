@@ -1,0 +1,140 @@
+======== Media Client Dependency Setup Changelog ========
+=========================================================
+=====         Version Increment Guidelines			=====
+=         ------------------------------------			=
+= 1.0.0.0 - Architecture or Large Compatability Change	=
+= 0.1.0.0 - Breaking change / Component removal			=
+= 0.0.1.0 - Add new filter or component					=
+= 0.0.0.1 - update to an existing component				=
+=========================================================
+
+Version 2.0.2.11
+	6/4/2015
+	* Fix Elecard registration bug
+
+Version 2.0.2.10
+	6/4/2015
+	* Merge old C:\Projects SVN repository with new Future_Concepts (C:\Projects20) repos
+	* Add Elecard development filters (will need official OEM filters once Elecard gives them to us)
+		- includes new Elecard filter activation module
+
+Version 2.0.2.9
+	1/30/2014
+	* Added LEAD MPEG2 Transport UDP Source (now used by SVD 10.21.1.16) for viewing
+		MPEG-TS sources--typically planned as multicast sources from microwave receiver.
+
+Version 2.0.2.8
+	1/10/2014
+	* Added LEADTOOLS MPEG2 Demultiplexer (used by AIRSMediaViewer and MediaViewer)
+	darnold
+
+Version 2.0.2.7
+	12/23/2013
+	* Rebuild with LEADTOOLS H.264 Decoder (1.0.0275) Hotfix 
+	darnold
+
+Version 2.0.2.6
+	12/19/2013
+	* Added LEAD Video Callback Filter to installer, including unlock license
+	Mantis: 8909
+	darnold
+
+Version 2.0.2.5
+	9/30/2013
+	* Added LEADTOOLS MPEG-2 Multiplexer so SVD and AIRSSVD can generate MPEG-2 recordings
+	darnold
+
+Version 2.0.2.4
+	4/23/2013
+	* Incorporated new LEADTOOLS RTSP Source filter, which has fixes to UDP across NAT routers
+	darnold
+
+
+Version 2.0.2.3
+	1/17/2013
+	* fix WiX build environment so that 32-bit and 64-bit installers can be created.
+	darnold
+
+Version 2.0.2.2
+	1/3/2013
+	* Added missing LEADTOOLS dependencies: LeadTools.Multimedia.DLL;ltmm175.DLL
+
+Version 2.0.2.1
+	1/3/2013
+	* Added LT RTSP Source Filter and license key
+	darnold
+
+Version 2.0.2.0
+	* Added LEADTOOLS V17.5 filters
+
+Version 2.0.1.1
+	12/23/2011
+	* Updated FCVolumeFilter to 1.0.2.0, fixes sample rate conversion issue
+	kdixon
+
+Version 2.0.1.0
+	07/25/2011
+	* Include DVRWriter 1.0.0.2 for TV Scanner 10.19.4.0
+	* Install for all users
+	kdixon
+
+Version 2.0.0.0
+	06/06/2011
+	* Change to WiX
+	* Replace all LEADTOOLS references with v17
+	* Support x86 and x64
+	kdixon
+
+Version 1.2.2.0
+	01/04/2010
+	* Added LEADTOOLS MCMP/MJPEG Decoder filter
+	  - updated Registration Installer helper
+	  - updated License assembly
+	kdixon
+
+Version 1.2.1.0
+	12/28/2009
+	* Added FC Time Stamp Adjust filter for Media Writer
+	kdixon
+
+Version 1.2.0.1
+	12/15/2009
+	* Updated MediaLooks Audio Decoder license file to allow Media Writer
+	kdixon
+
+Version 1.2.0.0
+	10/30/2009
+	* added MediaLooks Audio Decoder
+	kdixon
+
+Version 1.1.1.0
+	07/17/2009
+	kdixon
+
+Version 1.1.0.0
+	07/16/2009
+	kdixon
+
+Version 1.0.4.1
+	06/11/2009
+	kdixon
+
+Version 1.0.4.0
+	06/04/2009
+	kdixon
+
+Version 1.0.3.1
+	02/26/2009
+	kdixon
+
+Version 1.0.3.0
+	01/20/2009
+	kdixon
+	
+Version 1.0.1.0
+	09/10/2008
+	kdixon / darnold
+
+Version 1.0.0.0
+	* inception
+	darnold

@@ -1,0 +1,20 @@
+== FC Frame Rate Filter ==
+
+Version 1.0.1.1
+	10/07/2009
+	* Added MEDIASUBTYPE_MJPG to the supported input types
+	* updated vcproj to build in Release mode
+	kdixon
+
+Version 1.0.1.0
+	05/20/2009
+	* Fixed an issue where if the settings were invoked at the wrong time, then the filter would stop passing frames
+	* This fix also makes changes between framerates better for the user.
+	  - For example, if you are at 1fpm, then change to 60fpm, a frame will be passed within 1 second of the
+	    paramter change occuring.
+	kdixon
+	
+Version 1.0.0.0
+	01/28/2009
+	* Initial build
+	kdixon

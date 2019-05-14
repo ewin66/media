@@ -1,0 +1,650 @@
+*** TV SCANNER
+
+Version 10.19.6.4
+	* Update product code for WSUS deployment
+	darnold
+
+Version 10.19.6.3
+	10/02/2012
+	* oops--fix version# in setup project (bump version too)
+	darnold
+
+Version 10.19.6.2
+	09/10/2012
+	* x86 build
+
+Version 10.19.6.1
+	09/10/2012
+	* Added TimeStampAdjust and Smart Tee to Avermedia A323 tuner graph
+	darnold
+
+Version 10.19.6.0
+	11/29/2011
+	* Add support for WinTV HVR 1950 USB 2 capture card
+	  - uses ATSCTuner for ATSC
+	  - uses WinTV for Analog
+	* Delete WinTVUSB class
+	* Fix GetVirtualChannelTable on ATSCTuner base class to return physical channel and carrier frequency
+	* Improve Config.Filter to allow InPin and OutPin to be arrays
+	* Change WinTV to read the Crossbar's InPin array
+	  - InPin[0] = video input
+	  - InPin[1] = tv audio input
+	* Increase ChannelScanner interval to 1000ms, gives time for cards to settle on intermittant, but still decodable streams
+	kdixon
+
+Version 10.19.5.2
+	* Build against DirectShowLib.Framework 2.0.0.2 for ErrorLogger fix.
+	  - solves issue with ATSC graph not rendering
+	  Mantis: 5006
+	kdixon
+
+Version 10.19.5.1
+	* Add Interop.AudioDecoderL.dll to installer
+	  Mantis: 4807
+	kdixon
+
+Version 10.19.5.0
+	07/25/2011
+	* Add full support for AverMedia A323
+	  - requires Media Client Dependencies 2.0.1.0
+	* Add simple support for AverMedia A312 card
+	  - no ATSC recording
+	  - no analog recording (no hardware encoder)
+	* Add DigitalTuner.StartupChannel -- when set to non-null, this tuning will be applied the first time Run is called.
+	  - work around because Channel cannot be set in the constructor for BDA graphs
+	  Mantis: 4656
+	* Update installer to include Interop.LMNetSrc2 and Interop.LMNetDmx2 libraries from LT17
+	  Mantis: 4659
+	kdixon
+
+Version 10.19.4.0
+	07/21/2011
+	* Refactored ATSCWinTV into ATSCTuner
+	* Added support for AverMedia A307 card
+	  - A307 ATSC recording has not been implemented
+	  - A307 analog recording is not supported (no hardware encoder)
+	* Resolved issue with Windows 7 incompatability
+	  Mantis: 2894
+	* Removed ServiceInstallRecoveryHelper from installer
+	kdixon
+
+Version 10.19.3.0
+	06/07/2011
+	* link against LEADTOOLS v17
+	* changed AnalogTuner::FindDevice, throws exception instead of masking it
+	* WinTV graph now uses "DVR Writer", to be machine agnostic (previously used x86-only DUMP)
+	  Mantis: 1184
+	kdixon
+
+Version 10.19.2.0
+	11/03/2010
+	* Updated LTNetSource to use MediaSubType.LeadToolsStreamFormat instead of hardcoded GUID
+	* Organized code for BaseGraph into regions + some documentation
+	* ATSCWinTV: Change connecting the outputs of the MPEG2 Demux to find them by content type instead
+	  of hard-coded numbered outputs. This is because Windows 7 changed the MPEG2 Demux implementation.
+	  Mantis: 2894
+	* Change Target to .NET 3.5 instead of 3.0
+	* Reference MediaDSGraphs
+	* Fix to use generic BDA Network Provider on Windows 7 and up, else use ATSC Network Provider
+	  - built against DirectShowLib 1.5.1.9
+	  Mantis: 2894
+	kdixon
+
+Version 10.19.1.1
+	10/27/2010
+	* Rebuild targeting x86 explicitly to enable functioning on x64 systems.
+	* Fixed to reference ErrorLogger by project
+	kdixon
+
+Version 10.19.1.0
+	04/19/2010
+	* Adjustments to installer for WSUS compatability and future plans
+	  - Use ServiceRecoveryInstallHelper to launch settings application instead of own custom action
+	  - Install to "Future Concepts\AntaresX TV Scanner" instead of "Future Concepts\AntaresX\TV Scanner"
+	  - added CommandConsoleInstallHelper to all 4 custom action stages
+	  - Locate app_data by Executing Assembly instead of relative path
+	  Mantis: 2140
+	kdixon
+
+Version 10.19.0.5
+	02/05/2010
+	* Guard against crash induced when there is no reception on AnalogTuners. Set ChannelForceChange property to true
+	  if the tuner is an AnalogTuner during the channel change.
+	  Mantis: 1823
+	kdixon
+
+Version 10.19.0.4
+	11/04/2009
+	* Fix version number in assembly
+	kdixon
+
+Version 10.19.0.3
+	11/03/2009
+	* Fixed issue where analog broadcast channel was shown instead of "SAT" when starting in satellite mode
+	  Mantis: 1754
+	* Fixed issue where channel scan could be initiated when starting in satellite mode
+	  Mantis: 1755
+	kdixon
+
+Version 10.19.0.2
+	11/03/2009
+	* Fix audio not being routed correctly in satellite mode
+	  Mantis: 1756
+	kdixon
+
+Version 10.19.0.1
+	10/01/2009
+	* Built against 10.19.0.1 Libraries
+	kdixon
+
+Version 10.19.0.0
+	10/01/2009
+	* Built against 10.19 libraries
+	kdixon
+
+Version 10.18.2.5
+	09/01/2009
+	* Added performance warning overlay for when TV Scanner is not on the correct screen
+	  Mantis: 1663
+	* Added ability to launch video decoder settings from the settings
+	  - ensures that changes in Elecard settings are associated with TVScanner.exe
+	  Mantis: 1663
+	* Added ability to adjust TVSource and TVMode from the settings
+	* Exposed LTNetSource.CurrentProfile so that the application could issue a performance warning for MPEG2 streams
+	* If connection is dropped during Network TV, the "disconnected" text is shown
+	  Mantis: 1647
+	* Implemented a fix for both ATSCWinTV and AnalogTuner classes for constructed ChannelIndex.
+	  - Derivatives of DigitalTuner must determine when they need to set the initial channel
+	  Mantis: 1646
+	kdixon
+
+Version 10.18.2.4
+	07/09/2009
+	* Advertised shortcuts fix
+	kdixon
+
+Version 10.18.2.3
+	07/08/2009
+	* Rebuilt to include latest CommandConsoleInstallHelper
+	  Mantis: 1440
+	kdixon
+
+Version 10.18.2.2
+	07/01/2009
+	* Comment out LocalDigital block in DeviceConfig.xml for "Hauppauge WinTV 418 Video Capture"
+	* Built against Settings 1.0.3.8
+	* Disconnected state for analog TV is now cleaner.
+	  - There is text saying "disconnected"
+	  - All operations except switching sources are disabled
+	  Mantis: 1372
+	kdixon
+
+Version 10.18.2.1
+	06/26/2009
+	* Changed Config.AppUser class to be a non-static setting
+	kdixon
+
+Version 10.18.2.0
+	06/25/2009
+	* Updates to enable updating of TV Mode on connect and mutually with other clients
+	  Mantis: 1271
+	* Removed dependency on AntaresXSettings
+	06/12/2009
+	* Added catch on calls to StartChannelDiscovery to display appropriate dialogs instead of crashing.
+	  - added special case to check if DSGraph == null
+	  Mantis: 1270
+	kdixon
+
+Version 10.18.1.1
+	06/10/2009
+	* Changed preChannelScanMute code to not require parsing, due to fix in FCVolumeFilter.dll v1.0.1.0
+	  Mantis: 1000
+	* Fixes issue where if TV graph has to be re-created after recording, the channel may not get restored correctly
+	kdixon
+
+Version 10.18.1.0
+	06/03/2009
+	* All graphs now must write their GRF files by calling BaseGraph.SaveGraphFile.
+	  - this method conditionally writes GRF files based on a setting in the app.config (appSettings.OutputDebugGRF)
+	* Fixed potential crash when entering channel and disconnected from network TV
+	* Changed LTNetSource graph to source channel change information from WCF callback instead of LMNetDmx messages
+	* Fixed problem where loading screen was not disposed properly on "Finishing Switch"
+	  Mantis: 1233
+	06/02/2009
+	* Fixes issue where the favchan repository got moved back to app_data (merge problem)
+	  Mantis: 1232
+	* Changed so loading screen appears directly on correct monitor
+	kdixon
+
+Version 10.18.0.1
+	05/19/2009
+	* Stopped installer from registering AudioDecoderL.dll
+	  Mantis: 1131
+	* Installer now spawns the configuration dialog via Installer class "ShowConfigDialog"
+	  Mantis: 1078
+	* Advanced Settings dialog is now top-most.
+	kdixon
+
+Version 10.18.0.0
+	02/03/09
+	* User settings and runtime generated data is now stored in C:\AntaresXData\Settings\TV Scanner\. This path
+	  could dynamically change, since its based off of the GenericSettings.SaveDirectory property, which is
+	  actually a wrapper around an environment varible.
+	   - Only DeviceConfig.xml and the sounds\ directory are left in app_data
+	  Mantis: 843
+	01/30/09 - 02/02/09
+	* Graphs that do their own channel scanning must implement Media.IChannelScanProvider.
+	   - Otherwise descendents of TVGraphs.BaseLocalTuner can be scanned by TV.Scanner.ChannelScanner, which now
+	     also implements Media.IChannelScanProvider
+	* Network TV now supports doing a channel scan. If a channel scan is in progress when the user connects, they
+	  are notified and the server will keep them updated on status.
+	kdixon
+
+Version 10.17.3.1
+	03/18/2009
+	* fixed potential Null-refernce crash when trying to change the channel with a null-graph
+	* Changed behavior during load errors. All exceptions on load are fatal, except network failed to connect.
+	  Mantis: 999
+	* Volume is muted during channel scan
+	  Mantis: 1000
+	* All functionality is disabled, except Source/Input selection when there is no graph existing
+	  Mantis: 752
+	kdixon
+
+Version 10.17.3.0
+	02/02/2009
+	* Updated ATSCWinTV to call MediaLooks API for their time-stamping fix
+	* Backported DestroyDirectShowGraph from 10.18 branch. Called when graphs are partially created then fault
+	  Mantis: 972
+	* Broadcast/Satellite input selector is now always visible, allows for switching from HDTV to Analog Satellite in 1 click.
+	* Satellite mode is set properly on startup now.
+	  Mantis: 964
+	* Put loading screen on Closing for cases where the graph may take a few moments to Stop.
+	* Fixed problem where current Favorite Channel would not get scrolled into view.
+	kdixon
+
+Version 10.17.2.12
+	02/25/2009
+	* Changed DeviceConfig.xml to use "MediaLooks Audio Decoder"
+	kdixon
+
+Version 10.17.2.11
+	01/29/2009
+	* Fixed version number in AssemblyInfo.cs
+	  Mantis: 871
+	kdixon
+
+Version 10.17.2.10
+	01/27/2009
+	* Changed DeviceConfig.xml to use AC3Filter again.
+	* Changed MinVolume to -40 instead of -120 to expose a more useful range in the volume slider
+	kdixon
+
+Version 10.17.2.9
+	01/20/2009
+	* Changed DeviceConfig.xml to use "MainConcept Dolby Digital Audio Decoder"
+	* Changed BaseGraph to use FC Volume Filter instead of LEAD Audio Volume Filter
+	  Mantis: 818
+	kdixon
+
+Version 10.17.2.8
+	01/15/2009
+	* Extracted TV.Scanner.AtscPsip namespace to a separate assembly, now in TV.AtscPsip
+	* Added support to populate WinTV418ATSC sources from a Media Server
+	kdixon
+
+Version 10.17.2.7
+	01/15/2009
+	* Removed "Channel Info" button, and axed OnScreenDisplay and OffScreenDisplay methods from BaseGraph
+	* LTNetSource now forwards any channel name/callsign info correctly, so when tuning the channel callsign will be displayed
+	* Fixed problem where the app would explicitly set the channel to "2" when connecting to a remote server
+	  Mantis: 826
+	* Removed code where LTNetSource would register the MCastProtocol
+	kdixon
+
+Version 10.17.2.6
+	01/15/2009
+	* Built against Media.dll 1.0.3.0
+	* Media.TV.Scanner.ChannelCollection is now in Media assembly, as Media.TV.ChannelCollection
+	kdixon
+
+Version 10.17.2.5
+	01/14/2009
+	* Fixed problem where collapsing the Favorite Channels would cause some of the image to be cut off. It is now scaled correctly
+	  in all cases, and will show black bars on either side to compensate for panel sizes that do not match the aspect ratio.
+	  Mantis: 825
+	* Added additional error catching during the StartRecording/StopRecording process, mainly guards against missing
+	  filter registrations
+	  Mantis: 157
+	kdixon
+
+Version 10.17.2.4
+	01/13/2009
+	* Fixed problem where if there were 0 KnownChannels in the ATSCWinTV graph, tuning a channel would raise an exception
+	  Mantis: 822
+	* Added check against the VirtualChannelTable.Entry.ServiceType to allow only ATSCDigitalTelevision and ATSCAudio, excluding
+	  ATSCDataOnlyService and AnalogTelevision
+	* Cleaned up app.config, removed commented-out info
+	* Snapshot noise only plays when not muted
+	* Show name of channel when tuning it (if available)
+	  Mantis: 823
+	* Thumbnails show name of channel (if available)
+	* If a logical channel exists in favorites, then the user does a channel scan, all of the favorites information
+	  will be updated from the latest channel info
+	   - channels that are no-longer known can still be tuned if the user clicks the favorite, but nothing will show up.
+	* If the user types numeric keys or the "-" "." or space keys, they will be interpreted as channel entry
+	  Mantis: 482
+	kdixon
+
+Version 10.17.2.3
+	01/12/2009
+	* Fixed problem where network TV could not mute audio or control volume
+	  Mantis: 816
+	kdixon
+
+Version 10.17.2.2
+	01/09/2009
+	* Fixed problem where the Find Channels button would be displayed in Satellite mode for Local Analog
+	  Mantis: 815
+	kdixon
+
+Version 10.17.2.1
+	01/08/2009
+	* Fixed icons in Start menu not appearing correctly, stopped installed LMAVol.dll and the changelog.
+	  Mantis: 801
+	* The Show/Hide Favorites button is disabled when it should be now
+	  Mantis: 800
+	* Made the Channel Scanning form modal to main form, but not TopMost for whole computer
+	   - Also fixed issue where if the Command Console moves TVScanner during a channel scan, the dialog would fill the whole screen.
+	     The dialog is still moved to 0,0 Location, but does not fill the screen.
+	  Mantis: 798
+	* Added error checking and Exception throwing to DigitalTuner and ATSCWinTV graphs
+	  Mantis: 802
+	* Horizontal scrolling in the Favorite Channels panel now does not occur
+	  Mantis: 797
+	kdixon
+
+Version 10.17.2.0
+	01/07/2009
+	* Impelemented recording of Digital TV
+	* Fixed problem where Blinky the BlinkMode would not get activated, so the blinking status info would never show up
+	* Made Favorite Channels control collapsable
+	* Fixed issue where in Analog/Satellite mode, switching to Digital TV would not update the channel
+	* Added more informative loading status during graph creation
+	kdixon
+
+Version 10.17.1.0
+	01/06/2009
+	* Updated RenderCapture / Recording logic to avoid potential issues with non-WinTV graphs.
+	* Added shortcuts to start menu
+	  Mantis: 747
+	* Implemented LEAD Audio Volume Filter to control volume and mute -- implemented at the BaseGraph level.
+	   - Classes that want to use this functionality should call BaseGraph.AddAudioVolumeFilter() in their constructor, then override
+	     Volume and Mute properties, as well as set MaxVolume and MinVolume properties accordingly in their Render method.
+	   - Dependency on MediaClientDependencySetup 1.0.2
+	  Mantis: 353, 711, 793
+	kdixon
+
+Version 10.17.0.1
+	01/02/2009
+	* Updated to use ClientConnectRequest
+	kdixon
+
+Version 10.17.0.0
+	12/30/2008
+	* Rebuild for compatibility with MS 10.17.0.0 [ IStream.Reconnect() ]
+	darnold
+
+Version 10.16.1.0
+	12/24/2008
+	* commented out Digital TV graph info for WinTV card
+	12/16/2008
+	* Fixed bug where only Analog TV would scan its favorites correctly
+	* Made Channel Discovery retreive virtual channel table from DigitalTuner's
+	* Replaced "SetTVMode" method with Mute and TVMode properties
+	12/08/2008 - 12/09/2008
+	* Changed sources configuration from being contained in app.config to app_data\Sources.xml
+	* Changed startup flow. If an error occurs, the program exits, instead of presenting the configuration dialog.
+	  - If Network TV fails to start up, the program launches anyway, so they can retry the connection by double-clicking the Network icon.
+	* Start the program with the argument "config" to launch the configuration dialog. It is no longer accessable
+	  via the button
+	kdixon
+
+Version 10.16.0.0
+	11/21/2008
+	* Disabled Digital TV in app.config and made the button always hidden.
+	* Replaced volume TrackBar with FCTrackbar
+	* Moved Sounds\ to app_data\sounds\
+	* Fixed LTNetSource to do channel changes correctly.
+	kdixon
+
+Version 10.15.1.0
+	10/07/2008
+	* Created ATSCWinTV class
+	10/08/2008
+	* Completed basic ATSCWinTV graph, delivers video, no audio, allows tuning by physical channel
+	10/09/2008
+	* consolidated source/input buttons into the SourceInputSelector
+	* Changed all graphs to use TV.Channel structure.
+	10/10/2008
+	* Created ILocalTuner interface.
+	* Changed TVGraphs.Tuner to TVGraphs.AnalogTuner, and implemented ILocalTuner
+	* Made ChannelScanner work with TV.Channel. Seeks by 
+	* Added .Equals and implemented IComparable on TV.Channel
+	10/11/2008
+	* Created DigitalTuner base class. Classes that inherit the DigitalTuner must supply a tuning space, which is then used to
+	  construct a basic graph
+	kdixon
+
+10.15.0.1 - 09/12/2008 (kdixon)
+
+- built against 10.15 libaries
+
+10.14.0.2 - 09/08/2008 (kdixon)
+
+- fixed mantis #279 - scanning of favorites and auto-snapping are halted when the user switches to Local or Network
+
+- changed highlight of currently selected favorite from a dark red background to a yellow outline to be consistant with other apps.
+
+- fixed mantis #350 - audio controls completely unavailable when in satellite mode
+
+10.14.0.1 - 09/05/2008 (darnold)
+
+- removed all COM registration--this has been moved to MediaClientDependencySetup
+
+- built against 10.14 libraries
+
+10.13.0.2 - 09/03/2008 (kdixon)
+
+- fixes mantis #254 - volume controls are enabled regardless of mute state at startup
+
+- fixes mantis #255 - channel scanning every startup, not just on startups when the TV hardware has changed
+
+- fixes mantis #261 - Advanced settings places no restriction on the format of hostname, and adds a mechanism to
+					  check the status of server and existance of the specified source, when clicking OK.
+					  If the check fails, the user is given the option to ignore the error (in cases when configuring
+					  workstations that may not have a host sever yet), or they can cancel and change the settings.
+
+10.13.0.1 - 08/28/2008
+
+- built against 10.13 libraries
+
+10.12.0.1 - 08/19/2008
+
+- changed network TV to 10.12 protocols
+
+- updated installer to use CommandConsoleInstallHelper
+
+- changed Advanced Config dialog to get TV sources from the server.
+
+10.11.0.1 - 07/25/2008
+
+- moved to new Namespace system and SVN
+
+- removed support for ATI TV Wonder card
+
+- changed network TV to 10.11 Video Protocols
+
+- removed deprecated LeadToolsLicense.Unlock call
+
+- fixed bug where if a channel in the "known good" channels lost some signal strength, then the user selected Channel Up/Down
+	it would display the picture but not update the Number
+
+- Refactored DeviceSelector into VideoInputDeviceList
+
+- Removed dependency on LMVFramCtrl2.dll (not used)
+
+10.10.0.1
+
+- Added some more robustness to the MainForm_Load routine
+
+- Fixed problem where previous source was being compared to the current tuner, even though the tuner had not be detected yet.
+
+- Fixed a bug where if any sort of uncontrolled termination while loading would leave the loading screen up
+
+10.10.0.0
+
+- updated to work with 10.10 series of network video interfaces
+
+- added better status messages while loading dialogs are visible
+
+- added better handling of network settings
+
+- removed "easter egg" that allows users to edit the raw settings file
+
+- Made Advanced Settings populate its list of available capture devices the same way everytime
+	(only accepts devices that it can render)
+	
+- Fixed bug that caused Channel Scanning to happen every start-up, which was introduced in 10.9.0.2
+
+10.9.0.2 - 6/27/2008
+
+- Fixes dragnet#189: If no TV Tuner or Video Input Device is available, the user can either configure a network source or quit.
+	- If the user configures a network source during this mode, FCTV will then attempt to connect and stream from it.
+	- If the connection fails, the user will then have to either re-configure their network source, or quit.
+	
+- If no physical tuners are listed in the Advanced Settings, then the tuner "Network" is listed, to make it clear what their only option is.
+	- The "Network" option is not shown if there are physical tuners
+	
+- Changed layout of Advanced Settings
+
+- CreateDirectShowGraph now returns true if it creates the graph successfully, or false if it fails.
+	- Now sends exceptions to Debug stream
+	- Also passes the exception's message in an "out" parameter.
+	
+- rebuilt installer using MediaClientInstallerHelper.dll
+
+10.9.0.1 - 6/20/2008
+
+- Fixed problem with Adding Favorites after they were cleared.
+
+10.9.0.0 - 6/19/2008
+
+- changed minor revision to indicate compatible video contract
+
+- Changed BaseGraph to give subclasses more control of how they handle RenderCapture and StopCapture
+
+- Changed WinTV to never require its graph to be disposed and re-built (fixes dragenet#2668 / btnet#45)
+
+- Changed appearance of Volume control slightly
+
+10.8.0.9 - 6/19/2008
+
+- Plugged COM memory leaks, except in the case when releasing capture graph builder doesn't release its threads
+
+10.8.0.8 - 6/17/2008
+
+- btnet#40 / dragnet#2663: fixed auto-snap->record->satellite->source switch->stop crash
+
+- btnet#42 / dragnet#2665: interface is locked down while scanning channels.
+
+- btnet#38 / dragnet#2661: Cannot switch sources while recording
+
+- btnet#39 / dragnet#2662: recording and autosnap labels are docked so they do not overlap.
+
+- added "selected but disabled" images to the source selector buttons (direct/network, broadcast/satellite) to
+  indicate what source is being viewed, even when you can't change it.
+
+10.8.0.7 - 6/16/2008
+
+- dragnet #1768: Fixed recording corruption bug
+
+- Added option for user to access Crossbar Filter settings from Advanced Config.
+
+10.8.0.6 - 6/10/2008
+
+- Physically Separated MediaViewer from FCTV projects.
+
+- dragnet #2654: Fixed installer to register DUMP 1.AX
+
+10.8.0.5 - 6/3/2008
+
+- fixed bug where an exception would be thrown during startup if CurrentChannelIndex was -1 in the settings
+
+- if the previous channel selected is no longer valid after doing a Find Channels, then the lowest valid channel
+  found is selected.
+
+10.8.0.4 - 5/23/2008
+
+- Fixes dragnet #1322:	If a channel is updated with a new screenshot, it will be the right channel
+						Multiple favorites of the same channel is disallowed
+						_scanCursor refers to the currently selected favorite, and null otherwise
+						If navigating channels and you go to a favorite, it will be highlighted
+						While scanning favorites, skips channels with no signal
+
+- Fixes dragnet #182: Implemented Cancel button for Find Channels action
+
+- New behavior: when entering a channel directly on the numeric pad, or clicking on a favorite with
+				no signal, the channel is displayed regardless.
+
+- Can no longer launch MediaViewer from FCTV				
+
+10.8.0.3 - 5/13/2008
+
+- Fixes dragnet# 2615: catch exceptions in MainForm.ScanTimer_Click()
+
+- Fixes dragnet# 2614: Catch exceptions in MainForm.AddFavorite_Click()
+
+10.8.0.2 - 5/9/2008
+
+- catch exceptions in ClientSetupCustomActions
+			
+10.8.0.1 - 5/7/2008
+
+- Incorporate changes to IGraphControl (See VS 10.8.0.1)				
+					  
+10.7.0.2 - 5/5/2008
+
+- Disable jitter buffer
+
+10.7.0.1 - 4/21/2008
+
+- Added jitter buffer - new DGram Protocol
+10.6.0.3 - 4/14/2008
+
+- Fixes bug # 2488 - handle exception in thumbnail.SetClick() when no tuner card installed
+
+10.6.0.2 - ?
+
+10.6.0.1 - 4/8/2008
+
+- Use 10.6 version scheme--10.6 was a change to no sequence numbers in the dgram protocol
+
+10.5.0.2 - 4/2/2008
+
+- Use new FCCommon.Settings.MediaApplicationSettings class
+10.5.0.1 - 3/14/2008
+
+- Profile name sent in stream changes (see VS 10.5.0.1)
+
+10.3.0.3 - 3/3/2008
+
+- Catch exceptions in Snapshot_Click() and show on debugger console.
+
+- fixes dragnet#1655 - clicking channel up or down with no channels found causes Windows Exception
+
+- fixes dragnet#1767 - TV Scanner Crash after recording
+
+- fixes dragnet#1711 - Users should be able to do channel discovery selectively: 
+	if a user manually enters a channel number and that channel did not have a signal during channel scan but does now,
+	the channel will be added into the valid channel list.

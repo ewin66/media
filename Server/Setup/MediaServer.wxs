@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <!-- LT v17.5 -->
+  <?define LTSourceRoot="C:\Projects\Libraries\External_Resources\LEADTOOLSv18\$(var.Platform)\" ?>
+  <!-- LT v15 -->
+  <!-- ?define LTSourceRoot="C:\Projects\Libraries\External_Resources\LEADTOOLS\" ?> -->
+  
+  <?define FVDOSourceRoot="C:\Projects\Libraries\External_Resources\FastVDO\" ?>
+  <?define GMFSourceRoot="C:\Projects\Libraries\External_Resources\GMFBridge\$(var.Platform)\" ?>
+  <?define WMLibSourceRoot="C:\Projects\Libraries\External_Resources\WindowsMediaLib\" ?>
+  
+  <?define WCA=$(var.WiXCustomAction.ProjectDir)?>
+  
+  <?if $(var.Platform)=x64 ?>
+    <?define msiProductId="e91db011-4afa-419d-b5db-0f70d35a091e" ?>
+    <?define win64Flag="yes" ?>
+    <?define NativeProgramFiles = "ProgramFiles64Folder" ?>
+    <?define LTFileNameSuffix="x.dll" ?>
+  <?else ?>
+    <?define msiProductId="82387f12-4494-48b1-93d9-b3d0c7615681" ?>
+    <?define win64Flag="no" ?>
+    <?define NativeProgramFiles = "ProgramFilesFolder" ?>
+    <?define LTFileNameSuffix=".dll" ?>
+  <?endif ?>
+
+  <?define LTFilesCOM=DSKernel2;ltmm18;LENCAMR;LEncH2644;LDecH2643;LTranscoderH264;LMNETCON2;LMNETDMX2;LMNETMUX2;LMNETSNK2;LMNETSRC2;LMVYUVxf;LMOggMux;LCODCJ2K2;LMUDPSnk;LMMpgDmxT;LMMpg2MxT;LMDVRSource;LMDVRSink;LMRTSPSnk?>
+  <?define LTFiles=$(var.LTFilesCOM);LeadTools.Multimedia?>
+  
+  <?define COMRegister_GMFBridge=GMFBridge.dll?>
+  
+  <?define COMRegister_FVDO=SmartCapture.ax?>
+  
+  <?define COMRegister_FC=$(var.ball.TargetFileName);$(var.DVRWriter.TargetFileName);$(var.FCFrameRateFilter.TargetFileName);$(var.H264ByteStream.TargetFileName);$(var.MangoCapture.TargetFileName)?>
+  
+	<Product Id="$(var.msiProductId)"
+           Name="!(loc.PRODUCT) ($(var.Platform))"
+           Language="1033" Codepage="1252"
+           Version="10.22.1.1"
+           Manufacturer="!(loc.MANUFACTURER)"
+           UpgradeCode="676DE524-F785-4059-8C13-DC56CE35D96F">
+    
+    
+		<Package Id="*"
+             Keywords="Installer"
+             Description="!(loc.PRODUCT) ($(var.Platform))"
+             Comments="!(loc.COPYRIGHT)"
+             Manufacturer="!(loc.MANUFACTURER)"
+             InstallScope="perMachine"
+             InstallerVersion="200"
+             Compressed="yes" />
+
+
+    <Icon Id="AntaresX.exe" SourceFile="C:\Projects\Buttons-Icons-Graphics\2.0\icons\appicon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AntaresX.exe"/>
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+
+
+    <UI>
+      <!-- bind the UI control to the property INSTALLOCATION -->
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+      <UIRef Id="WixUI_InstallDir"/>
+      <UIRef Id="WixUI_ErrorProgressText" />
+
+      <!-- skip license agreement dialog -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">NOT Installed</Publish>
+    </UI>
+
+    <Media Id="1" Cabinet="MediaServer.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <!-- Installation Directory Structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Install Location -->
+      <Directory Id="$(var.NativeProgramFiles)">
+        <Directory Id="DirManf" Name="!(loc.MANUFACTURER)">
+          <Directory Id="INSTALLLOCATION" Name="!(loc.PRODUCT)" />
+        </Directory>
+      </Directory>
+
+      <!-- Start Menu -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="FCFolder" Name="!(loc.MANUFACTURER)">
+          <Directory Id="FCToolsFolder" Name="Tools">
+            <Component Id="UninstallStartFCToolsFolder" Guid="5F672C2B-DF82-494A-BF6F-A8797D5305FE">
+              <RemoveFolder Id="FCToolsFolder" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key="SOFTWARE\!(loc.MANUFACTURER)\!(loc.PRODUCT)" Name="fctools" Type="integer" Value="1" KeyPath="yes"/>
+            </Component>
+          </Directory>
+          <Component Id="UninstallStartFCFolder" Guid="F086A265-77C2-4A5F-A72D-F135BA3D09FE">
+            <RemoveFolder Id="FCFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="SOFTWARE\!(loc.MANUFACTURER)\!(loc.PRODUCT)" Name="fc" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+        
+    <!-- Specific Components that go in the File System-->
+    <DirectoryRef Id="INSTALLLOCATION">
+
+      <!-- CORE -->
+      <Component Id="MediaServer" Guid="7299991F-8379-4267-95E7-97E4EBD91E8D">
+        <File Id="MediaServer.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+
+        <ServiceInstall Id="MediaServerService"
+                        Name="!(loc.SERVICENAME)"
+                        DisplayName="!(loc.PRODUCT)"
+                        Description="!(loc.SERVICEDESCRIPTION)"
+                        Start="auto"
+                        Vital="yes"
+                        ErrorControl="ignore"
+                        Account="LocalSystem"
+                        Type="ownProcess"
+                        Interactive="no">
+
+          <ServiceConfig Id="MediaServerServiceConfig"
+                         FailureActionsWhen="1"
+                         DelayedAutoStart="no"
+                         OnInstall="yes"
+                         OnReinstall="yes"
+                         OnUninstall="no" />
+
+          <util:ServiceConfig FirstFailureActionType="restart"
+                              SecondFailureActionType="restart"
+                              ThirdFailureActionType="restart"
+                              ResetPeriodInDays="0"
+                              RestartServiceDelayInSeconds="0"/>
+        </ServiceInstall>
+        
+        <ServiceControl Id="MediaServerServiceControl" Name="!(loc.SERVICENAME)" Stop="both" Remove="uninstall" Wait="yes"/>
+      </Component>
+      <Component Id="MediaServer.config" Guid="D55ACF75-40CE-4A1A-A2B2-A40AC4AB511F">
+        <File Id="MediaServer.exe.config" Name="$(var.Server.TargetFileName).config" Source="$(var.Server.TargetPath).config"/>
+      </Component>
+      
+      <!-- Configurator -->
+      <Component Id="MediaServerConfigurator" Guid="D7AFC03A-A828-49C0-A317-00AC1A7C9814">
+        <File Id="MediaServerConfigurator"
+              Name="$(var.MediaServerConfigurator.TargetFileName)"
+              Source="$(var.MediaServerConfigurator.TargetPath)" KeyPath="yes">
+          <Shortcut Id="MSCToolsShortcut"
+                    Directory="FCToolsFolder"
+                    Name="!(loc.MSCNAME)"
+                    Description="!(loc.MSCDESCRIPTION)"
+                    WorkingDirectory="INSTALLLOCATION"
+                    Icon="AntaresX.exe"
+                    Advertise="yes" />
+        </File>
+      </Component>
+      <Component Id="MediaServerConfigurator.config" Guid="886E2930-7785-4102-AB8A-58271707DF0F">
+        <File Id="MediaServerConfigurator.exe.config"
+              Name="$(var.MediaServerConfigurator.TargetFileName).config"
+              Source="$(var.MediaServerConfigurator.TargetPath).config"/>
+      </Component>
+
+
+      <!-- Mango Support -->
+      <Component Id="MangoFirmware" Guid="6A16DF04-8FD2-4233-8157-DB2F6CDED8EA">
+        <File Id="MangoFirmware" Source="$(var.Server.ProjectDir)Mango\DSP\MangoX_DM_D.out" KeyPath="yes" />
+      </Component>
+      
+      <!-- DirectShow Support -->
+      <Component Id="GMFBridge" Guid="B5531440-36F0-45DB-AF4F-26BB4D779CEC">
+        <File Id="GMFBridge" Source="$(var.GMFSourceRoot)GMFBridge.dll" KeyPath="yes" />
+      </Component>
+
+      <Component Id="WindowsMediaLib" Guid="1E027AA3-B6DA-4014-A4AB-4AD8F95A52F0">
+        <File Id="WindowsMediaLib" Source="$(var.WMLibSourceRoot)WindowsMediaLib.dll" KeyPath="yes" />
+      </Component>
+
+      <?foreach LTDLL in $(var.LTFiles)?>
+        <Component Id="$(var.LTDLL)" Guid="*">
+          <File Id="$(var.LTDLL)" Source="$(var.LTSourceRoot)$(var.LTDLL)$(var.LTFileNameSuffix)" KeyPath="yes" DefaultLanguage="0" />
+        </Component>
+      <?endforeach?>
+
+      <Component Id="FVDOCaptureFilter" Guid="CB60D4CB-28B9-4DDB-B4DA-98601316EA04">
+        <File Id="FVDOCaptureFilter" Source="$(var.FVDOSourceRoot)SmartCapture.ax" KeyPath="yes" />
+      </Component>
+      <Component Id="FVDOSDK" Guid="B14D40A2-9D1F-4162-93AC-078B979B9492">
+        <File Id="FVDOSDK" Source="$(var.FVDOSourceRoot)SmartCaptureSDK.dll" KeyPath="yes" />
+      </Component>
+      
+      <!-- COM INTEROP Assemblies -->
+      <!-- Component Id="Interop.DSKernel" Guid="B55CAEA0-2599-4034-BFC5-67ADFDD67D4D">
+        <File Id="Interop.DSKernel" Source="$(var.LTSourceRoot)Interop.DSKernel2.dll" />
+      </Component> -->
+      <!--
+      <Component Id="Interop.LTAMREnc" Guid="F69563F1-5D6A-4A15-82B4-35F0E795D496">
+        <File Id="Interop.AMREnc" Source="$(var.Server.TargetDir)Interop.LMAMREncoderLib.dll" />
+      </Component>
+      <Component Id="Interop.LTH264Enc" Guid="F536E946-E4C0-4168-9427-44DDB836795F">
+        <File Id="Interop.H264Enc" Source="$(var.Server.TargetDir)Interop.LMH264EncoderLib.dll" />
+      </Component>
+      <Component Id="Interop.LTNetMux" Guid="47AD550E-3F63-483C-9125-376C12B0715B">
+        <File Id="Interop.NetMux" Source="$(var.Server.TargetDir)Interop.LMNetMuxLib.dll" />
+      </Component>
+      <Component Id="Interop.LTNetSink" Guid="5C19D06E-9714-474F-B313-743B5B41724A">
+        <File Id="Interop.NetSink" Source="$(var.Server.TargetDir)Interop.LMNetSnkLib.dll" />
+      </Component>
+      <Component Id="Interop.LTNetSource" Guid="9C7A7F75-055C-4E42-99A7-43E9B0C4740E">
+        <File Id="Interop.NetSource" Source="$(var.Server.TargetDir)Interop.LMNetSrcLib.dll" />
+      </Component>
+      <Component Id="Interop.LTMJ2KEnc" Guid="FD73986D-C7A7-491D-8FAA-0888FFEF96C5">
+        <File Id="Interop.LTMJ2KEnc" Source="$(var.Server.TargetDir)Interop.LMMJ2KEncoderLib.dll" />
+      </Component>
+      <Component Id="Interop.GMFBridge" Guid="988868AD-3368-4DB9-850C-A871C60BFAC7">
+        <File Id="Interop.GMFBridge" Source="$(var.Server.TargetDir)Interop.GMFBridge.dll" />
+      </Component>
+        -->
+    </DirectoryRef>
+
+    <!-- COM Interop Component Group -->
+    <ComponentGroup Id="COMInterop">
+      <!--
+      <ComponentRef Id="Interop.LTAMREnc"/>
+      <ComponentRef Id="Interop.LTH264Enc"/>
+      <ComponentRef Id="Interop.LTNetMux"/>
+      <ComponentRef Id="Interop.LTNetSink"/>
+      <ComponentRef Id="Interop.LTNetSource"/>
+      <ComponentRef Id="Interop.LTMJ2KEnc"/>
+      <ComponentRef Id="Interop.GMFBridge"/> -->
+    </ComponentGroup>
+
+    <!-- LEADTOOLS Component Group -->
+    <ComponentGroup Id="LEADTOOLS">
+      <?foreach LTDLL in $(var.LTFiles)?>
+        <ComponentRef Id="$(var.LTDLL)" />
+      <?endforeach?>
+    </ComponentGroup>  
+
+    
+    <!-- FastVDO Component Group-->
+    <ComponentGroup Id="FastVDO">
+      <ComponentRef Id="FVDOCaptureFilter" />
+      <ComponentRef Id="FVDOSDK" />
+    </ComponentGroup>
+
+
+    <Feature Id="Complete" Title="!(loc.PRODUCT)" Level="1"
+             Display="expand" ConfigurableDirectory="INSTALLLOCATION">
+
+      <ComponentRef Id="MediaServer"/>
+      <ComponentRef Id="MediaServer.config"/>
+      <ComponentRef Id="MediaServerConfigurator"/>
+      <ComponentRef Id="MediaServerConfigurator.config"/>
+
+      <ComponentRef Id="UninstallStartFCFolder"/>
+      <ComponentRef Id="UninstallStartFCToolsFolder"/>
+     
+			<ComponentGroupRef Id="Product.Generated" />
+      <ComponentRef Id="MangoFirmware"/>
+      
+      <ComponentRef Id="GMFBridge"/>
+      <ComponentRef Id="WindowsMediaLib"/>
+      
+      <ComponentGroupRef Id="LEADTOOLS"/>
+
+      <ComponentGroupRef Id="COMInterop"/>
+
+      <ComponentGroupRef Id="FastVDO"/>
+
+		</Feature>
+
+    <!-- get the InstallUtilLib.dll in our Binary table -->
+    <?include $(var.WCA)InstallUtilBinary.wxi?>
+    
+    <!-- setup stuff that needs to be COM-registered -->
+    <?ifdef COMRegister_Total?>
+      <?undef COMRegister_Total?>
+    <?endif?>
+    <?ifdef COMRegister_Total_temp?>
+      <?undef COMRegister_Total_temp?>
+    <?endif?>
+    <?define COMRegister_Total_temp=""?>
+    
+    <?foreach LTDLL in $(var.LTFilesCOM)?>
+      <?ifdef COMRegister_Total?>
+        <?undef COMRegister_Total?>
+      <?endif?>
+    
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp)$(var.LTDLL)$(var.LTFileNameSuffix);?>
+    
+      <?undef COMRegister_Total_temp?>
+      <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+    <?endforeach?>
+    
+    <?ifdef var.COMRegister_FC ?>
+      <?undef COMRegister_Total?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_FC)?>
+    <?endif?>
+    
+    <?undef COMRegister_Total_temp?>
+    <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+
+    <?ifdef var.COMRegister_FVDO ?>
+      <?undef COMRegister_Total?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_FVDO)?>
+    <?endif?>
+    
+    <?undef COMRegister_Total_temp?>
+      <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+    <?undef COMRegister_Total?>
+    
+    <?ifdef var.COMRegister_GMFBridge ?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_GMFBridge)?>
+    <?endif?>
+
+    <?ifdef Register_Targets?>
+    <?undef Register_Targets?>
+    <?endif?>
+    <?ifdef Register_Targets_temp?>
+    <?undef Register_Targets_temp?>
+    <?endif?>
+    <?define Register_Targets_temp=""?>
+
+    <?foreach DLL in $(var.COMRegister_Total)?>
+      <?ifdef Register_Targets?>
+        <?undef Register_Targets?>
+      <?endif?>
+
+      <?define Register_Targets=$(var.Register_Targets_temp)$(var.DLL),?>
+    
+      <?undef Register_Targets_temp?>
+      <?define Register_Targets_temp=$(var.Register_Targets)?>
+    <?endforeach?>
+
+    <!-- Custom Action -->
+
+    <CustomAction Id="NewCOMRegHelper.install" BinaryKey="NewCOMRegHelper" DllEntry="Install" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="NewCOMRegHelper.install.setprop" Property="NewCOMRegHelper.install" Value="INSTALLLOCATION=[INSTALLLOCATION];targets=$(var.Register_Targets)" />
+    <CustomAction Id="NewCOMRegHelper.commit" BinaryKey="NewCOMRegHelper" DllEntry="Commit" Execute="commit" Impersonate="no" />
+    <CustomAction Id="NewCOMRegHelper.commit.setprop" Property="COMRegHelper.commit" Value="" />
+    <CustomAction Id="NewCOMRegHelper.rollback" BinaryKey="NewCOMRegHelper" DllEntry="Rollback" Execute="rollback" Impersonate="no" />
+    <CustomAction Id="NewCOMRegHelper.rollback.setprop" Property="COMRegHelper.rollback" Value="" />
+    <CustomAction Id="NewCOMRegHelper.uninstall" BinaryKey="NewCOMRegHelper" DllEntry="Uninstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="NewCOMRegHelper.uninstall.setprop" Property="COMRegHelper.uninstall" Value="INSTALLLOCATION=[INSTALLLOCATION]" />
+
+    <CustomAction Id="NewLicenseHelper.install" BinaryKey="NewLicenseHelper" DllEntry="Install" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="NewLicenseHelper.install.setprop" Property="NewLicenseHelper.install" Value="" />
+    <CustomAction Id="NewLicenseHelper.commit" BinaryKey="NewLicenseHelper" DllEntry="Commit" Execute="commit" Impersonate="no" />
+    <CustomAction Id="NewLicenseHelper.commit.setprop" Property="NewLicenseHelper.commit" Value="" />
+    <CustomAction Id="NewLicenseHelper.rollback" BinaryKey="NewLicenseHelper" DllEntry="Rollback" Execute="rollback" Impersonate="no" />
+    <CustomAction Id="NewLicenseHelper.rollback.setprop" Property="NewLicenseHelper.rollback" Value="" />
+    <CustomAction Id="NewLicenseHelper.uninstall" BinaryKey="NewLicenseHelper" DllEntry="Uninstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="NewLicenseHelper.uninstall.setprop" Property="NewLicenseHelper.uninstall" Value="" />
+
+    <CustomAction Id="MediaServerConfigurator.install" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="MediaServerConfigurator.install.setprop" Property="MediaServerConfigurator.install" Value="/installtype=notransaction /action=install /LogFile= /mode=&quot;[UILevel]&quot; /product=&quot;[FCPRODUCT]&quot; /delete_config=&quot;[FCDELETECONFIG]&quot; /msc0=&quot;[MSC0]&quot; /msc1=&quot;[MSC1]&quot; /msc2=&quot;[MSC2]&quot; /msc3=&quot;[MSC3]&quot; /msc4=&quot;[MSC4]&quot; /msc5=&quot;[MSC5]&quot; /msc6=&quot;[MSC6]&quot; /msc7=&quot;[MSC7]&quot; /msc8=&quot;[MSC8]&quot; /msc9=&quot;[MSC9]&quot; &quot;[#MediaServerConfigurator]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="MediaServerConfigurator.commit" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="commit" Impersonate="no" />
+    <CustomAction Id="MediaServerConfigurator.commit.setprop" Property="MediaServerConfigurator.commit" Value="/installtype=notransaction /action=commit /LogFile=  &quot;[#MediaServerConfigurator]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="MediaServerConfigurator.rollback" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="rollback" Impersonate="no" />
+    <CustomAction Id="MediaServerConfigurator.rollback.setprop" Property="MediaServerConfigurator.rollback" Value="/installtype=notransaction /action=rollback /LogFile=  &quot;[#MediaServerConfigurator]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="MediaServerConfigurator.uninstall" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="MediaServerConfigurator.uninstall.setprop" Property="MediaServerConfigurator.uninstall" Value="/installtype=notransaction /action=uninstall /LogFile=  &quot;[#MediaServerConfigurator]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+
+    <Binary Id="NewCOMRegHelper" SourceFile="C:/Projects/MediaFork1/Tools/NewComRegHelper/bin/release/FutureConcepts.Media.Tools.NewCOMRegHelper.CA.dll" />
+
+    <Binary Id="NewLicenseHelper" SourceFile="C:/Projects/MediaFork1/Tools/FutureConcepts.Media.Tools.NewLicense/bin/release/FutureConcepts.Media.Tools.NewLicense.CA.dll" />
+
+    <InstallExecuteSequence>
+      <Custom Action="NewCOMRegHelper.install.setprop" After="StartServices">NOT Installed</Custom>
+      <Custom Action="NewCOMRegHelper.install" After="NewCOMRegHelper.install.setprop">NOT Installed</Custom>
+      <Custom Action="NewCOMRegHelper.commit.setprop" After="NewCOMRegHelper.install">NOT Installed</Custom>
+      <Custom Action="NewCOMRegHelper.commit" After="NewCOMRegHelper.commit.setprop">NOT Installed</Custom>
+      <Custom Action="NewCOMRegHelper.rollback.setprop" After="NewCOMRegHelper.commit">NOT Installed</Custom>
+      <Custom Action="NewCOMRegHelper.rollback" After="NewCOMRegHelper.rollback.setprop">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.install.setprop" After="NewCOMRegHelper.rollback">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.install" After="NewLicenseHelper.install.setprop">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.commit.setprop" After="NewLicenseHelper.install">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.commit" After="NewLicenseHelper.commit.setprop">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.rollback.setprop" After="NewLicenseHelper.commit">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.rollback" After="NewLicenseHelper.rollback.setprop">NOT Installed</Custom>
+      <Custom Action="NewLicenseHelper.uninstall.setprop" After="NewLicenseHelper.rollback">Installed</Custom>
+      <Custom Action="NewLicenseHelper.uninstall" After="NewLicenseHelper.uninstall.setprop">Installed</Custom>
+      <Custom Action="NewCOMRegHelper.uninstall.setprop" After="NewLicenseHelper.uninstall">Installed</Custom>
+      <Custom Action="NewCOMRegHelper.uninstall" After="NewCOMRegHelper.uninstall.setprop">Installed</Custom>
+    </InstallExecuteSequence>
+        
+	</Product>
+</Wix>

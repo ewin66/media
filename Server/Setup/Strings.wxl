@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="MANUFACTURER">Future Concepts</String>
+  <String Id="PRODUCT">AntaresX Media Server</String>
+  <String Id="COPYRIGHT">Copyright (c) 2011 Future Concepts</String>
+  <String Id="SERVICENAME">AntaresX Media Server</String>
+  <String Id="SERVICEDESCRIPTION">Captures, encodes, and serves streaming media to the AntaresX Network</String>
+  <String Id="MSCNAME">Media Server Configurator</String>
+  <String Id="MSCDESCRIPTION">Allows full control of the Media Server's Configuration</String>
+</WixLocalization>

@@ -1,0 +1,104 @@
+﻿== CameraControls library ==
+
+Version 1.1.0.0
+	01/14/2011
+	* Rebuilt for VS2010 and .NET 4
+	* Changed assembly name to FutureConcepts.Media.CameraControls
+	kdixon
+
+Version 1.0.6.2
+	10/15/2009
+	* Put a 1 second sleep on Test1 camera control's constructor, which sort of emulates the amount
+	  of time it takes for the SerialPort to liven up
+	kdixon
+
+Version 1.0.6.1
+	06/29/2009
+	* Change to Wonwoo family in handling of presets.
+	  - When restoring preset, we used to issue "Focus Far" and "Stop" 100ms apart from each other,
+	    after giving 1000ms of travel time. This was because the camera would need to receive a
+	    command to "unlock" from the preset... e.g. it would ignore the users' first command otherwise.
+	  - >> End result of this code was if the camera had to travel a far distance to get to the preset,
+	       it would be stopped prematurely.
+	  - Changed mechanism to set a flag (PresetUnlockNeeded) after a preset has been restored. The next command issued will
+	    automatically issue a "Focus Far" and "Stop" before issuing the new command. This way it will
+	    unlock the preset as neccesary but won't interfere with travel.
+	  Mantis: 1361
+	kdixon
+	
+Version 1.0.6.0
+	05/27/2009
+	* WonwooWCC261 class now implements IPresetProvider and IPresetProviderItems.
+	  - By inheritance, WonwooWCA261 now implements this also.
+	  - Uses this mechanism to translate UserPresetItems into Pelco D presets (1-63)
+	  Mantis: 1183
+	kdixon
+
+Version 1.0.5.0
+	05/04/2009
+	* Changed WonwooWCC261 to support inheritance
+	* Added WonwooWCA261 support
+	* Factory changed to support WWCC and WWCA PTZTypes.
+	* Changed PelcoD to lock a readonly object rather than the SerialPort object
+	kdixon
+
+Version 1.0.4.1
+	02/18/2009
+	* On dispose of WonwooWCC261, it issues the Stop movement command, so that the camera will not
+	  be stuck moving forever if the user closes the camera control while a command is running.
+	  Mantis: 890
+	kdixon
+
+Version 1.0.4.0
+	01/27/2009
+	* Changed WonwooWCC261 to use a Threading Timer instead of a Thread.Sleep to time its commands.
+	  This results in smoother operation of the camera, along with giving the user the ability to
+	  override the currently executing motion.
+	  Mantis: 638
+	kdixon
+
+Version 1.0.3.0
+	10/01/2008
+	* Finished WonwooWCC261
+	kdixon
+
+Version 1.0.2.0
+	09/23/2008
+	* changed PelcoD_RS485LB to WonwooWCC261
+	* Removed TiltSpeed property from PanTiltZoomAbsoluteControl
+	* Updated the following plugins to set their own Current* values on success:
+	  - Visca
+	  - ViscaTest1
+	  - PelcoD
+	  - Test1
+	* Put a try/catch around Visca DeviceTypeInquiry to guard against cameras that give bad data.
+	  Mantis: 451
+	kdixon
+
+Version 1.0.1.1
+	09/12/2008
+	* improvements to PelcoD_RS485LB, fixed problem where the port would be taken out of transmit mode
+	  before it was done sending the command.
+	kdixon
+
+Version 1.0.1.0
+	09/08/2008
+	* changed PelcoD.cs to support subclassing
+	* added PelcoD_RS485LB - a specific implementation of PelcoD for the LittleBoard 700 in RS-485 mode
+	kdixon
+
+Version 1.0.0.2
+	08/25/2008
+	* Fix Dispose() method in Visca.cs.  Put try/catch ONLY around SetEmitter() call.
+	  - Exceptions in SetEmitter were preventing the serialport from being closed correctly.
+	darnold
+	
+Version 1.0.0.1
+	08/21/2008
+	* changed PelcoD to use 2400 baud and also writes the device address to the Debug console
+	kdixon
+
+Version 1.0.0.0
+	prior to 08/21/2008
+	* Added ViscaTest1, PluginFactory
+	darnold

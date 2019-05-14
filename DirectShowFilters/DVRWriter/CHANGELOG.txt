@@ -1,0 +1,21 @@
+===== DVR Writer Changelog =====
+== This DirectShow render filter supports chunking of files and changing the file name
+== without destroying the filter.
+
+Version 1.0.0.2
+	07/26/2011
+	* Comment out pSample->GetTime call in CDVRWriterInputPin::Receive.
+      - we were not doing anything with the returned data.
+	  - This was also causing an issue with MPEG2 PS data which had no timestamps set.
+	kdixon
+
+Version 1.0.0.1
+	06/07/2011
+	* Change CDVRWriterInputPin::Receive to not fail if there is no end-time set on a sample.
+	  - adds support for MPEG-style data
+	* Fix settings to build in Release|x86, Release|x64, Debug|x86 and Debug|x64
+	* Migrate to VC100 (VS2010)
+	kdixon
+
+Version 1.0.0.0
+	darnold

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Mango">
+      <UniqueIdentifier>{4204723e-c29e-4ecb-8e27-ab6d113454c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Mango">
+      <UniqueIdentifier>{35bd3a7b-4c26-4e01-a9a4-d0aea407e20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CAVCPropPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="H264Stream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mango.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MangoCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MangoStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MP3Stream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MXException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCMStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YUVStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterAudioIn\FilterAudioIn.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterD2H_PCI\FilterD2H_PCI.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterFramerate\FilterFramerate.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterH264VEnc\FilterH264VEnc.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterH2D_PCI\FilterH2D_PCI.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterMp2AEnc\FilterMp2AEnc.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterMp3AEnc\FilterMp3AEnc.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterOSD\FilterOSD_Host.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterTo8kDownsampling\FilterTo8kDownsampling.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Filters\FilterVideoIn\FilterVideoIn.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Source\MangoBoards.c">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\Mango\Source\MangoX_Shared.cpp">
+      <Filter>Source Files\Mango</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MangoCapture.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="CHANGELOG.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CAVCPropPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="H264Stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mango.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MangoCapture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MangoStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MP3Stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MXException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCMStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YUVStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MangoCapture.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

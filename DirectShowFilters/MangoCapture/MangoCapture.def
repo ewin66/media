@@ -1,0 +1,12 @@
+;===========================================================================
+;  Copyright (c) 2006 Future Concepts.  All Rights Reserved.
+;===========================================================================
+
+LIBRARY     MangoCapture.dll
+
+EXPORTS
+            DllMain                 PRIVATE
+            DllGetClassObject       PRIVATE
+            DllCanUnloadNow         PRIVATE
+            DllRegisterServer       PRIVATE
+            DllUnregisterServer     PRIVATE

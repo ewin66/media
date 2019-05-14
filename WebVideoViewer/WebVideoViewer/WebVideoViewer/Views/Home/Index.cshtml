@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebVideoViewer.Models.source>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.source_name, "Present", new { controller = "Source", id = item.id.ToString() })
+        </td>
+    </tr>
+}
+
+</table>

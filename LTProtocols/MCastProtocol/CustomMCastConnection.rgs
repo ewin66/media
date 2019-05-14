@@ -1,0 +1,25 @@
+HKCR
+{
+	MCastProtocol.CustomMCastConnection.1 = s 'CustomMCastConnection Class'
+	{
+		CLSID = s '{0ABC7A4B-3578-4CFF-86BC-360BC27BC143}'
+	}
+	MCastProtocol.CustomMCastConnection = s 'CustomMCastConnection Class'
+	{
+		CLSID = s '{0ABC7A4B-3578-4CFF-86BC-360BC27BC143}'
+		CurVer = s 'MCastProtocol.CustomMCastConnection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {0ABC7A4B-3578-4CFF-86BC-360BC27BC143} = s 'CustomMCastConnection Class'
+		{
+			ProgID = s 'MCastProtocol.CustomMCastConnection.1'
+			VersionIndependentProgID = s 'MCastProtocol.CustomMCastConnection'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			'TypeLib' = s '{86196AAE-0058-4E66-97AC-EDCB67F8803B}'
+		}
+	}
+}

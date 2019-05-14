@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<QueryMediaServersConfig>
+  <AXServicesPollInterval>30000</AXServicesPollInterval>
+  <AXServicesRefreshInterval>300000</AXServicesRefreshInterval>
+  <PopulateRegularServers>true</PopulateRegularServers>
+  <PopulateRestreamers>false</PopulateRestreamers>
+  <UseGetServerInfoSpecific>true</UseGetServerInfoSpecific>
+  <RequestedServerInfoParams>119</RequestedServerInfoParams>
+  <RequestedStreamSourceInfoParams>11</RequestedStreamSourceInfoParams>
+  <AcceptAllSourceTypes>false</AcceptAllSourceTypes>
+  <AcceptedSourceTypes>BouncingBall</AcceptedSourceTypes>
+  <AcceptedSourceTypes>MX</AcceptedSourceTypes>
+  <AcceptedSourceTypes>FVSC</AcceptedSourceTypes>
+  <AcceptedSourceTypes>SRM314</AcceptedSourceTypes>
+  <AcceptHiddenSources>false</AcceptHiddenSources>
+  <RemoveSelfFromOriginServers>true</RemoveSelfFromOriginServers>
+</QueryMediaServersConfig>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E1994CAF-3A32-46D5-82E1-CACD8A052AFF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FutureConcepts.Media.Client.SourceDiscovery</RootNamespace>
+    <AssemblyName>FutureConcepts.Media.Client.SourceDiscovery</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SourceDiscoveryManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FutureConcepts.Media.csproj">
+      <Project>{3228BE2B-CFED-40CB-B530-D61EF325682C}</Project>
+      <Name>FutureConcepts.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SourceDiscoveryCommon\FutureConcepts.Media.SourceDiscoveryCommon.csproj">
+      <Project>{E3EEC39A-E969-403F-88DE-3F9B967279E6}</Project>
+      <Name>FutureConcepts.Media.SourceDiscoveryCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalSourceDiscovery\FutureConcepts.Media.Client.LocalSourceDiscovery.csproj">
+      <Project>{873BB242-D95A-4AD2-90CD-CEAF1F2B4233}</Project>
+      <Name>FutureConcepts.Media.Client.LocalSourceDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MasterSourceDiscovery\FutureConcepts.Media.Client.MasterSourceDiscovery.csproj">
+      <Project>{F085F7CA-5087-4DCA-9EDC-6F7A6C1094A9}</Project>
+      <Name>FutureConcepts.Media.Client.MasterSourceDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetMgrSourceDiscovery\FutureConcepts.Media.Client.NetMgrSourceDiscovery.csproj">
+      <Project>{493260FA-18D3-46CF-ABAF-B7E698204FFF}</Project>
+      <Name>FutureConcepts.Media.Client.NetMgrSourceDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WowzaSourceDiscovery\FutureConcepts.Media.Client.WowzaSourceDiscovery.csproj">
+      <Project>{59AE2B15-E7B7-46A4-8DE2-308ED01C63D8}</Project>
+      <Name>FutureConcepts.Media.Client.WowzaSourceDiscovery</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

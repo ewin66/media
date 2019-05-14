@@ -1,0 +1,267 @@
+﻿﻿== Media.Client ==
+
+=== 10.19.7 Series ===
+
+Version 1.5.0.0
+	02/02/2011
+	* Added MicrowaveControl2 and MicrowaveControl2Callback
+	* Remove 900MHz filtering from QueryMediaServers.GetFilteredAdvertisedServices, hardware is going away
+	kdixon
+
+=== 10.19 Series ===
+
+Version 1.4.0.0
+	01/14/2011
+	* Rebuilt for VS2010 and .NET 4
+	* Changed assembly name to FutureConcepts.Media.Client
+	kdixon
+
+Version 1.3.1.0
+	04/21/2010
+	* Removed support for old ServerConfigService
+	  - Fleet has been upgraded all to the new ServerConfigService
+	kdixon
+
+Version 1.3.0.5
+	04/09/2010
+	* Named threads in QueryMediaServers
+	kdixon
+
+Version 1.3.0.4
+	02/24/2010
+	* Improvement to BaseClient<> to make it handle more errors properly, as well as inspect the state of the Channel
+	  as well as the ChannelFactory
+	kdixon
+
+Version 1.3.0.3
+	02/16/2010
+	* QueryMediaServers now always loads the app.config QueryMediaServersConfigFile relative to the entry assembly
+	  - absolute paths are not supported!
+	kdixon
+
+Version 1.3.0.2
+	02/16/2010
+	* Improvement to ServerConfig to synchronize file IO when a lot of threads are using ServerConfig
+	  - avoids exceptions being thrown because the file is in use
+	kdixon
+
+Version 1.3.0.1
+	02/12/2010
+	* Changed ServerConfig+ServerVersionRecord.Update to only save a record of servers that have
+	  the new service. This way, old servers will be re-queried for their capabilities
+	  (hopefully now are upgraded), but only once per application run
+	  Mantis: 2001
+	kdixon
+
+Version 1.3.0.0
+	02/10/2010
+	* New ServerConfig client to query both old and new ServerConfigServices (based on BaseClient)
+	* Fix potential memory leak in BaseClient (when disposing the Factory)
+	kdixon
+
+Version 1.2.1.1
+	02/09/2010
+	* Changed ServerStatus port to 8097 for compatability with Media Server 10.19.3.0
+	kdixon
+
+Version 1.2.1.0
+	02/08/2010
+	* Added config file support to QueryMediaServers.
+	  - static LoadConfig(string file) to load from specific file
+	  - static LoadConfig() to load from file configured in app.config (key "QueryMediaServersConfigFile")
+	  - SaveConfig to save settings
+	  - new property RemoveSelfFromOriginServers. When enabled (by default), removes servers appearing
+	    in the Local advertisements from the incoming OriginServers lists.
+	kdixon
+
+Version 1.2.0.3
+	01/05/2010
+	* Made AddressLookup class public
+	kdixon
+
+Version 1.2.0.2
+	10/01/2009
+	* QueryMediaServers class now supports StreamSourceInfo.Hidden property.
+	  - if Hidden is set to true, it will not be included in the server's info.
+	  - QueryMediaServers.AcceptHiddenSources can be set to true to override this behavior
+	kdixon
+
+Version 1.2.0.1
+	09/30/2009
+	* Completed ServerStatus client class
+	  - removed ServerStatusCallback
+	kdixon
+
+Version 1.2.0.0
+	09/24/2009
+	* Factored out BasePeripheralControl into BaseClient
+	  -- BasePeripheralControl now only adds RelinquishTimer capability
+	* Add ServerStatus and ServerStatusCallback classes
+	kdixon
+
+Version 1.1.2.2
+	07/28/2009
+	* Changed CameraControlCallback class from public to internal
+	kdixon
+
+Version 1.1.2.1
+	07/09/2009
+	* Updated MicrowaveControl class to "count" the reception of frequency sweep updates as activity on the proxy.
+	  This causes the MicrowaveControl to not relinquish-timeout during a frequency sweep.
+	* Added check in BasePeripheralControl to not call abort on a closing proxy factory. This should let
+	  the proxy factory close cleanly. 
+	  Mantis: 1456
+	kdixon
+
+Version 1.1.2.0
+	07/08/2009
+	* Updated QueryMediaServers to use ServerInfo.RevisionNumber field.
+	  -- removed RestreamerInfoChanged event
+	  -- ServerInfoChanged events are raised whenever a server is repopulated
+	  -- changed app.config variable name "PollAXServicesInterval" to "AXServicesPollInterval"
+	  -- added support for app.config variable "AXServicesRefreshInterval", default 300000ms (5 min)
+	Mantis: 1266
+	kdixon
+
+Version 1.1.1.8
+	07/01/2009
+	* QueryMediaServers.LocalFriendlyName returns the Environment.MachineName if the friendly name could not be determined
+	kdixon
+
+Version 1.1.1.7
+	06/25/2009
+	* Update to TVStreamControl to support TVMode eventing
+	  Mantis: 1271
+	kdixon
+
+Version 1.1.1.6
+	06/08/2009
+	* Fixes a potential memory leak related to the GraphControl KeepAliveTimer not being disposed properly
+	06/04/2009
+	* Fixed bug in QueryMediaServers that causes it to fail fetching server info that has "null" for the StreamSources.Items property
+	  Mantis: 1262
+	kdixon
+
+Version 1.1.1.5
+	06/03/2009
+	* Updated TVStreamControl and TVStreamControlCallback for use with WCF-based channel notification
+	kdixon
+
+Version 1.1.1.4
+	05/27/2009
+	* Updated CameraControlCallback and CameraControl to support StatusMessage property
+	kdixon
+	
+Version 1.1.1.2
+	05/19/2009
+	* Added property QueryMediaServers.AcceptAllSourceTypes. When set to true, no filtering of source type is performed.
+	kdixon
+
+Version 1.1.1.1
+	05/15/2009
+	* Removed dependency on DirectShowLib -- no longer needed
+	kdixon
+
+Version 1.1.1.0
+	05/13/2009
+	* Refactored MicrowaveControl and CameraControl classes into BasePeripheralControl
+	  - this class provides built in support for the reqlinquish timer
+	kdixon
+
+Version 1.1.0.0
+	02/06/2009
+	* Removed Client.SourceControl
+	02/02/2009
+	* TVStreamControl now implements Media.IChannelScanProvider
+	01/30/2009
+	* Added Media.Client.TVStreamControlCallback
+	01/23/2009
+	* Added Media.Client.InBandData namespace. Contains a Parser class and XmlTelemetryEventArgs class.
+	   - Used for receiving/parsing data sent via LT Net Mux
+	kdixon
+
+Version 1.0.6.6
+	04/08/2009
+	* Added some improvement to QueryMediaServers regarding how manually populated servers are handled.
+	  - if a manually populated server is subsequently discovered via AX Services, then the manual entry is removed.
+	  - if server is already known via AX Services, you cannot add it manually (throws exception)
+	kdixon
+
+Version 1.0.6.5
+	04/06/2009
+	* Added static property to get NetControl's local friendly name. Returns the AXServicesAddress if not able to fetch.
+	* References AntaresXNetworkServices by project instead of by DLL.
+	kdixon
+
+Version 1.0.6.4
+	04/01/2009
+	* Added support for QueryMediaServers to query non-default netmanagers via app.config. Use <appSettings><add key="AXServicesAddress"...
+	  Mantis: 1066
+	kdixon
+
+Version 1.0.6.3
+	02/26/2009
+	* Built against AntaresXNetworkServices.dll 1.1.0.4
+	kdixon
+
+Version 1.0.6.2
+	02/26/2009
+	* Built against AntaresXNetworkServices.dll 1.1.0.3
+	kdixon
+
+Version 1.0.6.1
+	02/17/2009
+	* Built against AntaresXNetworkServices.dll 1.1.0.2
+	kdixon
+
+Version 1.0.6.0
+	01/26/2009
+	* Added AddressLookup internal static class. Based on an input string, either parses and returns the IPHostEntry for that IP,
+	  or does a DNS lookup for non-IP strings.
+	* Replaced calls to Dns.GetHostEntry with calls to AddressLookup.GetHostEntry. This should fix some IP lookups failing.
+	kdixon
+
+Version 1.0.5.1
+	01/23/2009
+	* Ensure that the Closed event is fired whenever the Close method is called in the CameraControl class
+	kdixon
+
+Version 1.0.5.0
+	01/09/2009
+	* Changed all client control classes to resolve hostnames if passed. Dns.GetHostEntry does not block if the string is just an IP
+	kdixon
+
+Version 1.0.4.0
+	01/02/2009
+	* Implemeneted QueryMediaServers class, which is a worker that keeps an up to date list of all advertised Media Servers
+	  Mantis: 630
+	kdixon
+
+Version 1.0.3.0
+	12/31/2008
+	* fixed problem where Reconnect method would call the wrong method on the server
+	* changed over to ClientConnectRequest struct
+	kdixon
+	12/30/2008
+	* Added methods to explicitly allow clients to Reconnect
+	darnold
+
+Version 1.0.2.0
+	12/22/2008
+	* If there is no app config value "GraphControlClientSendTimeout" specified, then GraphControl uses a default timeout of 20 seconds.
+	  Mantis: 373
+	kdixon
+
+Version 1.0.1.0
+	12/04/2008
+	* in Client.CameraControl, changed the properties to always fire Property Changed if the setter is called.
+	  Mantis: 461
+	kdixon
+
+1.0.0.0 - 07/24/2008
+
+- Inception, converted the following:
+	Antares.Video.CameraControl.Client -> FutureConcepts.Media.Client.CameraControl
+	Antares.Video.GraphControl.Client -> FutureConcepts.Media.Client.GraphControl
+	Antares.Video.SourceControlClient -> FutureConcepts.Media.Client.SourceControl
+	Antares.Video.TVStreamClient -> FutureConcepts.Media.Client.TVStreamControl

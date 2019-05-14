@@ -1,0 +1,10 @@
+=== TimeStamp Changelog ===
+
+Version 1.0.0.1
+	12/21/2009
+	* Changed file output to CSV format
+	* Made file get closed in destructor
+	kdixon
+
+Version 1.0.0.0
+	darnold

@@ -1,0 +1,9 @@
+; DGramProtocol.def : Declares the module parameters.
+
+LIBRARY      "DGramProtocol.DLL"
+
+EXPORTS
+	DllCanUnloadNow      PRIVATE
+	DllGetClassObject    PRIVATE
+	DllRegisterServer    PRIVATE
+	DllUnregisterServer	 PRIVATE

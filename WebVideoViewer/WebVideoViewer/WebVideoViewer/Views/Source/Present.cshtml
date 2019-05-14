@@ -1,0 +1,12 @@
+﻿@model WebVideoViewer.Models.source
+@{
+    ViewBag.Title = @Model.source_name;
+}
+        <video id="viewer_video" height="300" width="400" controls autoplay>
+            <source id="viewer_source" src=@Model.restream_source_url />
+        </video>
+@section scripts
+{
+<script type="text/javascript" src='@Url.Content("~/Views/Source/Present.js")'></script>
+}
+

@@ -1,0 +1,92 @@
+﻿=== Microwave Receiver Controller ===
+
+Version 2.0.2.4
+	06/27/2011
+	* Improvements to Vislink_HDR1000
+	  - Cache encryption key to support saving encryption key in presets
+	    Mantis: 4384
+	  - Improve SetTuning/GetTuning cycle from ~1min to ~30sec
+	  - locking across "state" operations, SetTuning/GetTuning/GetLinkQuality
+	* MSConfigurator 10.19.3.1
+	kdixon
+
+Version 2.0.2.3
+	?
+	* Fix issue in tester not using AutoTuning
+	kdixon
+
+Version 2.0.2.2
+	05/10/2011
+	* No 0-padding is applied to decryption keys
+	  Mantis: 4082
+	kdixon
+
+Version 2.0.2.1
+	03/24/2011
+	* Clean up some riffraff in Vislink HDR1000
+	* Fix reading of spectral inversion parameter for Vislink HDR1000
+	03/23/2011
+	* Add Polling interface for Link Quality updates
+	kdixon
+
+Version 2.0.2.0
+	03/17/2011
+	* Close out TCP/Serial connection if an exception occurs in the constructor
+	  - Exceptions are now thrown through the constructor instead of failing silently
+	kdixon
+
+Version 2.0.1.0
+	03/14/2011
+	* Add methods to support Block Down Conveter / Intermediate Frequencies in Vislink HDR1000
+	* set both outputs to NTSC in Vislink HDR1000
+	kdixon
+
+Version 2.0.0.0
+	02/2011 - 03/07/2011
+	* Add reference to FutureConcepts.Media for the new digital-capable Microwave data structures
+	* Change MicrowaveReceiver base class to use new Microwave data strucutures
+	* Add Visilnk_HDR1000 implementation
+	* Added new commands to self-contained test app
+	 - "info?" command, to query the attached device for info like 
+	 - "raw" command to self-contained test app, to send raw bytes to device
+	 - "help?" shows menu of commands
+	 - "stress" mode, repeats commands and runs timers against them
+	* Added TestReceiver, a dummy implementation / virtual mrx
+	kdixon
+
+Version 1.1.0.3
+ 03/03/2009
+  * Fixed bug where "Connected" LED would go red and stay red during a scan.
+    Mantis: 0000881
+  * Fixed bug in PeakScan where scan would not go all the way to the endcap of the
+    frequency range specified.
+ breed
+
+Version 1.1.0.2
+	02/10/2009
+	* Fixed a slight issue that threw and caught a lot of Null Reference exceptions. BlockingSend now returns
+	  after detecting that Send failed.
+	kdixon
+
+Version 1.1.0.1
+ 02/10/2009
+  * Removed references to microwave settings so kevin can use it without including
+    3 extra projects. Replaced references to settings with 5 parameters.
+ breed
+
+Version 1.1.0.0
+ 02/02/2009
+  * Added Scan funtions in PeakScan class to library.
+  * Added check to scan functions to make sure we don't return -1.
+ breed
+
+Version 1.0.0.0
+ 01/16/2009
+  * Added catch around creation of serial port so program won't crash if the serial port doesn't exist.
+ breed
+ 01/13/2008
+  * Created Microwave Receiver class
+  * Created PMR_AR100 class inheriting from Microwave Receiver.
+  * Created console based tester that runs from Program.
+  * Checked into SVN.
+ breed

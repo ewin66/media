@@ -1,0 +1,31 @@
+﻿﻿==== RegistrationInstallerHelper Changelog ====
+
+Version 1.0.3.2
+	01/04/2010
+	* Add "LCodcCMP2.dll" to list of DLLS to register
+	kdixon
+
+Version 1.0.3.1
+	07/17/2009
+	* Add "LMVYUVxf.dll" to list of DLLs to register
+	kdixon
+
+Version 1.0.3.0
+	05/18/2009
+	* RegisterLeadTools now modifies the permissions on the Protocols entry, using regini.exe
+	  1. writes a script to a temp file
+	  2. executes the script with regini.exe
+	  3. deletes the script
+	kdixon
+
+Version 1.0.2.0
+	01/20/2009
+	* Dropped support for "LMAVol.dll"
+	kdixon
+
+Version 1.0.1.0
+	* Added string to register "LMAVol.dll"
+	kdixon
+		
+Version 1.0.0.0
+	darnold

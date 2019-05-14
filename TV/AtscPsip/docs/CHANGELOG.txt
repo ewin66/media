@@ -1,0 +1,12 @@
+﻿==== Media.TV.AtscPsip CHANGELOG ====
+
+Version 1.1.0.0
+	01/14/2011
+	* Renamed assembly to FutureConcepts.Media.TV.AtscPsip
+	* Rebuilt for VS2010 and .NET 4
+	kdixon
+
+Version 1.0.0.0
+	01/15/2009
+	* migrated TV.Scanner.AtscPsip to TV.AtscPsip
+	kdixon

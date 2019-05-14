@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3228BE2B-CFED-40CB-B530-D61EF325682C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FutureConcepts.Media</RootNamespace>
+    <AssemblyName>FutureConcepts.Media</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\FutureConcepts.Media.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\Media.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\FutureConcepts.Media.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AudioSettings.cs" />
+    <Compile Include="CameraCapabilitiesAndLimits.cs" />
+    <Compile Include="CameraCapabilitiesResponse.cs" />
+    <Compile Include="CameraControlInfo.cs" />
+    <Compile Include="CameraIndexedPreset.cs" />
+    <Compile Include="CameraPositionPreset.cs" />
+    <Compile Include="ClientPathMapper.cs" />
+    <Compile Include="Contract\ClientConnectRequest.cs" />
+    <Compile Include="Contract\ICameraControlClient.cs" />
+    <Compile Include="Contract\MicrowaveExtensions.cs" />
+    <Compile Include="Contract\IMicrowaveControl2Callback.cs" />
+    <Compile Include="Contract\IMicrowaveControl2.cs" />
+    <Compile Include="Contract\ICameraControl.cs" />
+    <Compile Include="Contract\ICameraControlCallback.cs" />
+    <Compile Include="Contract\ICameraControlCommon.cs" />
+    <Compile Include="Contract\ICameraControlProperties.cs" />
+    <Compile Include="Contract\IChannelScanProvider.cs" />
+    <Compile Include="Contract\IKeepAlive.cs" />
+    <Compile Include="Contract\IMicrowaveControl.cs" />
+    <Compile Include="Contract\IMicrowaveControlCallback.cs" />
+    <Compile Include="Contract\IPresetProviderItems.cs" />
+    <Compile Include="Contract\IPresetProvider.cs" />
+    <Compile Include="Contract\IRecord.cs" />
+    <Compile Include="Contract\IServerConfig.cs" />
+    <Compile Include="Contract\IServerStatus.cs" />
+    <Compile Include="Contract\MicrowaveLinkQuality.cs" />
+    <Compile Include="Contract\MicrowaveTuning.cs" />
+    <Compile Include="Contract\ServerStatusProperties.cs" />
+    <Compile Include="Contract\IStream.cs" />
+    <Compile Include="Contract\ITVStream.cs" />
+    <Compile Include="Contract\ITVStreamCallback.cs" />
+    <Compile Include="Contract\IWebStream.cs" />
+    <Compile Include="Contract\RequestedServerInfoParams.cs" />
+    <Compile Include="Contract\RequestedStreamSourceInfoParams.cs" />
+    <Compile Include="Contract\SessionDescription.cs" />
+    <Compile Include="Contract\TVSessionInfo.cs" />
+    <Compile Include="Contract\MicrowaveCapabilities.cs" />
+    <Compile Include="EncryptionCapabilities.cs" />
+    <Compile Include="Enumerations\CameraControlTransportType.cs" />
+    <Compile Include="Enumerations\CameraControlProtocolType.cs" />
+    <Compile Include="Enumerations\GraphType.cs" />
+    <Compile Include="Enumerations\SinkProtocolType.cs" />
+    <Compile Include="Enumerations\SourceType.cs" />
+    <Compile Include="MicrowaveTuningPreset.cs" />
+    <Compile Include="EncryptionInfo.cs" />
+    <Compile Include="Enumerations\AudioCodecType.cs" />
+    <Compile Include="Enumerations\RFVideoStandard.cs" />
+    <Compile Include="Enumerations\ContainerCodecType.cs" />
+    <Compile Include="Enumerations\EncryptionType.cs" />
+    <Compile Include="Enumerations\MicrowaveReceiverType.cs" />
+    <Compile Include="Enumerations\RFModulationType.cs" />
+    <Compile Include="Enumerations\TVPhysicalConnectorType.cs" />
+    <Compile Include="Enumerations\PTZType.cs" />
+    <Compile Include="Enumerations\TVMode.cs" />
+    <Compile Include="Enumerations\TVSource.cs" />
+    <Compile Include="Enumerations\TVTunerInputType.cs" />
+    <Compile Include="Enumerations\VideoCodecType.cs" />
+    <Compile Include="Enumerations\VideoFrameRateUnits.cs" />
+    <Compile Include="Enumerations\VideoImageSize.cs" />
+    <Compile Include="Enumerations\VideoQuality.cs" />
+    <Compile Include="Enumerations\VideoRendererType.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Interval.cs" />
+    <Compile Include="MicrowaveControlInfo.cs" />
+    <Compile Include="MicrowaveFrequencyPreset.cs" />
+    <Compile Include="PathMapper.cs" />
+    <Compile Include="SourceControlTypeEventArgs.cs" />
+    <Compile Include="SourceDiscoveryConfiguration.cs" />
+    <Compile Include="SourceDiscoveryDefinition.cs" />
+    <Compile Include="TVChannelCollection.cs" />
+    <Compile Include="DeviceAddress.cs" />
+    <Compile Include="MediaSettings.cs" />
+    <Compile Include="SourceConfigException.cs" />
+    <Compile Include="SourceHasMaxClientsException.cs" />
+    <Compile Include="StreamSourceInfo.cs" />
+    <Compile Include="StreamSources.cs" />
+    <Compile Include="TVChannel.cs" />
+    <Compile Include="TVIVirtualChannelProvider.cs" />
+    <Compile Include="TVNoSignalPresentException.cs" />
+    <Compile Include="Profile.cs" />
+    <Compile Include="ProfileGroup.cs" />
+    <Compile Include="ProfileGroups.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerGraphRebuildException.cs" />
+    <Compile Include="ServerInfo.cs" />
+    <Compile Include="ServiceHasNoGraphException.cs" />
+    <Compile Include="TVSourceInfo.cs" />
+    <Compile Include="UnsupportedFrameRateUnitsException.cs" />
+    <Compile Include="UserPresetItem.cs" />
+    <Compile Include="UserPresetStore.cs" />
+    <Compile Include="VBR.cs" />
+    <Compile Include="VideoSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CHANGELOG.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Settings\FutureConcepts.Settings.csproj">
+      <Project>{0D2E6EB4-763A-46A7-8C8F-DA287C578071}</Project>
+      <Name>FutureConcepts.Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) C:\projects\Libraries\Internal_Resources\$(ConfigurationName)\</PostBuildEvent>
+  </PropertyGroup>
+</Project>

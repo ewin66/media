@@ -1,0 +1,41 @@
+//------------------------------------------------------------------------------
+// File: H264ByteStream.h
+//
+//------------------------------------------------------------------------------
+
+
+class CH264ByteStream : public CTransformFilter
+{
+
+public:
+	static const int MAX_BUFSIZ = 0x40000;
+
+    DECLARE_IUNKNOWN;
+    static CUnknown * WINAPI CreateInstance(LPUNKNOWN punk, HRESULT *phr);
+
+    // Overrriden from CTransformFilter base class
+
+    HRESULT Transform(IMediaSample *pIn, IMediaSample *pOut);
+    HRESULT CheckInputType(const CMediaType *mtIn);
+    HRESULT CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut);
+    HRESULT DecideBufferSize(IMemAllocator *pAlloc,
+                             ALLOCATOR_PROPERTIES *pProperties);
+    HRESULT GetMediaType(int iPosition, CMediaType *pMediaType);
+	HRESULT StartStreaming();
+	HRESULT StopStreaming();
+	HRESULT AlterQuality(Quality q);
+
+private:
+
+    // Constructor
+    CH264ByteStream(TCHAR *tszName, LPUNKNOWN punk, HRESULT *phr);
+
+    CCritSec    m_lock;          // Private play critical section
+	BYTE		m_lastBuffer[MAX_BUFSIZ];
+	int			m_lastBufferSize;
+	BOOL		m_lastSyncPoint;
+	REFERENCE_TIME m_currentTimeStart;
+	REFERENCE_TIME m_lastTimeStart;
+
+}; // H264ByteStream
+

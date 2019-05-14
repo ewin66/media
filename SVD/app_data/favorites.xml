@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Favorites ServerAddress="vs">
+  <Items IconFilename="ptzcam.gif" SourceName="Vid1" />
+  <Items IconFilename="confcam.gif" SourceName="Vid2" />
+  <Items IconFilename="microwavedl.gif" SourceName="Vid3" />
+  <Items IconFilename="auxinput.gif" SourceName="Vid4" />
+</Favorites>

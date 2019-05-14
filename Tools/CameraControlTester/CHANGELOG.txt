@@ -1,0 +1,43 @@
+﻿== CameraControlTester ==
+
+Version 1.2.0.0
+	04/01/2010
+	* Reverted to reference-by-project
+	* Built against 10.19 libraries
+	* on DirectCameraControl, implemented StatusMessage property
+	kdixon
+
+Version 1.1.0.0
+	02/11/2009
+	* Built against 10.18 libraries
+	* Fetch camera control info from server to configure control
+	kdixon
+
+Version 1.0.2.1
+10/01/2008
+* Built against CameraControls 1.0.3.0
+kdixon
+
+Version 1.0.2.0
+09/23/2008
+* removed code and UI for SetOrientation
+* added configuration for WonwooWCC261 testing
+* updated DirectCameraControl to allow the plugin to set its own Current* values on success
+kdixon
+
+1.0.1.2
+
+- added code that calls SetOrientation on the plugin
+
+
+1.0.1.1
+
+- compiled with CameraControls 1.0.1.0
+
+1.0.1.0
+
+- added ability to scan all PelcoD addresses on a particular COM port.
+
+1.0.0.0
+
+- inception

@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>73169a55-c4de-42cb-9aae-0cf72f0af998</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>SVDWiXSetup</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Projects\SystemTools\Networks\AntaresXNetworkServices\AntaresXNetworkServices.csproj">
+      <Name>AntaresXNetworkServices</Name>
+      <Project>{65572712-c661-405a-99dc-507d35b9ce2e}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Settings\FutureConcepts.Settings.csproj">
+      <Name>FutureConcepts.Settings</Name>
+      <Project>{0d2e6eb4-763a-46a7-8c8f-da287c578071}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\CommandConsoleInstallHelper\CommandConsoleInstallHelper.csproj">
+      <Name>CommandConsoleInstallHelper</Name>
+      <Project>{eff2894f-8175-4bdf-9fe6-4c27f5cd5969}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\ErrorLogger\ErrorLogger.csproj">
+      <Name>ErrorLogger</Name>
+      <Project>{e5d72fe7-156d-40b5-9424-4c3a3b70a932}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\Utilities\Utilities.csproj">
+      <Name>Utilities</Name>
+      <Project>{9648f997-60eb-49be-84ed-dad17627647e}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CameraControls\FutureConcepts.Media.CameraControls.csproj">
+      <Name>FutureConcepts.Media.CameraControls</Name>
+      <Project>{1a121169-e4cd-42c8-8eb2-aaabcf919a3b}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\CameraControlClients\FutureConcepts.Media.Client.CameraControlClients.csproj">
+      <Name>FutureConcepts.Media.Client.CameraControlClients</Name>
+      <Project>{68f49d81-d634-4957-8b30-126b76420d15}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\Common\FutureConcepts.Media.Client.csproj">
+      <Name>FutureConcepts.Media.Client</Name>
+      <Project>{cf9e3026-2ce5-4a08-aca4-34765d02c6ef}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\LocalSourceDiscovery\FutureConcepts.Media.Client.LocalSourceDiscovery.csproj">
+      <Name>FutureConcepts.Media.Client.LocalSourceDiscovery</Name>
+      <Project>{873bb242-d95a-4ad2-90cd-ceaf1f2b4233}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\MasterSourceDiscovery\FutureConcepts.Media.Client.MasterSourceDiscovery.csproj">
+      <Name>FutureConcepts.Media.Client.MasterSourceDiscovery</Name>
+      <Project>{f085f7ca-5087-4dca-9edc-6f7a6c1094a9}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\NetMgrSourceDiscovery\FutureConcepts.Media.Client.NetMgrSourceDiscovery.csproj">
+      <Name>FutureConcepts.Media.Client.NetMgrSourceDiscovery</Name>
+      <Project>{493260fa-18d3-46cf-abaf-b7e698204fff}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\SourceDiscovery\FutureConcepts.Media.Client.SourceDiscovery.csproj">
+      <Name>FutureConcepts.Media.Client.SourceDiscovery</Name>
+      <Project>{e1994caf-3a32-46d5-82e1-cacd8a052aff}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\StreamViewer\FutureConcepts.Media.Client.StreamViewer.csproj">
+      <Name>FutureConcepts.Media.Client.StreamViewer</Name>
+      <Project>{ecb0766d-b634-4144-8f36-f4f903e56735}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\WowzaSourceDiscovery\FutureConcepts.Media.Client.WowzaSourceDiscovery.csproj">
+      <Name>FutureConcepts.Media.Client.WowzaSourceDiscovery</Name>
+      <Project>{59ae2b15-e7b7-46a4-8de2-308ed01c63d8}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CommonControls\FutureConcepts.Media.CommonControls.csproj">
+      <Name>FutureConcepts.Media.CommonControls</Name>
+      <Project>{cdcee6a0-fe97-44a2-be19-2f0987e721f0}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FutureConcepts.Media.csproj">
+      <Name>FutureConcepts.Media</Name>
+      <Project>{3228be2b-cfed-40cb-b530-d61ef325682c}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DirectShowLib\DirectShowLib.csproj">
+      <Name>DirectShowLib</Name>
+      <Project>{ce009bfa-5ef6-4153-b2a1-2fa79698a9ae}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SourceDiscoveryCommon\FutureConcepts.Media.SourceDiscoveryCommon.csproj">
+      <Name>FutureConcepts.Media.SourceDiscoveryCommon</Name>
+      <Project>{e3eec39a-e969-403f-88de-3f9b967279e6}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SVD\SVD.csproj">
+      <Name>SVD</Name>
+      <Project>{0c500585-63fb-452d-bc5f-7f5b2b8d8a31}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\FutureConcepts.Media.SVD.Controls.csproj">
+      <Name>FutureConcepts.Media.SVD.Controls</Name>
+      <Project>{42e61dad-bd29-41a1-9829-d902c9ed7f67}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

@@ -1,0 +1,25 @@
+HKCR
+{
+	NetProtocol.CustomConnectionPoint.1 = s 'CustomConnectionPoint Class'
+	{
+		CLSID = s '{9E161729-B335-4F4C-935E-57B7BBACE02F}'
+	}
+	NetProtocol.CustomConnectionPoint = s 'CustomConnectionPoint Class'
+	{
+		CLSID = s '{9E161729-B335-4F4C-935E-57B7BBACE02F}'
+		CurVer = s 'NetProtocol.CustomConnectionPoint.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {9E161729-B335-4F4C-935E-57B7BBACE02F} = s 'CustomConnectionPoint Class'
+		{
+			ProgID = s 'NetProtocol.CustomConnectionPoint.1'
+			VersionIndependentProgID = s 'NetProtocol.CustomConnectionPoint'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			'TypeLib' = s '{5112A464-C8F7-4734-B87E-275E6660703B}'
+		}
+	}
+}

@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDCEE6A0-FE97-44A2-BE19-2F0987E721F0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FutureConcepts.Media.CommonControls</RootNamespace>
+    <AssemblyName>FutureConcepts.Media.CommonControls</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseDialog.Designer.cs">
+      <DependentUpon>BaseDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CloseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CloseForm.Designer.cs">
+      <DependentUpon>CloseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DefaultUserControl.Designer.cs">
+      <DependentUpon>DefaultUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DragDropManager.cs" />
+    <Compile Include="FCCircularTrackbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FCCircularTrackbar.designer.cs">
+      <DependentUpon>FCCircularTrackbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCClickButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FCClickButton.designer.cs">
+      <DependentUpon>FCClickButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FCMessageBox.Designer.cs">
+      <DependentUpon>FCMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FCTextBox.designer.cs">
+      <DependentUpon>FCTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCTimedYesNoMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FCTimedYesNoMsgBox.designer.cs">
+      <DependentUpon>FCTimedYesNoMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCTrackbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FCTrackbar.designer.cs">
+      <DependentUpon>FCTrackbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FCYesNoMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FCYesNoMsgBox.Designer.cs">
+      <DependentUpon>FCYesNoMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GradientProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GradientProgressBar.designer.cs">
+      <DependentUpon>GradientProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IEditableUserControl.cs" />
+    <Compile Include="LED.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LED.designer.cs">
+      <DependentUpon>LED.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadingScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingScreen.designer.cs">
+      <DependentUpon>LoadingScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadingScreenManager.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MoveWindow.cs" />
+    <Compile Include="OKCancelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OKCancelForm.designer.cs">
+      <DependentUpon>OKCancelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="RedFlatButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RedFlatButton.Designer.cs">
+      <DependentUpon>RedFlatButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Win32.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseDialog.resx">
+      <DependentUpon>BaseDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloseForm.resx">
+      <DependentUpon>CloseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DefaultUserControl.resx">
+      <DependentUpon>DefaultUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCCircularTrackbar.resx">
+      <DependentUpon>FCCircularTrackbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCClickButton.resx">
+      <DependentUpon>FCClickButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCMessageBox.resx">
+      <DependentUpon>FCMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCTimedYesNoMsgBox.resx">
+      <DependentUpon>FCTimedYesNoMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCTrackbar.resx">
+      <DependentUpon>FCTrackbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FCYesNoMsgBox.resx">
+      <DependentUpon>FCYesNoMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradientProgressBar.resx">
+      <DependentUpon>GradientProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LED.resx">
+      <DependentUpon>LED.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingScreen.resx">
+      <DependentUpon>LoadingScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingScreenManager.resx">
+      <DependentUpon>LoadingScreenManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OKCancelForm.resx">
+      <DependentUpon>OKCancelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="RedFlatButton.resx">
+      <DependentUpon>RedFlatButton.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\drag-cancel.png" />
+    <Content Include="Resources\drag-play.png" />
+    <Content Include="Resources\dropdown-down.gif" />
+    <Content Include="Resources\dropdown-up.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Settings\FutureConcepts.Settings.csproj">
+      <Project>{0D2E6EB4-763A-46A7-8C8F-DA287C578071}</Project>
+      <Name>FutureConcepts.Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

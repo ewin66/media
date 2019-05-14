@@ -1,0 +1,13 @@
+;===========================================================================
+;  Copyright (c) 2009 Future Concepts. All Rights Reserved.
+;===========================================================================
+
+LIBRARY     TimeStampAdjust.dll
+
+EXPORTS
+            DllMain                 PRIVATE
+            DllGetClassObject       PRIVATE
+            DllCanUnloadNow         PRIVATE
+            DllRegisterServer       PRIVATE
+            DllUnregisterServer     PRIVATE
+

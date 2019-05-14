@@ -1,0 +1,55 @@
+// MCastProtocol.idl : IDL source for NetProtocol.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (MCastProtocol.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(86196AAE-0058-4E66-97AC-EDCB67F8803B),
+	version(1.0),
+	helpstring("MCastProtocol 1.0 Type Library")
+]
+library MCastProtocolLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("netcon2.tlb");
+
+   cpp_quote("#ifndef __MCastProtocolLib__")
+   cpp_quote("#define __MCastProtocolLib__")
+
+   cpp_quote("#define SZ_MCASTPROTOCOL L\"mcast\"")
+   
+   cpp_quote("#endif ")
+
+	[
+		uuid(5112A464-C8F7-4734-B87E-275E6660703B),
+		helpstring("CustomMCastProtocol Class")
+	]
+	coclass CustomMCastProtocol
+	{
+		[default] interface ILMNetProtocol;
+	};
+	[
+		uuid(0ABC7A4B-3578-4CFF-86BC-360BC27BC143),
+		helpstring("CustomMCastConnection Class"),
+      noncreatable
+	]
+	coclass CustomMCastConnection
+	{
+		[default] interface ILMNetConnection;
+	};
+	[
+		uuid(9E161729-B335-4F4C-935E-57B7BBACE02F),
+		helpstring("CustomMCastConnectionPoint Class"),
+      noncreatable
+
+	]
+	coclass CustomMCastConnectionPoint
+	{
+		[default] interface ILMNetConnectionPoint;
+	};
+};

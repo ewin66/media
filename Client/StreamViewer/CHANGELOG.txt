@@ -1,0 +1,294 @@
+﻿﻿==== FutureConcepts.Media.Client.StreamViewer ====
+
+Version 1.2.5.4
+	01/16/2013
+	* Added recording capabilities to RTSP Streams to support Ubiquiti AirCam
+	darnold
+
+Version 1.2.5.3
+	06/08/2011
+	* Change references to Interop.LMNetDmx2 and Interop.LMNetSrc2 to LEADTOOLS 17
+	kdixon
+
+Version 1.2.5.2
+	03/18/2011
+	* Change references to Interop.LMNetDmx2 and Interop.LMNetSrc2 to LEADTOOLS 15
+	kdixon
+
+Version 1.2.5.1
+	02/03/2011
+	* Build against DirectShowLib 2.1.0.1
+	* Fix potential debug assertion in connectWorker (_graph == null) if an exception occurs in DSGraph.Dispose on the previous connect attempt
+	kdixon
+
+Version 1.2.5.0
+	04/08/2010
+	* Changed SourceControlTypeStateTracker to not change a type's state away from Active if the
+	  target state is Enabled, since Active implies that it is already Enabled.
+	  Mantis: 2106
+	* Fixed issue where recordings would not start properly
+	  - also changed the default values of RecordingsPath and SnapshotPath to the "C:\AntaresXData" versions
+	  Mantis: 2123
+	* Changes to resolve Mantis 2107
+	  - Changed iconBusy to be implemented with a PictureBox instead of a Label. The PictureBox plays nicer with the ImageAnimator
+	  - Changed Disposal threading strategy.
+	  Mantis: 2107
+	kdixon
+
+Version 1.2.4.1
+	02/06/2010
+	* SVC throws an execption in StartLocalGraph if the SinkURL is null or empty.
+	  - this invokes a sleep, so when connecting to an LTRestreamer2 it will show the status
+	    Connecting instead of Buffering when the restreamer is still preparing.
+	  Mantis: 1959
+	* Tidy up some disposal routines to avoid potential memory leak when performing a large number
+	  of connect/disconnect cycles
+	kdixon
+
+Version 1.2.4.0
+	10/13/2009
+	* Adds support to select proper decoder for VideoCodecType.MJPEG streams
+	kdixon
+
+Version 1.2.3.3
+	10/06/2009
+	* Added some more robustness to the Dispose method. Errors from disabling/stopping the iconBusy
+	  should be trapped without faulting the disconnect procedure. This should prevent the server
+	  getting filled with users when someone with 4 clients closes the app.
+	  Mantis: 1730
+	kdixon
+
+Version 1.2.3.2
+	09/29/2009
+	* Fixes issue where StreamViewer can get stuck in the stopping state.
+	  - if a profile change is occuring (e.g. the connectWorker is not in charge), initing a connect
+	    to a source will put the viewer in stopping state, but will not transition back.
+	  - updated Stop method to take this scenario into account
+	  Mantis: 1708
+	* StreamViewerControl checks the app.config value "StreamViewerRecordingEnabled" -- if set to false, it
+	  does not display the record and snapshot buttons.
+	  Mantis: 1720
+	* Remove reference to WindowsMediaLib
+	kdixon
+
+Version 1.2.3.1
+	09/03/2009
+	* Cleaned up some unused members on DSGraph
+	* Updated all documentation/comments
+	kdixon
+
+Version 1.2.3.0
+	07/22/2009
+	* Changed class SourceControlTypeEnabledTracker to SourceControlTypeStateTracker
+	  - adds support for 5 states per source control type
+	  -- Active : control is currently in use
+	  -- Inactive : control is not currently in use, but is available to the user
+	  -- Enabled : user is allowed to use control. If the StreamViewerControl *has* such a control, this state is promoted to Inactive
+	  -- Disabled : user is not allowed to use control.
+	  -- Unavailable : no such control exists for the current StreamViewerControl
+	* When clicked, a Source Control's state goes to Disabled to prevent the user from changing the state while it is trying to transition
+	  from Inactive to Active.
+	kdixon
+
+Version 1.2.2.2
+	07/20/2009
+	* Fixes problem where if you dropped a new connection onto a Buffering SVC, it would be ignored.
+	* Improved IllegalStateTransition handler, should not crash the AppDomain now
+	* Stricter State Transition rules -- removed "legal" transitions that cannot happen
+	kdixon
+
+Version 1.2.2.1
+	07/15/2009
+	* Corrects typo on single/4 way button's tooltip
+	  Mantis: 1508
+	kdixon
+
+Version 1.2.2.0
+	07/15/2009
+	* Fixes problem where Thumbnail.IconFilename was referencing the wrong path
+	  Mantis: 1501
+	* Thumbnail releases mouse capture right before it raises the DragStarted event, this was interfereing
+	  with the DragDropManager
+	  related to Mantis: 1500
+	* Added guards on the BackgroundWorkers to prevent running them while they are busy -- this may mean that
+	  the BW is waiting to execute, but is locked on the connectMutex
+	  Mantis: 1497
+	* Explicitly call the ImageAnimator.StopAnimate method for iconBusy in the Dispose method
+	  Mantis: 1263
+	kdixon
+
+Version 1.2.1.0
+	07/08/2009
+	* Added marshalling code in Dispose method to ensure SVC is being disposed on the proper thread
+	  Mantis: 1443
+	* Added fix to abort connection sequence if a SourceHasMaxClientsException is detected
+	  Mantis: 1444
+	kdixon
+
+Version 1.2.0.9
+	07/01/2009
+	* Added a check during a ServerGraphRebuild to see if the control has been requested to stop.
+	  Mantis: 1384
+	kdixon
+
+Version 1.2.0.8
+	06/10/2009
+	* Moved code to remove image from iconBusy to be first thing in Dispose method
+	  Mantis: 1263
+	* Took out latent code that causes disconnect if an exception's message contains the word "abort"
+	  Mantis: 1265
+	* Cleaned up profile negotiation code to use SessionDescription's new convienence methods
+	* Added locking when calling methods on IVMRWindowlessControl, should prevent "Race on RCW Cleanup" during DSGraph.Disposal
+
+Version 1.2.0.7
+	06/04/2009
+	* Changed ConnectionChainDescriptor.GetDescription to put the source name first.
+	  Mantis: 1260
+	kdixon
+
+Version 1.2.0.6
+	05/27/2009
+	* Fixed issue where ServerAddress property was returning OriginServer instead of HostServer.
+	  Mantis: 1214
+	kdixon
+
+Version 1.2.0.5
+	05/20/2009
+	* Allow transition from Buffering to Connecting
+	* Fixed problem where ServerGraphRebuild would cause all clients to re-OpenGraph instead of Reconnect
+	  Mantis: 1132
+	* Fixed problem where connectWorker would try to set state to Connecting while disconnectWorker was stopping
+	  - Moved CheckConnectCancelled before any action is taken in the connectWorker_DoWork
+	* Fixed problem where SVC would Stop after it succeeded after retrying a connection more than once
+	kdixon
+
+Version 1.2.0.4
+	05/18/2009
+	* Implemented an instance mutex on the DSGraph class to prevent concurrent modification
+	05/15/2009
+	* Added tool-tips to busy indicator for start palette
+	  Mantis: 1170
+	* Fixed control button staying enabled even if it fails to load
+	  Mantis: 1167
+	* Fixed buttons getting covered by label in small resolutions. Label is now Docked Fill.
+	  Mantis: 1162
+	kdixon
+
+Version 1.2.0.3
+	05/11/2009
+	* new graphics for FullScreen button
+	* Added "busy" indicator
+	* All connection, WCF and DirectShow is handled in the "connectWorker"
+	* Stopping/Disconnection is handled in the "disconnectWorker"
+	* Fixed state behavior for Multi-threaded approach
+	kdixon
+
+Version 1.2.0.2
+	05/08/2009
+	* Re-named FullView to SingleView.
+	* SingleView behaves similarly to FullScreen. The parent application can use the SingleView property to track its state.
+	  Mantis: 181
+	* SingleView and FullScreen properties now update their tool tips.
+	* Changed tool-tip to show in 50ms and re-show in 10ms for better feeling
+	* new graphics for SingleView button
+	kdixon	
+
+Version 1.2.0.1
+	05/07/2009
+	* Removed repaint/resize batching, it was causing crashes
+	  Mantis: 1135
+	kdixon
+
+Version 1.2.0.0
+	02/04/2009
+	* Added button for PTZ control
+	* Added button for Microwave control
+	* Implemented repaint/resize batching for when the sliding panel was moving to improve performance
+	kdixon
+
+Version 1.1.2.5
+	04/13/2009
+	* Cleaned up Snapshot class. Fixed naming conventions and removed unneccesary methods. Also removed resizing logic.
+	  Mantis: 232
+	* Cleaned up code in StreamViewerControl
+	* Standardized file names for snapshots and recordings to show friendly name of server and description of
+	  source instead of IP and SourceName
+	* A Snapshot is no longer generated for a recording. This may lessen the frequency of Mantis #229, needs testing.
+	kdixon
+
+Version 1.1.2.4
+	04/08/2009
+	* Fixes an issue where if SetProfileOnServer failed to reach the server, the graph would die. If this happens,
+	  we perform a reconnect.
+	  Mantis: 1073
+	* Displays the restreamer's name if the stream is being restreamed
+	  Mantis: 716
+	kdixon
+
+Version 1.1.2.3
+	01/26/2009
+	* Fixed problem where JIT compiler would not enter the method to post a new snapshot to Tactical Planning.
+	  This would cause the SVC to get stuck in "Snapshot" mode. This problem was caused by a change to the Utilities.Win32
+	  library class. The code calling into that class was updated to work with the latest version.
+	  Additionally, the code that reverts the state of the SVC to the proper state was put in a finally block so
+	  subsequent errors like this cannot occur.
+	  Mantis: 857
+	kdixon
+
+Version 1.1.2.2
+	01/21/2009
+	* Deleted "toolTip1" control from StreamViewerControl. The stream description's tooltip is now bound using "tt" as the other
+	  controls are.
+	  Mantis: 834
+	* Deleted image lists for old "+" and "-" buttons
+	kdixon
+
+Version 1.1.2.1
+	01/02/2009
+	* Cleaned cruft out of Thumbnail control
+	kdixon
+
+Version 1.1.2.0
+	12/31/2008
+	* StreamViewer correctly stops the background connection worker, disposes the graph, and prevents a new graph from
+	  being created when the Stop method is called.
+	  - the BackgroundWorker _loadServerWorker is no longer disposed and created between attempts.
+	Mantis: 719
+	kdixon
+	12/30/2008
+	* StreamViewer now calls the new IStream.Reconnect() for reconnect attempts instead of the Profile hack
+	darnold
+
+Version 1.1.1.2
+	12/24/2008 *CHRISTMAS EVE EDITION*
+	* Added a case for Stop being called while Buffering. This should correctly dispose the graph
+	  Mantis: 719
+	* added FullViewClickedEventArgs, which is passed when the Full View button is clicked.
+	  Mantis: 764
+	kdixon
+
+Version 1.1.1.1
+	12/22/2008
+	* The TestNetSrc functionality is now controlled by the symbol USE_TESTNETSRC.
+	  Define it to enable the additional LT handshake between sink and source before completing the graph
+	kdixon
+
+Version 1.1.1.0
+	12/17/2008
+	* Added IPTZOverlayControl interface and PTZMoveRequestEventArgs
+	* Implemeneted ClickToCenter as an overlay interface.
+	kdixon
+
+Version 1.1.0.0
+	12/15/2008
+	* Changed StreamViewerControl.B_Record from an FCClickButton to a Label
+	  Mantis: 233
+	* Changed to explicit versioning
+	* Removed Win32.cs, replaced with reference to FutureConcepts.Utilities.Win32
+	* Removed PreloadedSource.cs
+	* Removed Delegates.cs
+	kdixon
+	
+Version 1.0.*
+	pre-12/15/2008
+	darnold

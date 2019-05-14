@@ -1,0 +1,357 @@
+//------------------------------------------------------------------------------
+// File: H264ByteStream.cpp
+//
+//------------------------------------------------------------------------------
+
+#include <windows.h>
+#include <stdio.h>
+#include <streams.h>
+#include <initguid.h>
+
+#if (1100 > _MSC_VER)
+#include <olectlid.h>
+#else
+#include <olectl.h>
+#endif
+
+#include "guids.h"
+#include "H264ByteStream.h"
+
+// Setup information
+
+const AMOVIESETUP_MEDIATYPE sudPinTypes =
+{
+    &MEDIATYPE_Video,       // Major type
+    &MEDIASUBTYPE_NULL      // Minor type
+};
+
+const AMOVIESETUP_PIN sudpPins[] =
+{
+    { L"Input",             // Pins string name
+      FALSE,                // Is it rendered
+      FALSE,                // Is it an output
+      FALSE,                // Are we allowed none
+      FALSE,                // And allowed many
+      &CLSID_NULL,          // Connects to filter
+      NULL,                 // Connects to pin
+      1,                    // Number of types
+      &sudPinTypes          // Pin information
+    },
+    { L"Output",            // Pins string name
+      FALSE,                // Is it rendered
+      TRUE,                 // Is it an output
+      FALSE,                // Are we allowed none
+      FALSE,                // And allowed many
+      &CLSID_NULL,          // Connects to filter
+      NULL,                 // Connects to pin
+      1,                    // Number of types
+      &sudPinTypes          // Pin information
+    }
+};
+
+const AMOVIESETUP_FILTER sudH264ByteStream =
+{
+    &CLSID_H264ByteStream,         // Filter CLSID
+    L"H.264 Byte Stream Transform",       // String name
+    MERIT_DO_NOT_USE,       // Filter merit
+    2,                      // Number of pins
+    sudpPins                // Pin information
+};
+
+
+// List of class IDs and creator functions for the class factory. This
+// provides the link between the OLE entry point in the DLL and an object
+// being created. The class factory will call the static CreateInstance
+
+CFactoryTemplate g_Templates[] = {
+    { L"H.264 Byte Stream Transform"
+    , &CLSID_H264ByteStream
+    , CH264ByteStream::CreateInstance
+    , NULL
+    , &sudH264ByteStream }
+};
+int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
+
+
+////////////////////////////////////////////////////////////////////////
+//
+// Exported entry points for registration and unregistration 
+// (in this case they only call through to default implementations).
+//
+////////////////////////////////////////////////////////////////////////
+
+//
+// DllRegisterServer
+//
+// Handles sample registry and unregistry
+//
+STDAPI DllRegisterServer()
+{
+    return AMovieDllRegisterServer2( TRUE );
+
+} // DllRegisterServer
+
+
+//
+// DllUnregisterServer
+//
+STDAPI DllUnregisterServer()
+{
+    return AMovieDllRegisterServer2( FALSE );
+
+} // DllUnregisterServer
+
+
+//
+// DllEntryPoint
+//
+extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+
+BOOL APIENTRY DllMain(HANDLE hModule, 
+                      DWORD  dwReason, 
+                      LPVOID lpReserved)
+{
+	return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
+}
+
+
+//
+// Constructor
+//
+CH264ByteStream::CH264ByteStream(TCHAR *tszName,
+                   LPUNKNOWN punk,
+                   HRESULT *phr) :
+    CTransformFilter(tszName, punk, CLSID_H264ByteStream)
+{
+	m_SPS_Size = 0;
+	m_PPS_Size = 0;
+	char* str = getenv("AntaresX_Video_H264ByteStream_Debug");
+	m_debug = 0;
+	if (str != NULL)
+	{
+		m_debug = atoi(str);
+	}
+	fprintf(stderr, "AntaresX_Video_H264ByteStream_Debug=%d\n", m_debug);
+} // (Constructor)
+
+//
+// CreateInstance
+//
+// Provide the way for COM to create a H264ByteStream object
+//
+CUnknown *CH264ByteStream::CreateInstance(LPUNKNOWN punk, HRESULT *phr)
+{
+    ASSERT(phr);
+    
+    CH264ByteStream *pNewObject = new CH264ByteStream(NAME("H.264 Byte Stream Transform"), punk, phr);
+
+    if (pNewObject == NULL)
+	{
+        if (phr)
+		{
+            *phr = E_OUTOFMEMORY;
+		}
+    }
+    return pNewObject;
+
+} // CreateInstance
+
+//
+// Transform
+//
+//
+HRESULT CH264ByteStream::Transform(IMediaSample *pIn, IMediaSample *pOut)
+{
+	HRESULT hr;
+	REFERENCE_TIME timeStart;
+	REFERENCE_TIME timeEnd;
+    BYTE *pInBuffer;
+    long lInSize;
+
+	if (m_debug == 1)
+	{
+		fprintf(stderr, ".");
+	}
+	CheckPointer(pIn, E_POINTER);   
+    CheckPointer(pOut, E_POINTER);
+
+    lInSize = pIn->GetActualDataLength();
+	hr = pIn->GetPointer(&pInBuffer);
+	if (hr != S_OK)
+	{
+		return hr;
+	}
+	if (pInBuffer[0] == 0x67)
+	{
+		CopyMemory(m_SPS, pInBuffer, lInSize);
+		m_SPS_Size = lInSize;
+		return S_FALSE;
+	} else if (pInBuffer[0] == 0x68)
+	{
+		CopyMemory(m_PPS, pInBuffer, lInSize);
+		m_PPS_Size = lInSize;
+		return S_FALSE;
+	}
+	pOut->SetActualDataLength(0);
+	hr = pIn->GetTime(&timeStart, &timeEnd);
+	AppendPrefixToSample(pOut);
+	if (pInBuffer[0] == 0x65)
+	{
+		if (m_SPS_Size > 0)
+		{
+			AppendToSample(pOut, m_SPS, m_SPS_Size);
+			AppendPrefixToSample(pOut);
+		}
+		if (m_PPS_Size > 0)
+		{
+			AppendToSample(pOut, m_PPS, m_PPS_Size);
+			AppendPrefixToSample(pOut);
+		}
+		pOut->SetSyncPoint(TRUE);
+	}
+	else
+	{
+		pOut->SetSyncPoint(FALSE);
+	}
+	pOut->SetDiscontinuity(FALSE);
+	pOut->SetPreroll(FALSE);
+	AppendToSample(pOut, pInBuffer, lInSize);
+	hr = pOut->SetTime(&timeStart, &timeEnd);
+	if (hr != S_OK)
+	{
+		return hr;
+	}
+//	fprintf(stderr, "OUT start=%I64u end=%I64u\n", timeStart, timeEnd);
+	return S_OK;
+} // Transform
+
+HRESULT CH264ByteStream::StartStreaming()
+{
+	fprintf(stderr, "*** H264ByteStream (Annex B) StartStreaming ***\n");
+	return S_OK;
+}
+
+HRESULT CH264ByteStream::StopStreaming()
+{
+	fprintf(stderr, "*** H264ByteStream (Annex B) StopStreaming ***\n");
+	return S_OK;
+}
+
+// Check the input type is OK - return an error otherwise
+
+HRESULT CH264ByteStream::CheckInputType(const CMediaType *mtIn)
+{
+    CheckPointer(mtIn,E_POINTER);
+
+    // check this is a VIDEOINFOHEADER type
+
+    if (*mtIn->FormatType() != FORMAT_VideoInfo)
+	{
+        return E_INVALIDARG;
+    }
+
+    return NOERROR;
+}
+
+//
+// Checktransform
+//
+// Check a transform can be done between these formats
+//
+HRESULT CH264ByteStream::CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut)
+{
+    CheckPointer(mtIn,E_POINTER);
+    CheckPointer(mtOut,E_POINTER);
+
+    return NOERROR;
+  
+} // CheckTransform
+
+//
+// DecideBufferSize
+//
+// Tell the output pin's allocator what size buffers we
+// require. Can only do this when the input is connected
+//
+HRESULT CH264ByteStream::DecideBufferSize(IMemAllocator *pAlloc,ALLOCATOR_PROPERTIES *pProperties)
+{
+    // Is the input pin connected
+
+    if (m_pInput->IsConnected() == FALSE)
+	{
+        return E_UNEXPECTED;
+    }
+
+    CheckPointer(pAlloc,E_POINTER);
+    CheckPointer(pProperties,E_POINTER);
+    HRESULT hr = NOERROR;
+
+    pProperties->cBuffers = 2;
+    pProperties->cbBuffer = MAX_BUFSIZ;
+    ASSERT(pProperties->cbBuffer);
+
+    // Ask the allocator to reserve us some sample memory, NOTE the function
+    // can succeed (that is return NOERROR) but still not have allocated the
+    // memory that we requested, so we must check we got whatever we wanted
+
+    ALLOCATOR_PROPERTIES Actual;
+    hr = pAlloc->SetProperties(pProperties,&Actual);
+    if (FAILED(hr))
+	{
+        return hr;
+    }
+
+    if (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer)
+	{
+        return E_FAIL;
+    }
+    return NOERROR;
+
+} // DecideBufferSize
+
+
+//
+// GetMediaType
+//
+//
+HRESULT CH264ByteStream::GetMediaType(int iPosition, CMediaType *pmt)
+{
+	if (iPosition > 0)
+	{
+        return VFW_S_NO_MORE_ITEMS;
+    }
+	VIDEOINFO* pSourceVideoInfo = (VIDEOINFO*)m_pInput->CurrentMediaType().pbFormat;
+
+    VIDEOINFO *pvi = (VIDEOINFO *) pmt->AllocFormatBuffer(sizeof(VIDEOINFO));
+	if(NULL == pvi)
+	{
+		return(E_OUTOFMEMORY);
+	}
+
+	ZeroMemory(pvi, sizeof(VIDEOINFO));
+
+	pvi->bmiHeader.biCompression = MAKEFOURCC('H','2','6','4');
+	pvi->bmiHeader.biBitCount    = 24;
+
+	// (Adjust the parameters common to all formats...)
+
+	pvi->bmiHeader.biSize       = sizeof(BITMAPINFOHEADER);
+	pvi->bmiHeader.biWidth      = pSourceVideoInfo->bmiHeader.biWidth;
+	pvi->bmiHeader.biHeight     = pSourceVideoInfo->bmiHeader.biHeight;
+	pvi->bmiHeader.biPlanes     = 1;
+	pvi->bmiHeader.biSizeImage  = GetBitmapSize(&pvi->bmiHeader);
+	pvi->bmiHeader.biClrImportant = 0;
+
+	SetRectEmpty(&(pvi->rcSource)); // we want the whole image area rendered.
+	SetRectEmpty(&(pvi->rcTarget)); // no particular destination rectangle
+	pmt->SetType(&MEDIATYPE_Video);
+	pmt->SetFormatType(&FORMAT_VideoInfo);
+	pmt->SetTemporalCompression(FALSE);
+
+	// Work out the GUID for the subtype from the header info.
+	static GUID MEDIASUBTYPE_H264 = { MAKEFOURCC('h','2','6','4'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71};
+	pmt->SetSubtype(&MEDIASUBTYPE_H264);
+	pmt->SetSampleSize(MAX_BUFSIZ);
+
+	return NOERROR;
+} // GetMediaType

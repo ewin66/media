@@ -1,0 +1,1531 @@
+*** SVD CHANGELOG ***
+
+Version 10.21.1.41
+	* Add Elecard Audio Resampler filter to graph if the camera has audio
+		and the pin type is PCM (uLaw or aLaw)
+
+Version 10.21.1.40
+	* Added logic to detect when user attempts to view a camera
+		that is already being viewed.  In that case, SVD will
+		ask the user if the existing viewer should be stopped.
+		This will prevent multiple viewers viewing the same stream.
+	Jira SVD-33
+
+Version 10.21.1.38
+	* Support various permutations of RTSP Source filters and H.264 Video Decoders
+		a) Elecard RTSP Source with Microsoft H.264 Decoder (Windows 7)
+		b) Elecard RTSP Source with Elecard H.264 Decoder (XP)
+		c) LEADTOOLS RTSP Source and LEADTOOLS H.264 Decoder (for systems without Elecard filters)
+
+Version 10.21.1.37
+	* SUR-13: Implement audio support for Vivotek and AAC feeds.
+		Required changes to VSM to add HasAudio column to sources table
+			and support that all the way through to SVD.
+
+Version 10.21.1.36
+	* Fixes SUR-21: SVD PTZ Favorites not getting saved.  Removed
+		PTZ Favorites control for Wonwoo cameras--it is not supported.
+
+Version 10.21.1.35
+	* Completed vivotek tunnel support and integration with VSM new camera control metadata
+
+Version 10.21.1.34
+	* in SVDMain this.HasControlBox = SystemInfo.DoCheck() was commented out
+		and hardcoded to a value of true.  This enabled the maximize/minimize 
+		buttons in SVD.  This is not the normal behavior with operating SVD
+		with Command Console, so this code was fixed.  It required changed to 
+		the Settings project which did not include the SystemInfo class.
+
+Version 10.21.1.33
+	* Possibly fixes SVD-25: NotifyMediaEvent wasn't processing all events in the queue only one.  
+	* Improvements to streamViewer and graph Debug logging: all Debug output shows the Stream name (A, B, C, D)
+		for the corresponding message.
+
+Version 10.21.1.32
+	* Fixes SVD-24 (camera list disappears for about 5 seconds)
+
+Version 10.21.1.31
+	* fixes SVD-13: Update SVD Command Console icons per Deanna
+
+Version 10.21.1.30
+	* fixes SVD-10: disappear sources list and strange GUI behavior/white screen, etc.
+
+Version 10.21.1.29
+	* fix bug in LocalSourceDiscovery.  Local Sources dragged to streamviewer were assumed to be BouncingBall.  Now use SourceType attribute
+		from LocalSources.xml if it exists or default to RTSP.
+	* fix issue where setup project custom action data was not set properly.  This was prevent SVD from showing in Command Console.
+
+Version 10.21.1.28
+	* Put back SinkProtocol in Profile.cs -- commenting-out this property was causing a compatibility issue
+	* Fix bug in BaseGraph.NotifyMediaEvent that was call Marshal.FinalReleaseComObject() on a EventCode that is not a COM object
+	* Fix issue with initialize PTZ control for legacy MediaServer 
+
+Version 10.21.1.27
+	12/26/2014
+	* Remove (comment out) Vivotek support and CameraControl/Protocol which was not
+		backwards compatible with legacy MediaServer.
+
+Version 10.21.1.26
+	9/18/2014
+	* Fix crash when disposing the LEADTOOLS RTSP Source filter, then
+		fix memory leaks in BaseGraph and RTSPGraph
+	Jira SVD-8
+
+Version 10.21.1.25
+	9/16/2014
+	* Fix LocalSourceDiscovery namespace issue
+	* Support Elecard RTSP source types.  Specify SourceType="RTSP_Elecard" in LocalSources.xml
+	* Support Wonwoo WWCA camera control type -- this might give the PTZ
+		the behavior Ray was expecting
+
+Version 10.21.1.24
+	9/15/2014
+	* Fix oops xml parse bug causing crash when trying to access PTZ
+
+Version 10.21.1.23
+	9/12/2014
+	* Implemented support for controlling Wonwoo PTZ camera
+		via Vivotek tunnel. This is one of the phases of the
+		new surveyor.
+
+Version 10.21.1.22
+	3/26/2014
+	* Change reconnect algorithm to this:
+		rgibson@internal.futurec.net: after the first connect failure,
+		try to reconnect an additional 4 times, waiting 2 seconds between each retry.
+		After those have all failed, increase the delay to a new value (maybe 6 or 8 seconds)
+		and leave it there indefinitely (8 seconds was chosen).
+	* also don't show reconnect count to user
+	* show different text during the pause before the reconnect (waiting...)
+
+Version 10.21.1.21
+	3/26/2014
+	* Create AntaresXData/StaticSettings/SVD if it doesn't exist
+	* Enable ProfileGroupSelector for LTSF sources
+	* Disable ProfileGroupSelector for RTSP sources
+
+Version 10.21.1.20
+	3/26/2014
+	* Fix break in RTSP sources--a bug introduced with the change from ClientURL to SinkAddress, etc.
+
+Version 10.21.1.19
+	3/26/2014
+	* StreamSourceInfo now contains ONLY SinkAddress.  But, SVD will accept "ClientURL" or "SinkAddress" in LocalSources and VSM--both attributes
+		are stored as SinkAddress and mean the same thing.
+
+Version 10.21.1.18
+	3/26/2014
+	* Major changes.  Merged old media contract stuff (StreamSourceInfo, etc.) into new so that the latest SVD 
+		will work with MediaServer 10.19.7.8.  We should not change these data structures going forward--they are gospel.
+
+Version 10.21.1.17
+	1/31/2014
+	* Implemented new Source Discovery Configuration framework. 
+		Source discovery plugins are now configured in C:\AntaresXData\StaticSettings\SVD\SourceDiscoveryConfiguration.xml
+		If the configuration file does not exist, a default configuration will be created when SVD is run.
+		The default configuration is this:
+			- LocalSources using the C:\AntaresXData\StaticSettings\SVD\LocalSources.xml
+			- Legacy NetMgr discovery
+			- VSM discovery
+			- IP Camera (attached local vehicle) discovery
+		
+Version 10.21.1.16
+	1/29/2014
+	* Added support for MPEG2-TS source types defined
+		in LocalSources.XML.  This will be used to view multicast streams
+		broadcast from the microwave receiver.  An example of a MPEG2-TS StreamSourceInfo is:
+		<StreamSourceInfo Name="MicrowaveDownlink" SourceType="MPEG2_TS" Description="Dave's test MW" ClientURL="udp://@224.1.1.1:1234" />
+
+Version 10.21.1.15
+	1/6/2014
+	* Added reconnect backoff algorithm to StreamViewer
+		- previously, SVD would sleep 1 second between reconnect attempts
+			now, the sleep between reconnect attempts increments by powers of 2:
+				1 sec, 2 sec, 4, 8, 16, 32, until the max 32 is reached and then it stops trying.
+	Mantis: 8978
+	darnold
+
+Version 10.21.1.14
+	12/18/2013
+	* Implemented LEADTOOLS RTSP Source filter bug/workaround
+		by putting LEADTOOLS Video Callback filter in graph
+		and setting an interval timer that fires and checks
+		for a lost signal by the lack of any new video frames.
+	Mantis: 8909
+
+Version 10.21.1.13
+	12/5/2013
+	* fix version#
+	Mantis: 8896
+
+Version 10.21.1.12
+	12/4/2013
+	* Checkpoint build#1 for P260--netmgr/mango support
+
+Version 10.21.1.11
+	12/3/2013
+	* Fix broken NetMgrSourceDiscovery--The StreamViewer couldn't handle a new
+		discovery item dropped on it with the LTSFDeviceControl. 
+	Mantis: 8889
+	* If favorites.xml not found in AntaresXData, look in correct location
+		in SVD/app_data/...
+	  Needed to escape path because "\" was in the path.
+	Mantis: 8888
+
+Version 10.21.1.10
+	11/21/2013
+	* Set default VSM address to "http://10.200.0.245/online_sources.php"
+	* Change recording file format to MPEG2 using the LEADTOOLS MPEG2 Multiplexer (2.0)
+	Mantis: 8856
+
+Version 10.21.1.9
+	11/21/2013
+	* Fix crash in PTZPalette client_propertyChanged(SavedCameraPositions)
+		Created a public property for Store in UserPresetStore.  This class was
+		recently decorated [DataContract] and the internal store was not exposed 
+		for serialization.
+	Mantis: 8849
+
+Version 10.21.1.8
+	11/21/2013
+	* Put try/catch around SavedCameraPositions case in client_PropertyChanged
+		in PTZPalette.cs line 294
+		- note: with this change, saved ptz positions do not persist across restarts
+			of SVD, but positions can be saved in one session
+			It appears as though all saved positions are persisting correctly on the
+			mediaserver, but when the mediaserver sends the positions to SVD,
+			SVD thinks the saved positions are empty.
+	* Moved location of where Favorites.xml and LocalSources.xml is found to:
+		C:\AntaresXData\StaticSettings\SVD\
+		- If favorites.xml is not found at location above it will look in <SVD_EXE>/app_data/...
+	Mantis: 8840
+
+Version 10.21.1.7
+	11/20/2013
+	* Fix the following crash in SVD when invalid saved positions are received from MediaServer:
+		SVDMain camctl PropertyChanged SavedCameraPositions
+		Exception! System.NullReferenceException:
+		Message:Object reference not set to an instance of an object.
+		StackTrace:
+			at FutureConcepts.Media.UserPresetStore.get_Count()
+			at FutureConcepts.Media.SVD.Controls.PTZPalette.client_PropertyChanged(Object sender, PropertyChangedEventArgs e)
+			
+		Change Count getter in UserPresetStore to:
+        public int Count
+        {
+            get
+            {
+                if (store == null)
+                {
+                    store = new Dictionary<Guid, UserPresetItem>();
+                }
+                return store.Count;
+            }
+
+
+Version 10.21.1.6
+	11/19/2013
+	* Override BaseGraph.Stop in RTSPGraph with empty implementation.
+		This avoids sending a RTSP PAUSE
+		which causes problems with the LEADTOOLS RTSP Source Filter with Grandstream rtsp server.
+		- when a stream is stopped, the LT RTSP Source Filter sends a PAUSE (even
+			if the RTSP server doesn't support PAUSE)
+		- upon receiving the PAUSE, the Grandstream responds with:
+			"RTSP/1.0 455 Method Not Valid In This State"
+			CSeq: 4
+			Server: GrandStream Rtsp Server V100R001
+			Accept: OPTIONS, DESCRIBE, SETUP, PLAY, TEARDOWN, SET_PARAMETER"
+			(Note no PAUSE option)
+		- the LT RTSP Source Filter appears to ignore the 455 error it keeps running
+			and never stops.
+		- The call in StreamViewer to IMediaControl.Stop() hangs forever
+	Mantis: 8833
+
+Version 10.21.1.5
+	11/13/2013
+	* Changes to work with the latest VSM for source discovery.
+		- The URL to the VSM is configured in MediaAppSettings.fcs/VsmUrl
+
+Version 10.21.1.4
+	11/6/2013
+	* Set default DiscoveryProtocols to "NetMgrSourceDiscovery"
+	darnold
+
+Version 10.21.1.3
+	11/6/2013
+	* Fix missing PTZ camera icon in the favorites treeview
+	* Fix the following crash discovered by Cheryl:
+		[2300] Exception! System.ArgumentNullException: 
+		[2300]  Message:Value cannot be null. 
+		[2300] Parameter name: hostOrIP 
+		[2300]  StackTrace: 
+		[2300]    at FutureConcepts.Media.Client.AddressLookup.GetHostEntry(String hostOrIP) 
+		[2300]    at FutureConcepts.Media.Client.GraphControl..ctor(String serverAddress) 
+		[2300]    at FutureConcepts.Media.Client.StreamViewer.DeviceControl.LTSFDeviceControl..ctor(StreamSourceInfo streamSourceInfo, String serverAddress) 
+		[2300]    at FutureConcepts.Media.Client.StreamViewer.DeviceControl.DeviceControlFactory.Create(StreamSourceInfo streamSourceInfo, String serverAddress) 
+		[2300]    at FutureConcepts.Media.Client.StreamViewer.StreamViewerControl.connectWorker_DoWork(Object sender, DoWorkEventArgs e) 
+	darnold
+
+Version 10.21.1.2
+	11/4/2013
+	* fix stream timeout limit for RTSP stream
+	Mantis: 8774
+
+Version 10.21.1.1
+	11/4/2013
+	* Major changes to SVD/MediaServer WCF contract.  Changes allow for forward/backward compatibility.
+	* Fixed "The formatter threw an exception" error--SVD and MediaServer must be upgraded to
+		version 10.21 together.
+	Mantis: 8772
+
+Version 10.20.1.9
+	10/29/2013
+	* Remove old UBNT discovery dead code.  This was hogging memory and causing slow startup.
+	Mantis: 8543
+	darnold
+
+Version 10.20.1.8
+	9/26/2013
+	* New source stream discovery plugin framework with new plugins for the following discovery protocols:
+		- MasterSourceDiscovery: This is a new discovery protocol that simply queries a web service that
+			Joey is working on.  This protocol will primarly be used to define restreamed streams, such
+			as Android AntaresX Broadcaster, IP Cameras and other restreamed sources.
+        - WowzaSourceDiscovery: queries WOWZA for available sources--this probably won't be used since
+			MasterSourceDiscovery will be the authoritative discovery protocol.
+        - LocalSourceDiscovery: This plugin simply reads a local XML document (located in C:\AntaresXData\LocalSources.XML)
+			the following is an example for the format for the document:
+				<?xml version="1.0" encoding="utf-8" ?>
+				<SourceGroups>
+				  <SourceGroup Name="Dave's Group" Version="1" >
+					<StreamSourceInfo Name="DaveSource" Description="Dave's Source" ClientURL="rtsp://10.0.20.1/mpeg/3" />
+				  </SourceGroup>
+				</SourceGroups>
+        - NetMgrSourceDiscovery: this plugin is a wrapper around the legacy Netmanager/OLSRD video source discovery protocol
+
+		To configure SVD to use any of the above protocols, define the <DiscoveryProtocols> tag in the following file:
+			C:\AntaresXData\StaticSettings\MediaAppSettings.fcs
+
+		The following is an example of MediaAppSettings.fcs:
+
+			<Configuration xmlns="http://www.futureconcepts.com/AntaresX">
+			  <Uncategorized>
+				<Snapshots>C:\AntaresXData\Snapshots\</Snapshots>
+				<Recordings>C:\AntaresXData\Recordings\</Recordings>
+				<MapImages>C:\AntaresXData\MapImages\</MapImages>
+				<TacticalPlanningExport>C:\AntaresXData\Output\Tactical Planning\Export\</TacticalPlanningExport>
+				<UserName>SOFTWARE-06</UserName>
+				<DiscoveryProtocols>MasterSourceDiscovery,LocalSourceDiscovery,NetMgrSourceDiscovery</DiscoveryProtocols>
+			  </Uncategorized>
+			</Configuration>
+
+		The above sample configuration enables the MasterSourceDiscoveyr,LocalSourceDiscovery and the NetMgrSourceDiscovery
+		protocols.
+
+Version 10.20.1.7
+	8/1/2013
+	* uncomment call to LoadFavorites() in FavoriteStreams.Initialize()
+
+Version 10.20.1.6
+	7/31/2013
+	* Merge all WOWZA restreamed sources into one top-node branch called "Central Broadcasting"
+
+Version 10.20.1.5
+	7/30/2013
+	* Query all WOWZA servers for DNS restream.antaresx.net--previously would only return first match
+
+Version 10.20.1.4
+	7/8/2013
+	* fixed crash bug when request to WOWZA server could fail
+
+Version 10.20.1.3
+	7/3/2013
+	* Added support for WOWZA sources
+		- this will enable SVD to view streams originated from Android AxBroadcaster through WOWZA
+
+Version 10.20.1.2
+	4/15/2013
+	* Handle new PushFVSC in StreamViewer.Graphs.BaseGraph.CreateInstance()
+	darnold
+
+Version 10.20.1.1
+	4/15/2013
+	* Rebuild with changes in all common Media files due to push fastvdo restructuring changes.
+	* Support new PushFVSC in StreamViewer (ManagedDeviceControl)
+	darnold
+
+Version 10.19.2.18
+	4/8/2013
+	* Fix "Object reference not set to an object" in
+		StreamViewerControl.StartLocalGraph() when LTSFDeviceControl.GetSessionDescription()
+		returns NULL.  This was happening when the server failed to reset the FastVDO SmartCapture device.
+	darnold
+
+Version 10.19.2.17
+	4/1/2013
+	* Fix project references
+
+Version 10.19.2.16
+	3/1/2013
+	* Fire Closed event in LTDeviceControl correctly.  This was a new wrapper
+		added around GraphControl to support the new RTSP IP Cameras.
+	- Mantis: 7794
+	darnold
+
+Version 10.19.2.15
+	1/18/2013
+	* New device discovery implementation and plugin framework.
+		- Supports UPnP and the Ubiquiti Discovery protocol.  
+		- Other discovery protocols can be easily added
+	darnold
+
+Version 10.19.2.14
+	1/16/2013
+	* Add UPnP Discovery for Ubiquiti AirCam
+	darnold
+
+Version 10.19.2.13
+	1/16/2013
+	* Added recording capabilities to RTSP streams to support Ubiquiti AirCam
+	darnold
+
+Version 10.19.2.12
+	1/8/2013
+	* Remove redundant call to AddVideoRender() in LTNetSrcGraph (StreamViewerControl) causing
+		- all sorts or nasties and hangs
+	darnold
+	
+Version 10.19.2.11
+	1/4/2013
+	* Fix .NET Framework target issues
+	darnold
+
+Version 10.19.2.10
+	1/3/2012
+	* Adds new RTSP support
+	darnold
+
+Version 10.19.2.9
+	12/17/2012
+	* Disable pTrackbars (contains custom profile controls) if ProfileGroup.CustomProfileEnabled=false
+	* New H.264 Encoder video subtype in the LEADTOOLS V17.5 SDK was causing SVD to crash.  This
+		version of SVD fixes that crash.
+
+Version 10.19.2.8
+	06/27/2011
+	* Lower CloseTimeout on BaseClient's binding to 5 seconds. Should improve UI responsiveness when
+	  peripheral control server goes down unexpectedly.
+	  Mantis: 3949
+	* Fix issue with Key Input not accepting letters
+	* Show progress bar while restoring preset
+	kdixon
+
+Version 10.19.2.7
+	06/24/2011
+	* Fix issues in MRX control / key input control, see SVD.Controls 1.1.0.5
+	  Mantis: 3968, 4377
+	kdixon
+
+Version 10.19.2.6
+	06/17/2011
+	* Fix app.config to not override netmanager
+	kdixon
+
+Version 10.19.2.5
+	06/09/2011
+	* Built against SVD.Controls 1.1.0.4
+	  - Fix bug in MRX Key Input UI
+	    Mantis: 3969
+	kdixon
+
+Version 10.19.2.4
+	06/09/2011
+	* Built against LT17
+	kdixon
+
+Version 10.19.2.3
+	03/24/2011
+	* Fix potential crash in MicrowavePalette
+	* Fix issue with Microwave Encryption Key not being nulled out properly
+	* Fix AXServicesAddress pointing to wrong machine
+	kdixon
+
+Version 10.19.2.2
+	03/23/2011
+	* Fix KeyLength computation issues.
+	kdixon
+
+Version 10.19.2.1
+	03/18/2011
+	* Finish Encryption Key input
+	* Improvements to MicrowaveTuner
+	* Change reference LMNetDmx2 and LMNetSrc2 to LEADTOOLS 15
+	kdixon
+
+Version 10.19.2.0
+	03/08/2011
+	* Uses MicrowaveControlClient2 and supports digital tuning
+	  - Encryption key input is not yet support, but mostly implemented
+	kdixon
+
+Version 10.19.1.7
+	02/03/2011
+	* Built against DirectShowLib 2.1.0.1
+	kdixon
+
+Version 10.19.1.6
+	01/07/2011
+	* Migrate to .NET 4 and VS2010 build environment
+	kdixon
+
+Version 10.19.1.5
+	10/27/2010
+	* Rebuild to target x86 to force workingness on x64 systems
+	* Flatten install paths, "Future Concepts\AntaresX\..." to "Future Concepts\AntaresX Streaming Video Desktop"
+	kdixon
+
+Version 10.19.1.4
+	04/22/2010
+	* Rebuild with MediaClient 1.3.1.0 to use new ServerConfig service exclusively
+	* Change installer - optimized for size
+	kdixon
+
+Version 10.19.1.3
+	04/09/2010
+	* StreamViewerControl 1.2.5.0
+	  - Fixes issue with clicking record causing the PTZ to go in a bad state
+	    Mantis: 2106
+	  - Fixes issue where recording may not start
+	    Mantis: 2123
+	  - Resolves issue with crash on disposing the iconBusy
+	    Mantis: 2107
+	* Changed initial loading dialog's title to "Streaming Video Desktop"
+	kdixon
+
+Version 10.19.1.2
+	02/16/2010
+	* Built against Client 1.3.0.2 for update to ServerConfig client
+	  Mantis: 2001
+	kdixon
+
+Version 10.19.1.1
+	02/12/2010
+	* Built against Client 1.3.0.0 for new ServerConfig client
+	* Changelog is no longer marked as content
+	kdixon
+
+Version 10.19.1.0
+	02/06/2010
+	* Built against Client 1.2.1.0 and SVDControls 1.0.6.1 for new QueryMediaServers.
+	  - "qms_config.xml" is the QueryMediaServersConfigFile, found in app_data
+	  - Enables support for hiding local advertisments when they come back from a restreamer
+	  Mantis: 1965
+	* ProfileGroup dropdownlist auto-fits up to 30 items
+	  Mantis: 1958
+	* Display Connecting instead of Buffering if restreamer is not ready to send data yet (with LTRestreamer2)
+	  Mantis: 1959
+	kdixon
+	02/05/2010
+	* Update on SVDControls for MicrowavePalette to actually close client
+	  Mantis: 1961
+	kdixon
+
+Version 10.19.0.6
+	11/09/2009
+	* Fix crash when receiving UserPresetStore from the media server at the end of a MicroRX frequency sweep
+	  Mantis: 1768
+	kdixon
+
+Version 10.19.0.5
+	10/26/2009
+	* Disallow adjusting bitrate on MJPEG and MJPEG2000 sources
+	kdixon
+
+Version 10.19.0.4
+	10/14/2009
+	* Improve behavior of UI regarding ActiveStreamViewer and FullScreen
+	  - if you are in FullScreen and acquire PTZ control, FullScreen is deactivated.
+	  - if you are in FullScreen, and another stream becomes Active, FullScreen is deactivated
+	  Mantis: 1737
+	* Improve behavior of users-list tooltip
+	kdixon
+
+Version 10.19.0.3
+	10/13/2009
+	* Adds support for selecting proper MJPEG decoder.
+	kdixon
+
+Version 10.19.0.2
+	10/06/2009
+	* Improvement to avoid indefinite hang on app-close, caused by Main Thread crashing during component disposal,
+	  and not terminating the AX services polling threads.
+	  - the AX services threads are shutdown before disposing the WinForms components.
+	  - this could potentially be improved by avoiding the crash in the first place, this is an issue with using
+	    MTAThread I believe.
+	  --- Specifically, the ImageAnimator is still being a jerk and trying to animate during shutdown.
+	  Mantis: 1730
+	kdixon
+
+Version 10.19.0.1
+	10/01/2009
+	* If a stream is marked as Hidden by the server, then it will not appear as an option for the user.
+	kdixon
+
+Version 10.19.0.0
+	09/29/2009
+	* Fixes issue where stream viewer would get stuck in Stopping state
+	  Mantis: 1708
+	* Added the app.config key "StreamViewerRecordingEnabled". StreamViewerControl parses this value
+	  to show/hide the record and snapshot buttons
+	  Mantis: 1720
+	09/28/2009
+	* Built against 10.19 libraries
+	kdixon
+
+Version 10.18.2.16
+	09/03/2009
+	* Built against latest libraries
+	  - Media 1.1.2.0
+	* Updated comments
+	kdixon
+
+Version 10.18.2.15
+	07/22/2009
+	* Built against latest libraries
+	  - Media 1.1.1.0
+	  - StreamViewer 1.2.3.0
+	  - SVDControls 1.0.5.5
+	* Fixes issue where GUI would dead-lock due to issue in SVDControls!PTZPalette
+	  Mantis: 1518
+	* Disallows user to try to start additional PTZ/Microwave controls while one is already starting.
+	kdixon
+
+Version 10.18.2.14
+	07/20/2009
+	* Built against StreamViewer 1.2.2.2 -- bug fixes, code polishing...
+	kdixon
+
+Version 10.18.2.13
+	07/15/2009
+	* Fixes issue where clicking a favorite icon would invoke the DragDropManager
+	  Mantis: 1500
+	* Corrects typo in single/4way tooltip
+	  Mantis: 1508
+	kdixon
+
+Version 10.18.2.12
+	07/15/2009
+	* Fixes issue where the favorites icons are not being loaded from the correct path
+	  Mantis: 1501
+	* Fixed potential crash when there is no ActiveStreamViewer and you press ESC to leave full-screen
+	* Rebuilt against StreamViewer 1.2.2.0
+	* Fixes issue where dropping two connections quickly onto the same SVC would cause a crash
+	  Mantis: 1497
+	* Single/4-Way button is now disabled in full screen mode
+	  Mantis: 1504
+	* Fixes problem where favorites icons would begin dragging themselves just via Hover
+	  Mantis: 1500
+	* Fix to make sure Latency/Bitrate and Users were cleared whenever the stream viewer became Available
+	  Mantis: 1498
+	* Another fix to avoid crash-on-dispose of StreamViewer / ImageAnimator
+	  Mantis: 1263
+	kdixon
+
+Version 10.18.2.11
+	07/14/2009
+	* Updated AssemblyInfo to include proper product name
+	  Mantis: 1474
+	* Updated exclusions in installer to not include binaries from Media Client Dependencies
+	kdixon
+
+Version 10.18.2.10
+	07/09/2009
+	* Advertised Shortcuts installer fix
+	  Mantis: 1458
+	* MicrowaveControl now counts frequency sweep as user activity, so the user will not get disconnected
+	  if the frequency sweep takes longer than the configured relinquish timeout
+	* Fixes a timing issue where peripheral controls are aborted while they are closing, resulting in
+	  latent sessions on the server
+	  Mantis: 1456
+	kdixon
+
+Version 10.18.2.9
+	07/08/2009
+	* Fix to prevent crash during app close when an SVC is Buffering
+	  Mantis: 1443
+	* Fixed problem where Max Users dialog would not appear
+	  Mantis: 1444
+	* Updated Solution to link against CommandConsoleInstallHelper by project.
+	* Updated installer to use CommandConsoleInstallHelper 1.0.2.3
+	  Mantis: 1437
+	* Built against MediaClient 1.1.2.0 -- update to QueryMediaServers
+	* Built against SVDControls 1.0.5.2, which has improved FavoriteServers rendering code
+	  Mantis: 1261
+	kdixon
+
+Version 10.18.2.8
+	07/01/2009
+	* Fix to avoid potential crash with disposing iconBusy again...
+	* Built against Settings 1.0.3.8
+	* Fix to SVC to avoid attempting to connect with no data, if the SVC has been Stopped while
+	  performing a server graph rebuild.
+	  Mantis: 1384
+	* Update to InitialSettingsDialog. If the MediaApplicationSettings does not have a valid username
+	  then the dialog will prompt the user, but suggest the Advertised Service Local Friendly Name.
+	kdixon
+
+Version 10.18.2.7
+	06/26/2009
+	* Built against Media common 1.1.0.8, MediaClient 1.1.1.7.
+	* Removed dependency on AntaresXSettings
+	kdixon
+
+Version 10.18.2.6
+	06/09/2009
+	* Built against Media common library 1.1.0.7
+	kdixon
+
+Version 10.18.2.5
+	06/04/2009
+	* Fixes problem not populating servers with null StreamSources.Items property
+	  Mantis: 1262
+	* SourceName now shows on top of ServerName for each stream viewer
+	  Mantis: 1260
+	kdixon
+
+Version 10.18.2.4
+	06/02/2009
+	* Built against SVDControls 1.0.5.1.
+	  - Fixes crash when dragging servers with no sources
+	  - Shows a No Available Sources node under servers with no sources
+	  Mantis: 1241, 1246
+	* Uses new FutureConcepts.Media.ApplicationSettings class instead of
+	  FutureConcepts.SystemTools.Settings.AntaresX.AntaresXSettings.MediaApplicationSettings\
+	* Cleaned up references
+	kdixon
+
+Version 10.18.2.3
+	05/27/2009
+	* Fixes problem where restreamer server was bypassed
+	  Mantis: 1214
+	* Implements support for new features in CameraControl library. Shows a dialog whenever a StatusMessage is sent.
+	  related to Mantis: 1183
+	kdixon
+
+Version 10.18.2.2
+	05/20/2009
+	* Built against SVC 1.2.0.5; Fixes several issues, specifically, all clients Re-OpenGraph instead of
+	  Reconnect after ServerGraphRebuild occurs
+	  Mantis: 1132
+	kdixon
+
+Version 10.18.2.1
+	05/18/2009
+	* Fatal errors are logged to <AntaresXData>\Output\SVD\Errors, as well as the Application event log.
+	* User Presets cache their images locally
+	  Mantis: 1179
+	05/15/2009
+	* Fixed crash on Wiper click
+	  Mantis: 1163
+	* Should have averted hang on connect-abort. If a connection abort occurs, the connection is cleaned up
+	  in the background while the dialog is displayed.
+	  Mantis: 1165
+	* Fixed buttons in stream viewer getting covered by text
+	  Mantis: 1162
+	* All control palettes are now properly centered
+	  Mantis: 1136
+	* Fixed PTZ or Micro button staying selected even if the palette failed to load
+	  Mantis: 1167
+	* Added tooltip to busy spinner icon when opening palettes
+	  Mantis: 1170
+	* Fixed bad-state when clicking record on a stream viewer
+	  Mantis: 1166
+	* Ships with QueryVideoServices 2.0.0.0
+	  Mantis: 699
+	kdixon
+
+Version 10.18.2.0
+	05/11/2009
+	* Changed to Multi-Threaded Apartment model.
+	* Switched to use of CommonControls.DragDropManager for drag-n-drop.
+	kdixon
+
+Version 10.18.1.0
+	05/07 - 05/11/2009
+	* Changed sliding panel to open and close instantly for better performance and to reduce complexity
+	  Mantis: 1135
+	* Changed GraphControlClientSendTimeout from 10 to 30 seconds in app.config. This should avoid extra reconnects
+	* Changed GraphControlClientCloseTimeout from 60 seconds to 5 seconds. This will avoid SVD hanging in "Stopping..."
+	  Mantis: 1129
+	* Removed BasicSettings dialog form, unused.
+	* Re-adds dialogs to confirm User Preset deletion
+	  Mantis: 1027
+	* Completed all interface improvements
+	  - StreamFull is no longer present (reduces memory a little)
+	  - "Full-View" and "4-Way" radio buttons no longer are needed
+	  - changing between full-view and single-view causes no change in the current stream
+	  - PTZ and microwave control are possible from any stream
+	  Mantis: 181
+	* MediaApplicationSettings is now only loaded once instead of 5 times.
+	* Changed all this.Invoke to this.BeginInvoke
+	* Palette controls are started on a background worker.
+	  Mantis: 1140
+	kdixon
+
+Version 10.18.0.0
+	02/2009
+	* IControlPalette interface in SVDControls is now used to communicate between StreamViewers providing controls and SVDMain
+	  - now has palettes for PTZ and Microwave
+	* Removed "Control PTZ" button -- PTZ control is available from any StreamViewer.
+	* Added support for the Client.MicrowaveControl class, via MicrowavePalette control.
+	  Mantis: 850
+	kdixon
+
+Version 10.17.1.1
+	04/13/2009
+	* All snapshots are kept at their native stream resolution regardless of size
+	  Mantis: 232
+	kdixon
+
+Version 10.17.1.0
+	04/08/2009
+	* change assembly references to ref-by-project
+	* SVD causes a reconnect when a proxy operation fails during SetProfileOnServer
+	  Mantis: 1073
+	* The restreamer name on a connected stream, when being restreamed
+	  Mantis: 716
+	* Added dialogs to confirm PTZ favorite deletion
+	  Mantis: 1027
+	kdixon
+
+Version 10.17.0.12
+	* Built against MediaClient 1.0.6.4 -- provides support for overriding the netmanager address
+	kdixon
+
+Version 10.17.0.11
+	* Built against MediaClient 1.0.6.3
+	kdixon
+
+Version 10.17.0.10
+	02/17/2009
+	* Built against MediaClient 1.0.6.2
+	* Fixed potential crash in Profile Group Selector
+	  Mantis: 902
+	* Added code to dispose unmanaged resources on system shutdown, whether or not SVDMain_FormClosing executes
+	  Mantis: 897
+	kdixon
+
+Version 10.17.0.9
+	01/27/2009
+	* Revised the open/close of the PTZ control client. There was an issue where the CameraControl was not getting instantiated properly
+	  when sources would change, and other code was masking the problem. Also fixes a problem where the PTZ Overlay would only work
+	  once.
+	  Mantis: 858
+	* Pressing Escape will leave full-screen.
+	  Mantis: 859
+	01/26/2009
+	* Fixed problem where SVC would get stuck in Snapshot mode
+	  Mantis: 857
+	kdixon
+
+Version 10.17.0.8
+	01/26/2009
+	* Fixes an issue where if a computer does not have a DNS server avialable, would not be able to connect to a video source.
+	* Fixes a null-reference exception that was probably causing the Client.CameraControl to not dispose properly.
+	kdixon
+
+Version 10.17.0.7
+	01/23/2009
+	* Fixes problem where a custom cursor would be shown after disconnecting from a stream that was using a PTZOverlay;
+	   - the PTZOverlay was not being removed all the time.
+	   - requires MediaClient 1.0.5.1
+	  Mantis: 847
+	kdixon
+
+Version 10.17.0.6
+	01/21/2009
+	* StreamViewer 1.1.2.2, fixes tool tip wrong color bug.
+	  Mantis: 834
+	kdixon
+
+Version 10.17.0.5
+	01/15/2009
+	* Built against Media assembly 1.0.3.0
+	kdixon
+
+Version 10.17.0.4
+	01/06/2009
+	* Fixed a problem where Expand to Full View would cause a null reference exception
+	  Mantis: 785
+	* When Expand to Full View is clicked, StreamFull is set as active.
+	  Mantis: 786
+	kdixon
+
+Version 10.17.0.3
+	01/05/2009
+	* Favorite Icons are no longer hidden if the favorite server's advertisement goes away
+	* Added disabled code to StreamViewer.Thumbnail to generate a grayscale version of the icon being displayed
+	kdixon
+
+Version 10.17.0.2
+	01/02/2009
+	* Built against new SVDControls 1.0.4.0 / FavoriteStreams
+	kdixon
+
+Version 10.17.0.1
+	12/31/2008 - 01/02/2009
+	* Updated to use ClientConnectRequest struct
+	kdixon
+
+Version 10.17.0.0
+	12/31/2008
+	* StreamViewerControl.Stop is called on all affected streams regardless of their state when a view is left.
+	  Fixes Mantis 719 FOR TRUE!
+	  Mantis: 719
+	kdixon
+	12/30/2008
+	* StreamViewer now calls the new IStream.Reconnect() for reconnect attempts instead of the Profile hack
+	darnold
+
+Version 10.16.0.6
+	12/24/2008
+	* This time it really actually fixes Mantis 719. Added an additional check in the StreamViewerControl to account for calling
+	  Stop while the state is Buffering
+	  Mantis: 719
+	* When going from 4-way to full view with the Expand to Full View button, the server name would get wiped out
+	  Mantis: 764
+	kdixon
+
+Version 10.16.0.5
+	12/22/2008
+	* Should fix a problem where StreamFull would not get disconnected when switching to 4-Way view. Instead of
+	  comparing the status of "Visible", which can vary with time, compare the radio button's value.
+	  Mantis: 719
+	kdixon
+
+Version 10.16.0.4
+	12/17/2008
+	* Fixes a problem where the app_data\favorites.xml could not be found
+	  Mantis: 714
+	kdixon
+
+Version 10.16.0.3
+	12/17/2008
+	* Implemented ClickToCenter for camera control that has a FOV > 0 specified.
+	  Mantis: 165
+	12/15/2008
+	* TelemetryViewer shows "Latency/ms" instead of "Bitrate/kbps" when given a latency value.
+	  Mantis: 595
+	* Recording button can get confused about what graphic to show if it is spammed. Fixed by not using FCClickButton/Toggle
+	  Mantis: 233
+	kdixon
+
+Version 10.16.0.2
+	12/12/2008
+	* Fixes an issue where if a server is configured with no regular sources, it will not be populated by SVD because
+	  of a null reference exception.
+	  Mantis: 698
+	* Added a check right before adding a server to the treeview to see if another thread already populated it.
+	  Mantis: 593
+	kdixon
+
+Version 10.16.0.1
+	12/04/2008
+	* Fixes an issue where if in Full Screen mode, if you enter a non-playing state you can get stuck in Full Screen mode
+	  forever.
+	  Mantis: 644
+	* Moved ./sounds/ into ./app_data/sounds/
+	kdixon
+
+Version 10.16.0.0
+	11/19/2008
+	* Re-arranged changelog to reverse-chronological order
+	* Re-arranged StreamViewerControl code into regions
+	* OpenGraphRequest persists across all reconnects per explicit connection. To reset the OpenGraphRequest,
+	  the user must actually Stop and then Drag a new source onto the SVC.
+	  Related to Mantis 602
+	* If a SVC with no Video settings in its profile is selected, the PGS disables the sliders.
+	  Mantis: 535
+	* PanOffset and FieldOfView properties are now set on the PTZ control.
+	  Mantis: 466
+	* SVD queries Restreamer Servers for their server info every time it reads their advertisement.
+	  Mantis: 542
+	
+
+Version 10.15.1.0
+	10/21/2008
+	* If a server with sources is dragged onto a stream viewer, its first listed source will be opened.
+	  Mantis: 484
+	* Removed filter for IPs ending in .13
+	  Mantis: 519
+	* Tilt and Zoom can be incremented by a zoom-variable amount by clicking on the track instead of the thumb.
+	  Pan and Tilt nudges vary with zoom. The higher the zoom level, the less resulting movement.
+	  Mantis: 253
+	* If the "Favorite Server" is populated, then it attempts to display the Favorite Icons as well.
+	  Mantis: 473, 226
+	* Snapshots are no longer resized when they are taken. They are saved as their native size.
+	  Mantis: 232
+	* Implemented the PanTiltZoomAbsoluteControl.PanAngleOffset property. Set pan degrees to display from (-180, 180]
+	kdixon
+
+Version 10.15.0.3
+	10/03/2008
+	* If a stream is aborted during its connection, it now clears the Stream Viewer's text properly
+	  Mantis: 416
+	kdixon
+	
+Version 10.15.0.2
+	09/12/2008
+	* (darnold) check if server exception contains the text "abort"--if it
+		does, the connect attempts will stop and the contents of the
+		Exception.Message will be presented to the user in a message box.
+		This was added when the user attempts to connect to a source when
+		the source is at MaxClients.
+
+Version 10.15.0.1
+	09/12/2008
+	* (darnold) Removed some SourceType's that were no longer being used
+	* (darnold) Changed port # of StreamService to 8098 instead of 8099 to
+		isolate it from other services.
+	Mantis: 359
+
+10.14.0.6 - 09/10/2008
+
+- (darnold) Removed some debug noise from FavoriteStreams
+
+- (darnold) Added NetSource connection check before StreamViewer state switches to Buffering.
+	Hopefully, this will help make SVD more responsive during poor signal network
+	connections.
+
+10.14.0.5 - 09/10/2008 
+
+- (darnold) Change in SVDMain.StopAllGraphs() -- only try to stop a streamviewer when the
+	state is Playing or Recording 
+
+- (kdixon) Fixes mantis #366 - fixed SVDMain to update TelemetryViewer.Viewer property when ActiveStreamViewer changed.
+                             - some other fixes to TelemetryViewer to make sure it always displays values correctly.
+
+10.14.0.4 - 09/09/2008 (kdixon)
+
+- fixes mantis #233 - if connection faults while recording, record button gets screwed up.
+					- as it turns out, the rest of the app Does The Right Thing (stops recording, cleans up), but the button is left
+					  with the wrong image index.
+
+- fixes mantis #226 - favorites.xml can contain any number of favorites entries and will display them correctly.
+10.14.0.3 - 09/08/2008 (darnold)
+
+- don't show sources in treeview if Description==null
+	(restream source Description==null)
+
+10.14.0.2 - 09/08/2008 (darnold)
+
+- removed Filter control from favorite streams
+	
+10.14.0.1 - 09/02/2008 (darnold, kdixon)
+
+- Cleaned up ICameraControl; moved properties into ICameraControlProperties
+
+- Fixed apparent benign exception in ProfileGroupSelector.StreamViewer_set (object reference is null)
+
+- Support OriginServers in ServerInfo; SVD now shows restreamable sources in treeview
+
+- Removed registration of COM objects from installer--this has been moved to MediaClientDependencySetup
+
+- integrated latest "No Image Available" graphic for PTZ Favorites control
+
+- fixed mantis#249
+
+10.13.0.2 - 08/29/2008
+
+- fixed a problem where the PGS would send out custom profiles with no data
+
+- changed hardcoded IP to "vs" in favorites.xml
+	fixes mantis #239 changed hardcoded IP to "vs" in favorites.xml
+
+- fixed mantis #240, problem switching from 4-way to full view (stream got lost)
+
+10.13.0.1 - 08/28/2008
+
+- Implemented PTZ Restore snapshot taker timer on background thread
+
+- cleaned up PTZFavoritesControl's behavior
+
+- SVD attempts to contact server listed in favorites.xml
+
+- Made PTZ controls reflect the values specified in the CameraCapabilitiesAndLimits
+
+- Requires AntaresXControls.dll version 1.0.1.3 or higher
+
+- fixed problem where controls were not getting disabled during Buffering
+
+- fixed mantis#218 PGS null reference
+
+10.12.0.1 - 08/08/2008 - 08/19/2008
+
+- activated new Zoom control
+
+- fixed mantis#135 problem in 4-way with profile group changes
+
+- fixed mantis#136 where Full-View button gets disabled after recording
+
+- won't fix mantis#137 - removed ability to control PTZ by dragging mouse over StreamViewerControl
+
+- implemented CommandConsoleInstallHelper for installer.
+
+- changed the GetIP window to handle hostnames
+
+- PTZ Favorites now stored on server
+
+10.11.0.2 - 08/07/2008
+
+- implemented mantis#135: new PTZ favorites system
+
+- fixed mantis#223: SVD installer now correctly registers all DLLs (DLLHelper requires full file names)
+
+10.11.0.1 - 7/9/2008
+
+- Allow SVD to override profile settings
+
+- Fixed bug where only StreamA would show telemetry data
+
+- Added ProfileGroupSelector control
+
+- Removed Settings and Open Media Viewer buttons from SVD
+
+07/29/2008
+
+- updated PGS to get ChangeVideoSettings notifications from other clients
+
+- changed FullViewClicked from _fullViewClick to EventHandler delegate
+
+- removed NotifySnapshotViewer
+
+10.10.0.1 - 7/2/2008
+
+- Removed functionality to post new thumbnails to server
+
+- Try to handle timeouts with very high latency networks:
+	increased DGramProtocol receive timeout from 8 seconds to 15 seconds
+	
+- Work with the new IStream service
+
+10.9.0.8 - 6/25/2008
+
+- Use File Writer instead of DVRWriter and use Kevin's GMFBridge work for recordings
+
+- SVD/StreamViewer now records to OGG (.ogm) files.  OGG files seem to behave a little better than AVI files.
+
+- fix bad favorites.xml files that prevented dragging the Vid1 favorites
+
+10.9.0.7 - 6/19/2008
+
+- Add DVRWriter and use it instead of DUMP.ax (a file writer for recordings)
+
+10.9.0.6 - 6/17/2008
+
+- Fix build problems
+
+10.9.0.5 - 6/11/2008
+
+- Changed PanTiltAbsoluteControl to PanTiltZoomAbsoluteControl (now includes zoom controls)
+
+- Fixed timer-reset problem
+
+10.9.0.4 - 6/9/2008
+
+- restructed nested types in PanTilt class into Antares.Video.Dashboard.PanTilt namespace.
+	- Original PanTilt control is now known as PanTiltControl
+	
+- New Pan / Tilt control Antares.Video.Dashboard.PanTilt.PanTiltAbsoulteControl allows absolute positioning
+
+10.9.0.3 - 6/2/2008
+
+- New method of recording video in StreamViewer, H264 packaged in AVI
+
+10.9.0.2 - 5/15/2008
+
+- Set telemetryviewer Users: to "-" instead of "0" to be consistent
+
+- Clear stream description when viewer is stopped when state was Connecting
+
+10.9.0.1 - 5/15/2008
+
+- fixes dragnet# 2629 - User count updates incorrectly in 4-way if a second
+	user connects to an unselected source
+	
+- fixes dragnet# 2630 - User count does not update if SVD lost the disconnect
+	message packet--changes the ClientsUpdate message in the video stream
+
+- fixes dragnet# 2631 - telemetryviewer not getting updated
+	
+- fixes dragnet# 2633 - stream description getting cleared
+
+- fixes dragnet# 2634 - stop button getting disabled during reconnects
+
+- fixes dragnet# 2632 - telemetryviewer not cleared during reconnect
+
+10.8.0.9 - 5/14/2008
+
+- Extend TelemetryViewer to have progress message in addition to streamstate
+	- put "Connect 1, 2, 3, 4" and "Roundtrip #" on telemetryviewer
+	
+10.8.0.8 - 5/14/2008
+
+- Change Telemetry viewer label from "kbps:" to "BitRate:"
+
+- Removed Tooltip popup "Profile name was {0} now {1}"--this wasn't very
+	useful and was broken.	
+	
+10.8.0.7 - 5/13/2008
+
+- fixed dragnet #2621: SVD is showing computer name for sources instead
+	of name from netmanager
+	
+- fixed dragnet # 2620: direct/restream filter
+
+- fixed dragnet# 2617: Initial screen now displayed before LoadingScreen
+
+- fixed dragnet# 2619: changed State "Connect1" to "Connecting"
+	and "Connect2" to "StartVideo"
+
+- Try exception if cancel entered in initial screen
+
+10.8.0.6 - 5/12/2008
+
+- Allow users to Force Add a server's IP address to TreeView
+	[this feature is not intended to be used by customers]
+
+- Add UserName to VideoSettings and use VideoSettings.UserName in OpenGraphRequest
+	First run of SVD brings up InitialSettingsDialog, which has UserName field.
+
+- Fixed dragnet # 2606: Server nodes without source nodes [in SVD treeview]
+
+- fixed dragnet # 2607: Profile names disappear on reconnect
+
+- fixed dragnet # 2608: Status info not updated on remote
+
+- fixed dragnet # 2609: Profile tooltip should not be shown on initial connect
+
+- fixed dragnet # 2610: no tooltip on UserCount (telemetry viewer)
+
+- fixed dragnet # 2612: stream description too long in 4-way mode
+	
+10.8.0.5 - 5/12/2008
+
+- fixes dragnet# 2604: Add connect attempt # to all shown tooltips while connection attempt is in progress.
+
+- fixes dragnet# 2603: List of connected users is now only shown when user hovers over UserCount value.
+
+- change size of FullView button
+
+- fixes dragnet# 2606: server not added to treeview if server has no sources
+	(after applying direct/restream filter)
+	
+10.8.0.4 - 5/8/2008
+
+- Added Ping RoundTrip to Telemetry Viewer
+
+- Catch exceptions in ClientSetupCustomActions
+	
+10.8.0.3 - 5/7/2008
+
+- Fix incorrect # users in Telemetry viewer
+
+- Prevent active viewer from jumping around
+
+10.8.0.2 - 5/7/2008
+
+- Use Environment.MachineName for OpenGraphRequest instead of UserName (UserName is always FCUser)
+
+10.8.0.1 - 5/7/2008
+
+- Video no tracks UserName/Domain name of users connected.  
+
+- Removed Toolbar from top of StreamViewer in SVD--moved fields to new TelemetryViewer control.
+
+- TelemetryViewer shows number of connected users and provides a list of usernames when user
+	hovers over # (tooltip).
+	
+- Added filter to SVD treeview so that sources can be filtered (Direct vs. Restream)
+
+10.7.0.4 - 5/5/2008
+
+- Fixes dragnet # 2224: Video Streams stop playing if Streaming Video Desktop window is minimized
+
+- Fixes dragnet # 1794: Stream should be restarted when SVD is moved from one monitor to another using Command Console
+
+10.7.0.3 - 4/29/2008
+
+- Fixes dragnet # 2524: Update profile buttons with new tooltips when profile changes
+
+- Disable jitter buffer
+
+- Remove calls to SyncUsingStreamOffset and SetMaxGraphLatency from graph (not necessary)
+
+10.7.0.2 - 4/28/2008
+
+- Improve timeout handling so SVD has less of a chance to hang over poor networks
+
+10.7.0.1 - 4/21/2008
+
+- add jitter buffer and new DGramProtocol
+
+10.6.0.14 - 4/15/2008
+
+- Fixes bug # 2489: Create thumbnails for LTS recordings--RecordingViewer doesn't need to use MediaDetClass
+
+- Fixes bug # 1769: Recordings do not always disappears when deleted
+
+10.6.0.13 - 4/8/2008
+
+- Change GraphControl.Client.KeepAliveTimer interval to 10 seconds
+
+10.6.0.12 - 4/4/2008
+
+- Fix this unhandled exception:
+
+   -- Unhandled ThreadException @ 4/3/2008 9:13:48 PM --
+	Exception.Message: Object reference not set to an instance of an object.
+	Exception.StackTrace:    at Antares.Video.StreamViewer.StreamViewer.DispatchProfileTelemetry(XmlReader xml)
+	at Antares.Video.StreamViewer.StreamViewer.Graph_TelemetryUpdate(Object sender, TelemetryEventArgs e)
+	at Antares.Video.StreamViewer.DSGraph.TelemetryTimer_Tick(Object sender, EventArgs e)
+	at System.Windows.Forms.Timer.OnTick(EventArgs e)
+	at System.Windows.Forms.Timer.TimerNativeWindow.WndProc(Message& m)
+	at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+	Exception.TargetSite.Name: DispatchProfileTelemetry
+	Exception.Source: StreamViewer
+	
+10.6.0.11 - 4/2/2008
+
+- Fix this crash:
+	-- Unhandled ThreadException @ 4/2/2008 6:12:49 PM --
+  Exception.Message: Object reference not set to an instance of an object.
+  Exception.StackTrace:    at Antares.Video.SVDMain.panTilt1_PanTiltSpeedChanged(Object sender, PanTiltSpeedArgs e)
+   at Antares.Video.Dashboard.PanTilt.OnTrackBarScroll(Object sender, EventArgs e)
+   at System.Windows.Forms.TrackBar.OnScroll(EventArgs e)
+   at System.Windows.Forms.TrackBar.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   
+- Fix problems in CameraControl management
+
+10.6.0.10 - 4/2/2008
+
+- close CameraControl.Client when state goes STOPPING
+
+10.6.0.9 - 4/2/2008
+
+- don't launch DbgView when launched from Command Console
+
+10.6.0.8 - 4/2/2008
+
+- Use new FCCommon.Settings.VideoSettings class
+
+10.6.0.7 - 4/2/2008 
+
+- Fixes dragnet# 2215 (Unable to switch to a stream if current one is attempting to connect)
+
+10.6.0.6 - 3/31/2008
+
+- launch DbgView when SVD is launched with a command-line argument
+
+- Use new ExceptionDumper class 
+
+- Fix unhandled exception in StreamViewer.StreamViewer.WndProc()
+
+10.6.0.5 - 3/28/2008
+
+- increased socket SO_RCVBUF from 258k bytes to 1 Mbyte
+
+10.6.0.4 - 3/28/2008
+
+- changed all Console.WriteLine() to Debug.WriteLine()
+
+10.6.0.3 - 3/28/2008
+
+- Debug message cleanup
+
+- set client socket SO_RCVBUF value back to 256k bytes
+
+10.6.0.2 - 3/27/2008
+
+- Removed SVD Log file.  All debug messages, including exceptions, now go to Debug.WriteLine().  DbgView must be used to monitor debug messages.
+
+- Added DbgView utility (a simple GUI application to monitor Debug.WriteLine() activity) to SVD installer.
+
+- Fixed bug in DirectShowLib FilterGraphTools--handle case where DsDevice.GetDevicesOfCat() returns a null device moniker (ignore).
+
+- set SO_RCVBUF to 1024k bytes
+
+10.6.0.1 - 3/26/2008
+
+- Remove sequence numbers from DGram Protocol packets (only used for instrumentation)
+
+- Increased dgram protocol socket receive buffer (SO_RCVBUF) from 64K to 256K
+
+10.5.0.8 - 3/21/2008
+
+- Add AntaresX_Video_DGRAM_LOG_LEVEL environment variable to control log file detail in DGRAM protocol module.
+	value=0 means no logging
+	value=1 means summary logging
+	value=2 means detail logging
+
+10.5.0.7 - 3/21/2008
+
+- Add more instrumentation to DGramProtocol
+
+10.5.0.6 - 3/20/2008
+
+- Fixed a bug in DGramProtocol/RecvChunk() - timeval was specified incorrectly
+
+10.5.0.5 - 3/20/2008
+
+- Fixed a bug in DGramProtocol/SendChunk
+
+10.5.0.4 - 3/19/2008
+
+- Added DGramProtocol log file to report packets out-of-order
+
+10.5.0.3 - 3/18/2008
+
+- Send packet received receiver report to server during disconnect
+	
+10.5.0.2 - 3/18/2008
+
+- combine AvgBitRate timer and Telemetry updates and don't call LMNetDmx.ReadMessage() in a loop without a wait
+
+10.5.0.1 - 3/14/2008
+
+- Changes to profile name are now sent in the video stream.  This way, all users watching a video stream will see changes to profile name including users
+	watching a stream through a restreamer.  Also, changes to profilename are captured in recordings.  In a future version, this exact technique can be
+	used for other telemetry data, such as GPS, Compress, temperature, heart rate, etc.
+
+10.4.0.3 - 3/13/2008
+
+- Remove PropertyChanged messages from log file
+
+10.4.0.2 - 3/13/2008
+
+- Show profile name as tooltip for +/- stream controls
+
+10.4.0.1 - 3/11/2008
+
+- Fixes dragnet# 2006--change profile handling (required interface/contract changes, hence 10.4.*)
+
+- fixed bug causing crash in DumpException()
+
+10.3.0.58 - 3/11/2008
+
+- Improve details in log file
+
+10.3.0.57 - 3/10/2008
+
+- Fixes dragnet# 1998 - Two streaming videos being rendered in one StreamViewer
+
+10.3.0.56 - 3/10/2008
+
+- Fixes memory leak (dragnet#2214)-- put FreeEventParams() in GraphEventListener()
+
+- DGramProtocol gives more details on SOCKET_ERROR
+
+- Fixes dragnet #2216: Increase retry interval on Connect Attempt exceptions--from 1 second to 5 seconds
+
+10.3.0.55 - 3/7/2008
+
+- Fixes dragnet #2192 - unhandled exception in GraphEventListener().  I put a try/catch around the entire method--unhandled exception not possible now.
+
+- Exception logs are now stored in SVD\app_data\Errors
+
+- Release GraphControlClient synchronously
+
+- try/catch in StreamViewer.StreamViewer.Run() and GraphEventListener()
+
+- Disable all StreamViewer controls when Connect2 state fails
+
+- unsubscribe all events in GraphControlClient.Dispose()
+
+10.3.0.54 - 3/6/2008
+
+- Fixes the hang or "Play Failed" after the "Roundtrip" status change.  If SVD is unable to create the local graph, it now starts over from creating the server graph.
+
+- Add new exception dumper
+
+- Fixes crash exception in EventListener (don't release object mediaEvent)
+
+10.3.0.53 - 3/5/2008
+
+- Fixes dragnet# 2124: Error message when the videos are streaming and the connection is lost.  
+	SVD will continue to attempt to connect to the server for exceptions other than timeout.
+	
+10.3.0.52 - 3/2/2008
+
+- Fixed unhandled exception in CameraControl KeepAliveTimer_Tick()	
+
+10.3.0.51 - 2/28/2008
+
+- Fixed dragnet# 2151 - Video Source text on the bottom should read the device name instead of "Vid1", etc.
+	The file favorites.xml now includes two fields for the local server: serverAddress and serverDescription.
+	The serverDescription attribute is used for the first line of the stream description.
+	The sourceDescription attribute is used for the second line of the stream description.
+	
+- Fixed dragnet# 2050 - stream description problem similar to #2151
+
+- Fixed dragnet# 2146 - stream description not updated when going from 4-way to 1-way
+
+10.3.0.50 - 2/25/2008
+
+- Fixed dragnet# 1779 - when in 4-way mode, stream description text is truncated
+
+10.3.0.49 - 2/25/2008
+
+- Fixed dragnet# 1935 - Crash when I click Restore in PTZ section with no saved PTZ location selected
+	
+10.3.0.48 - 2/22/2008
+
+- Implement feature dragnet# 1674 - Export snapshot to tactical planning
+	
+10.3.0.47 - 2/22/2008
+
+- Implement feature dragnet# 2015 - Allow dragging a server from the treeview if the server only has one source
+	
+10.3.0.46 - 2/21/2008
+
+- Fix bug#1946 - PTZ Panel remains visible when server goes down
+
+10.3.0.45 - 2/20/2008
+
+- cleanup unhandled exceptions:
+	- catch exceptions in DoStateTransition()
+	- move CheckCancelled() into try/catch block
+	- don't call FreeEventParams() in GraphListener
+	- handle exceptions in panTilt_Go()
+	
+10.3.0.44 - 2/14/2008
+
+- Look in SVD app_data\thumbnails for local favorites.
+
+10.3.0.43 - 2/12/2008
+
+- Transcoder: Re-enabled support for overlay bitmap in trancoder.exe.
+
+- Enhancements and improvements to DGProtocol (UDP) and SVD to detect when the client DirectShow graph stops running due to a lost connection to the server.
+	This will solve the indefinite "hang" in SVD after the status changes from "Start Playing" to "Roundtrip".  It will also speedup the detection time.
+
+10.3.0.42 - 2/7/2008
+
+- Incorporated new local favorites graphics (PTZ, Conf, MW, Aux)
+
+- Support "vs" in server name of favorites.xml file.  SVD now looks for "vs" in server name and calls Dns.GetHostByName()
+
+10.3.0.41 - 2/5/2008
+
+- Attempt to fix the reconnect hang and the multiple streams in one viewer bug.  
+
+- LEADTOOLS license UNLOCK moved from SVD to SVD installer--speeds up SVD load time.
+
+- Resized the favorite streams thumbnails to fit in a two-by-two arrangement and added the ability to specify a JPG/PNG/BMP filename for the image.
+
+- Enlarged SVD TreeView size so more can fit in panel without scrolling.
+
+- Removed "PLAY" button from the StreamViewers -- this hasn't been used in a long time.  This gives more space for stream description.
+
+- Use new LEADTOOLS DSKernel2.DLL (version 1.0.0.107) -- supposedly will fix our LEADTOOLS "nag" messages.

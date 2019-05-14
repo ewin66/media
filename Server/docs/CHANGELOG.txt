@@ -1,0 +1,876 @@
+﻿﻿===== MediaServer Change Log =====
+
+Version 10.22.1.1
+	5/15/2014
+	* Code merge and check-in to Future_Concepts (C:\Projects20)
+		- lots of project repointing and referencing WinForms controls
+		- now in Projects20\Media\CommonControls (was in old AntaresXCommonControls)
+
+Version 10.21.1.10
+	4/23/2014
+	* Rewrote all the MediaServer WiX Setup Custom Actions (COM Registry Installer, LEADTOOLS License registration)
+		using latest WiX Toolset that works for .NET 4.0, which the latest MediaServer depends on.
+
+Version 10.21.1.9
+	2/25/2014
+	* Remove LEAD H264 Transcoder from MangoDVR Graph (getting unsupported media type)
+
+Version 10.21.1.8
+	2/20/2014
+	* Added LEAD H264 Transcoder to MangoDVR graph (See LEAD RTSP Sink documentation)
+
+Version 10.21.1.7
+	2/13/2014
+	* Test build with new graph MangoDVR (with LEADTOOLS DVR Sink) and new RTSP Server (using LEADTOOLS RTSP Server/sink)
+	darnold
+
+Version 10.21.1.6
+	2/6/2014
+	* Removed auto-launching of the MediaServerConfigurator from the MediaServer installer
+		- this will prevent previous configuration from getting destroyed and
+		- will allow an unattended installation using WSUS or msiexec /qn /i MediaServer.msi
+
+Version 10.21.1.5
+	12/4/2013
+	* Checkpoint build #1 for P260 delivery--get all netmgr/mango support checked-in
+
+Version 10.21.1.4
+	12/3/2013
+	* Fixes "No Profile Groups Loaded!" exception when loading Mango sources
+		- Added [XmlElement] to all public properties in SourceStreamInfo.cs
+		- the XmlSerializer behaves better when serializing generic list (List<string>)
+	Mantis: 8890
+
+Version 10.21.1.3
+	11/21/2013
+	* Created a public property for Store in UserPresetStore.  This class was
+		recently decorated [DataContract] and the internal store was not exposed 
+		for serialization.
+
+
+Version 10.21.1.2
+	11/6/2013
+	* bug fixes
+	darnold
+
+Version 10.21.1.1
+	11/4/2013
+	* Major changes to SVD/MediaServer WCF contract
+		- SVD 10.21.1.1 and MediaServer 10.21.1.1 must be tested together.
+		- SVD 10.21.1.1 will not work with a version of MediaServer prior to 10.21.1.1
+	darnold
+
+Version 10.20.1.4
+	4/17/2013
+	* Added more sleep between SmartCaptureSDK.SC* calls during graph setup
+	darnold
+
+Version 10.20.1.3
+	* Reset FastVDO before graph is started
+	* Show messages for release builds (was using Debug.WriteLine; should be AppLogger.Message)
+
+Version 10.20.1.2
+	* Added PushFVSC to SourceType and BaseGraph.CreateInstance()
+	darnold
+
+Version 10.20.1.1
+	* NOTE: This release of MediaServer is only compatible with SVD 10.20.*
+		there are some contract changes.
+	* Added support for MPEG2 Transport push streams (SinkProtocolType.UDP_MPEG2_TS)
+		- this will be used to push video from AntaresX Media Server to WOWZA Media Server
+			for restreaming purposes.
+		- Push streams will always run even if no clients are connected to 
+			AntaresX MediaServer if 
+		- Uses 2 new LEADTOOLS DirectShow filters:
+			* LEAD MPEG2 Transport Multiplexer
+			* LEAD MPEG2 Transport UDP Sink
+		- new UDPStreamingGraph, which PushFastVDO and PushBouncingBall derive
+		- Reorganization of MediaServer configuration
+			- Profile no longer define protocols or addresses; profiles just
+				define encoder properties (bitrate, framerate, key frame rate, size, etc.)
+			- Added 2 new configuration items to Sources.XML (StreamSourceInfo)
+				- SinkURL (defines the WOWZA server input address)--this URL
+					is only used for push sources.  Example: udp://205.129.7.56:8000
+				- ClientURL (defines the address SVD uses to pull the stream)
+					Example: rtsp://205.129.7.56:1935/live/fastvdo.stream
+	* Changed MediaServerConfigurator to allow modifying new properties
+	* Added "ProfileChangesAllowed" property to source configuration.
+		- If ProfileChangesAllowed=false, SVD will not allow the user
+			to view or modify the profile group selector.
+
+Version 10.19.7.16
+	* Use ILMNetMux instead of LMNetMux
+
+Version 10.19.7.15
+	* Comment-out "MaxQueueDuration=SourceConfig.MaxQueueDuration"--I have a hunch this may
+		be the issue.  This property is defined as a LONG in the LEADTOOLS documentation, but
+		the COM interface has it defined as a double.
+
+Version 10.19.7.14
+	2/19/2013
+	* Rebuild with ErrorLogger built Debug--everything else built Release
+
+Version 10.19.7.13
+	1/3/2013
+	* Fix bug causing RTSP graph from throwing exception
+	darnold
+
+Version 10.19.7.12
+	1/3/2012
+	* Fix WiX setup project issues.  I needed to re-pointed references in the WiX setup project
+		- and that caused issues because the reference needed the property "Harvest" set to true.
+		"Harvest" is used by the Wix HEAT tool to implicitly include the reference in the MSI.
+	darnold
+
+Version 10.19.7.11
+	12/27/2012
+	* Added support for Ubiquity AirCam IP Camera
+		- refactored graphs and created RTSPGraph, which uses LEADTOOLS RTSP Source filter
+	* Attempt to fix crash found in surveyor WCF trace log:
+		FutureConcepts.Media.Server.GraphManager.RemoveAndDisposeGraph(BaseGraph graph)
+		FutureConcepts.Media.Server.IndigoServices.CommonStreamService.SetProfile(Profile newProfile)
+		FutureConcepts.Media.Server.IndigoServices.StreamService.SetProfile(Profile newProfile)
+		SyncInvokeSetProfile(Object , Object[] , Object[] )
+
+		Unable to cast COM object of type 'LMNetSnkLib.LMNetSnkClass' to interface type 'LMNetSnkLib.ILMNetSnk'. This operation failed because the QueryInterface call on the COM component for the interface with IID '{E2B7DE6E-38C5-11D5-91F6-00104BDB8FF9}' failed due to the following error: No such interface supported (Exception from HRESULT: 0x80004002 (E_NOINTERFACE)).
+	darnold
+
+Version 10.19.7.10
+	* Fix build error (use Release was Debug)
+
+Version 10.19.7.9
+	* Added CustomProfileEnabled to ProfileGroup
+		- setting to "false" will disable the custom profile trackbars/buttons in SVD
+	* Added LEADTOOLS V17.5 modules 
+	* Updated LEADTOOLS License module to include new license keys
+	* Removed WixCustomActionExtension module from MediaServerSetup WiX Project.  
+		- this module was causing the MediaServer deployment build from failing
+		- according to Kevin, this is something he started and didn't finish.
+
+Version 10.19.7.8
+	07/27/2011
+	* Create Output Directory before writing to it when saving channels (StreamingTVGraph.SaveKnownChannels())
+	  Mantis: 4692
+	kdixon
+
+Version 10.19.7.7
+	07/26/2011
+	* Fix StreamingTVGraph to avoid null reference exception, and allow channel changing
+	  Mantis: 4678
+	kdixon
+
+Version 10.19.7.6
+	06/27/2011
+	* MicrowaveReceiverController 2.0.2.4
+	  - Fix issue with EncryptionKey not being saved in MicrowaveTuningPreset
+	    Mantis: 4384
+	  - performance improvement on Vislink_HDR1000
+	kdixon
+
+Version 10.19.7.5
+	06/08/2011
+	* Change WinTVAnalogBase.TVMode.set to set crossbar to pull from Composite instead of SVideo.
+	06/03/2011
+	* Fix NullReferenceException in ServerConfigService when copying a source without any MicrowaveControlInfo
+	kdixon
+
+Version 10.19.7.4
+	05/24/2011
+	* Fix issue with COMRegHelper.rollback being invoked at install time (causing DLLs to unregister)
+	kdixon
+
+Version 10.19.7.3
+	05/11/2011
+	* Fix 0-padding issue in decryption key
+	  Mantis: 4082
+	* Clear out MicrowaveControlInfo.BlockDownConverterFrequency field when reporting it, should
+	  enhance compatability with SVD 10.19.1.4
+	* Bundle with MSC 10.19.2.3
+	  Mantis: 4081
+	* Bundle with H264ByteStream 1.0.0.2
+	  Mantis: 3965
+	* Drop ServiceRecoveryInstallHelper in favor of WiX:Util:ServiceConfig
+	kdixon
+
+Version 10.19.7.2
+	03/25/2011
+	* Implement Link Quality polling on MicrowaveControlService2
+	* Build against MicrowaveReceiverController 2.0.2.1
+	  - various Vislink HDR1000 improvements
+	  - Link Quality polling support
+	kdixon
+
+Version 10.19.7.1
+	03/18/2011
+	* Vislink HDR1000 improvements
+	  - proper reading of "hdec" parameter
+	  - disabled custom ReceiveUntil, may be causing SafeHandleClosed
+	  - support Block Down Converter
+	  - ReceivedCarrierLevelMinimum = -120
+	  - ReceivedCarrierLevelMaximum = 0
+	  - disable non-licensed encryption modes in Capabilities
+	  - AutoTune.SpectralInversion = true
+	  - RSSI is reported in negative values
+
+	* MicrowaveReceiverController 2.0.2.0 to prevent crashes in constructor that leave the serial port open
+	* Change all Debug.WriteLine to AppLogger.Message
+	* Change all ErrorLogger.DumpToDebug to AppLogger.Dump
+	kdixon
+
+Version 10.19.7.0
+	02/02/2011-03/07/2011
+	* Add MicrowaveControlService2
+	* Update MicrowaveControlService to use new data structures from MicrowaveReceiverController
+	  on the backend. Transparent change to clients of this service.
+	* ServerConfigService forces advertised MicrowaveControlInfo.Type to PMR_AR100 so as not
+	  to cause older clients to fail populating the server's info
+	kdixon
+
+Version 10.19.6.2
+	01/27/2011
+	* Throw source config exception if DeviceAddress construct is missing before derefrencing it.
+	  Mantis: 2876
+	* Disable ROT entry creation for BaseGraph -- define symbol DEBUG_ROTENTRY to re-enable
+	  - causing security exceptions
+	* FastVDO graph -- changed "throw exc" to "throw"
+	01/26/2011
+	* Make config and user data use the AntaresXData system
+	  - Config is stored in %StaticSettings%/MediaServer
+	  - User data is stored in %Settings%/Output/MediaServer
+	    Mantis: 2634
+	kdixon
+
+Version 10.19.6.1
+	01/25/2011
+	* Finished rebuild in new installer, SUPPORT_SRM314 is defined by default.
+	kdixon
+
+Version 10.19.6.0
+	01/14/2011
+	* Rebuilt for VS2010 and .NET 4
+	* Removed support for Sensoray SRM314 -- define symbol SUPPORT_SRM314 if you want to include it
+	kdixon
+
+Version 10.19.5.0
+	04/21/2010
+	* Update for compatability with WSUS
+	  - Media Server Configurator 10.19.2.0
+	  - RegistrationInstallHelper 1.0.0.2
+	  Mantis: 2033
+	* Built against MediaClient 1.3.1.0 -- no more support for the old ServerConfigService
+	  - WCF binding is still going to be present until a new version of SVD with this MediaClient
+	    has been shipped to all clients
+	  Mantis: 2142
+	* Built with PowerSupplyController 1.2.0.1
+	* Change to make the GraphManager..ctor fail safe. Under some low-memory conditions the constructor
+	  can fail to create the graph stash timer. Even if we lose this functionality, it will let the application
+	  at least limp along
+	kdixon
+
+Version 10.19.4.2
+	02/16/2010
+	* Rebuilt for Client 1.3.0.3 to fix error loading qms_config.xml (it was looking in System32)
+	kdixon
+
+Version 10.19.4.1
+	02/16/2010
+	* Rebuilt for Client 1.3.0.2 for fix to ServerConfig client
+	  Mantis: 2001
+	kdixon
+
+Version 10.19.4.0
+	02/10 - 02/12/2010
+	* Added new binding for ServerConfigService, endpoint is localhost:8099/ServerConfig and uses the ReliableSession NetTcpBinding
+	  Mantis: 1941
+	* If a ServiceHost faults, a record is kept of the number of times it faults.
+	  - The app.config key "IndigoServicesHostMaxFaults" configures how many times a particular ServiceHost may fault
+	    before the MediaServer process kills itself. Set to 0 to disable the fault limit.
+	  Mantis: 1995
+	kdixon
+
+Version 10.19.3.1
+	02/09/2010
+	* Raise GraphControlClientSendTimeout to 30 (from 20) to match SVD.
+	  Should aid in completing connections to origin servers.
+	kdixon
+
+Version 10.19.3.0
+	02/09/2010
+	* Moved ServerNeedsPowerCycle support from GraphManager to MediaServer class.
+	* Moved Suicide support from BaseGraph to MediaServer
+	* Removed HTTP GET support from ServerConfigService (RESTPOXBinding).
+	* WebStreamService changes
+	  - configured via app.config instead of hard coded
+	  - new endpoint "ServerInfo", replaces ServerConfigService RESTPOXBinding
+	    - accepts URI parameters "server" and "source", in format "ServerInfo?[server=X]&[source=Y]"
+	      These parameters correspond to serverParams and sourceParams on ServerConfigService.GetServerInfoSpecific.
+	      If they are null, then they are ignored, and all fields are returned
+	  - new endpoint "clientaccesspolicy.xml" to support querying of server by Silverlight clients. Currently returns
+	    a permissive access policy (all endpoints available). In the future, this could be extended to read from
+	    a file so a sysadmin could control this.
+	* Moved ServerStatusService to 8097 and re-enabled.
+	  Re: Mantis: 1941
+	* Includes MangoCapture 1.3.0.1 -- Increased D2H timeout to frame interval + 5 seconds.
+	* Media Server Configurator 10.19.1.0
+	* Update to QueryMediaServers -- uses qms_config.xml in root folder
+	kdixon
+
+Version 10.19.2.1
+	02/05/2010
+	* When MXE_E_Timeout or MXE_E_Fail is received from the Mango graph during a ChangeProfile operation,
+	  it will translate that into a ServerGraphRebuildException
+	  Mantis: 1974
+	* Added code to WinTV418ATSC to respect the DeviceIndex configuration parameter so it will work in multi-card systems.
+	  Mantis: 1975
+	kdixon
+
+Version 10.19.2.0
+	01/12/2010 - 01/25/2010
+	* Completed LTRestreamer2
+	  - If the client count drops to 0, then there is a 60 second (app.config key "LTRestreamerStopDelay")
+		window before the MS drops the origin connection. This way if the client of the restreamer is having
+		a lossy time, it should hopefully come back within 1 minute, so the connection to the origin will already be open.
+	  - Unnecessary reconnects to the origin are avoided, and should only occur if the origin connection faults,
+	    or a ServerGraphRebuild occurs on the origin.
+	  - Also the GMFBridge has buffering enabled, this also improves the probability that a media type mismatch
+	    will actually go through (the GMFBridge will re-negotiate within limits).
+	  Mantis: 1942
+	kdixon
+
+Version 10.19.1.4
+	01/22/2010
+	* Fix issue where LTRestreamer would do the StopDeferred, but never start again
+	kdixon
+	
+Version 10.19.1.3
+	01/13/2010
+	* Disable ServerStatusService and RecordService
+	kdixon
+
+Version 10.19.1.2
+	01/12/2010
+	* Fix for FastVDO constructor to call Dispose when falling out of the constructor
+	* Added Stop-deferrment to LTRestreamer.
+	* New app.config appSettings keys
+	  - "UseLTRestreamer2" set to TRUE to use LTRestreamer2, or false to use LTRestreamer
+	    - default false
+	  - "LTRestreamerStopDelay" set the time to defer stopping in ms for LTRestreamer and LTRestreamer2
+	    - default 60000
+	01/06/2010
+	* Added some work towards LTRestreamer2 / OriginClientGraph2. These use on MediaDSGraphs library,
+	  and are working towards hot swapping the source to a test pattern when the origin is not connected
+	01/05/2010
+	* Fix issue where WebRestreamer could not instantiate graphs
+	  Mantis: 1917
+	* Updated to work with latest PowerSupplyController library
+	kdixon
+
+Version 10.19.1.1
+	12/??/2009
+	* Low-Memory test build. Changes reverted
+	kdixon
+
+Version 10.19.1.0
+	10/19/2009 - 10/27/2009
+	* Completed support for Sensoray M314.
+	  - link against new library SRM314HWProxy
+	* CameraControlService changes the way it controls access to PTZ control through the ResourceManager.
+	  - locks are performed against the combination of typeof(CameraControlService) and the
+	    sourceConfig.CameraControl.Address property. This allows multiple sources to share control of
+	    the same camera and indicate what user is currently useing the camera, regardless of the
+	    source they are connected to.
+	  - old behavior was to lock against source name. This is still a fall-back if CameraControl.Address is null/empty
+	kdixon
+
+Version 10.19.0.4
+	10/15/2009
+	* Added some sleeping to the LTRestreamer when origin connect attempts fail, should improve 
+	  performance of other threads
+
+Version 10.19.0.3
+	10/14/2009
+	* Most features of Sensoray314 board are implemeneted -- not official yet though
+	* Built against latest PowerSupplyController library
+	kdixon
+
+Version 10.19.0.2
+	10/06/2009
+	* Include LMVYUVxf.dll transform filter, should allow 4CIF YUV to render
+	  Mantis: 1707
+	kdixon
+
+Version 10.19.0.1
+	10/01/2009
+	* Update to ServerConfigService to support Hidden property
+	kdixon
+
+Version 10.19.0.0
+	09/30/2009
+	* Completed StreamStatusService
+	09/28/2009
+	* Update the ResourceManager, made the method signature for Acquire<T> a little more sensible
+	* Deleted Server.LocalAddress, class was not in use
+	09/24/2009
+	* Begin designing StreamStatusService
+	kdixon
+
+Version 10.18.6.1
+	09/23/2009
+	* Ships with MSC 10.18.1.1 -- fixes some install time isseus
+	kdixon
+
+Version 10.18.6.0
+	09/22/2009
+	* Support detection of dead mango. If MangoCapture returns HRESULT 0x8004DEAD then we know the mango card
+	  cannot be enabled and needs to be power cycled.
+	  - Mango.cs implements this feature by calling to the PowerSupplyController to schedule a de-power and re-power.
+	    It also calls SystemShutdown service to halt windows gracefully (should be able to occur before the de-power
+	    timer executes)
+	* Ships with MangoCapture 1.3.0.0
+	  Mantis: 829, 832
+	kdixon
+
+Version 10.18.5.4
+	09/17/2009
+	* Media Server Configurator 10.18.0.10 -- fixes install time problems with FVSC-HQSource
+	* Attempts to set FastVDO sources to 1 fps will cause the client to reconnect instead of faulting the server
+	kdixon
+
+Version 10.18.5.3
+	09/16/2009
+	* FastVDO hardware settings while in MJPEG mode can be controlled via the profile group FVSC-HQSource.
+	  - The default profile for the group will be used.
+	kdixon
+
+Version 10.18.5.2
+	09/16/2009
+	* Tweak FastVDO hardware settings for better MJPEG performance on portables
+	kdixon
+
+Version 10.18.5.1
+	09/03/2009
+	* Updated to ship with Media Server Configurator 10.18.0.8
+	kdixon
+
+Version 10.18.5.0
+	08/21/2009
+	* Adds video transcoding ability to WinTV418ATSC graph (MPEG2 -> H.264)
+	* Built against Media common 1.1.2.0
+	kdixon
+
+Version 10.18.4.6
+	07/22/2009
+	* Updated template_data (MSC 10.18.0.7) for some naming issues
+	* Ships with updated LEADTOOLS DLLs
+
+Version 10.18.4.5
+	07/10/2009
+	* Changed template data: Still Frames:High Resolution to use "QualityMoreImportantThanSize" instead of
+	  "QualityFarMoreImportantThanSize", resulting in a savings of 33kbps at 30fpm.
+	07/09/2009
+	* Installer Fix for Advertised Shortcuts problem
+	kdixon
+
+Version 10.18.4.4
+	07/08/2009
+	* Updated to use MediaClient 1.1.2.0 QueryMediaServers
+	* Added AXServicesPollInterval and AXServicesRefreshInterval to app.config
+	* Ships with qvs.exe (QueryVideoServices)
+	* Ships with COMRegCheck.exe
+	kdixon
+
+Version 10.18.4.3
+	07/06/2009
+	* Updated Still Frames profile group in the template data
+	  Mantis: 1420
+	kdixon
+
+Version 10.18.4.2
+	07/01/2009
+	* Built against Media 1.1.0.9
+	* WinTVAnalogBase now defaults to TVMode.Satellite, since there are no longer analog channels.
+	  - if there is a channel scan in progress, it must complete, but then if there are no users connected
+	    to the graph, it is reset to TVMode.Satellite when someone joins.
+	  Mantis: 1372
+	kdixon
+
+Version 10.18.4.1
+	06/29/2009
+	* Built against CameraControls 1.0.6.1 -- fixes issue with presets not being properly restored w/Wonwoo cameras
+	  Mantis: 1361
+	* Changed IndigoServices.Host to a static class
+	* Added method on IndigoServices.Host called "AbortSerivces", which aborts all WCF services
+	  - this method is called when the server is hung
+	  Mantis: 1379
+	kdixon
+
+Version 10.18.4.0
+	06/25/2009
+	* Should fix problem when Media Server commits suicide where WCF services think that ports are still occupied.
+	  -- does a Close on all service hosts before dieing.
+	* Adds code to cleanly close WebServiceHosts as well as regular ServiceHosts
+	* Adds AppDomain UnhandledException handler to log the exception and close network service hosts
+	* Deleted list of "preloadedGraphs" -- no longer used, used to be for WebRestreamer
+	* Removed dependency on AntaresXSettings
+	06/15/2009
+	* Fixes problem where $PortRange macro would stomp on itself if previously allocated graph had stopped.
+	  Mantis: 1107
+	kdixon
+
+Version 10.18.3.1
+	06/10/2009
+	* If QueryOriginServers detects a change in the origin servers, it will change the ServerInfo.RevisionNumber
+	kdixon
+
+Version 10.18.3.0
+	06/09/2009
+	* Adds ServerInfo.RevisionNumber, etc -- Media Common 1.1.0.7
+	* USE_GRAPH_STATELOCK is now always used, this symbol need not be specified at compile time.
+	* Fixes problem where origin would change codec or protocol, and would stop re-streaming
+	  Mantis: 1264
+	kdixon
+
+Version 10.18.2.1
+	06/08/2009
+	* Fixes several potential memory leaks.
+	* Fixes problem where a partially constructed OriginClientGraph would cause multiple WCF clients to be
+	  present on the origin, which would cause various problems
+	  Mantis: 1243
+	06/05/2009
+	* LTRestreamer will cause a ServerGraphRebuild if the origin changes SinkProtocol or VideoCodec
+	06/04/2009
+	* Changed LTRestreamer to auto-match its SinkProtocol based on the origin's SinkProtocol, if the default profile's
+	  SinkProtocol is set to "Default". This behavior was shown to improve performance in testing.
+	kdixon
+
+Version 10.18.2.0
+	06/03/2009
+	* Changed TV graphs to use a WCF callback instead of LMNetMux messages to announce the current channel and channel changes
+	* Actually fixes problem where TV Graphs would try to cache their known channels in the windows\system32 folder.
+	  Mantis: 1198
+	* Changed template_data to include HDTV sources, and changes Restreamer:Default profile to UDP.
+	kdixon
+
+Version 10.18.1.2
+	05/27/2009
+	* Changed CameraControlService to support camera control plugins that use their own preset caching mechanism
+	  Mantis: 1183
+	05/26/2009
+	* Built against MangoCapture 1.2.0.1, which calculates its timeouts dynamically, based on frame rate.
+	  Resolves Mantis: 1188
+	* Built with Configurator 10.18.0.2
+	  Mantis: 1190, 1191
+	kdixon
+
+Version 10.18.1.1
+	05/21/2009
+	* Fixes problem where TV graphs try to cache their known channels in the windows\system32 folder
+	  Mantis: 1198
+	* Fixed issue where restreamer would not populate version information from origin servers.
+	  Mantis: 1187
+	kdixon
+
+Version 10.18.1.0
+	05/20/2009
+	* new Profile Group "Still Frames" -- template configuration includes this on all FVSC and MX sourcetypes.
+	* "Still Frames" profile removed from EVDO-related profile groups.
+	* Template configuration makes Still Frames profile group the default profile group
+	* Includes FC Frame Rate Filter 1.0.1.0
+	kdixon
+
+Version 10.18.0.2
+	05/15/2009
+	* Improvements to the Configurator
+	  - Configurator asks if you want to start the service at install time
+	* Make shortcut to the configurator in the Start menu.
+	kdixon
+
+Version 10.18.0.1
+	05/11/2009
+	* Added support for RelinquishTimer field in MicrowaveControlInfo
+	kdixon
+
+Version 10.18.0.0
+	02/06/2009
+	* Removed IndigoServices.SourceControlService
+	01/30/2009
+	* Network TV is channel-scannable
+	01/23/2009
+	* Implemented broadcasting of current Channel via InBandData to clients.
+	* Ditched all the old TV Channel/Station/Lineup info
+	* Some changes to BaseGraph
+	kdixon
+
+Version 10.17.3.3
+	05/05/2009
+	* Support for Wonwoo WCA 261 camera (PTZType.WWCA)
+	kdixon
+
+Version 10.17.3.2
+	04/23/2009
+	* Removed support for symbols SHOW_CLOSING and SHOW_OPENING -- these actions are always reported to AppLogger.Message
+	* Implemented ServceHost restarting mechansim for faulted services.
+	kdixon
+
+Version 10.17.3.1
+	04/13/2009
+	* Fixed problem where Mango graphs would never set their image size.
+	  Mantis: #1091
+	kdixon
+
+Version 10.17.3.0
+	04/06/2009
+	* Renamed "NetSource" to "LTRestreamer"
+	* Converted LTRestreamer to use GMFBridge. Downstream clients will not be affected if origin server is rebuilding, etc...
+	  They will just see a freeze in the picture. Resolves issues with subsequent connections.
+	  Mantis: #754
+	* Added support to Restreamer for 10.17 connection semantics
+	  Mantis: #718
+	kdixon
+
+Version 10.17.2.7
+	04/01/2009
+	* Add references to projects instead of DLLs for MS Configurator.
+	kdixon
+
+Version 10.17.2.6
+	03/09/2009
+	* Removed dependency on ksivac15 DirectShow filter
+	kdixon
+
+Version 10.17.2.5
+	03/04/2009
+	* built against latest MediaClient for Network library fix
+	kdixon
+
+Version 10.17.2.4
+	02/18/2009
+	* built against CameraControls 1.0.4.1 / fixes Mantis 890
+	* built against MediaClient 1.0.6.2
+	kdixon
+
+Version 10.17.2.3
+	01/27/2009
+	* Changed the Mango graph ChangeProfile implementation to set KeyFrameRate before FrameRate and ConstantBitRate. This causes
+	  the Mango to properly configure its encoder, instead of using the "last known" KFR when initializing the encoder.
+	  Mantis: 860
+	* Link against new CameraContols 1.0.4.0, includes updated WonwooWCC261 plugin
+	  Mantis: 638
+	kdixon
+
+Version 10.17.2.2
+	01/23/2009
+	* Added writes to the Application Event Log when a graph is hung, and when the process kills itself.
+	kdixon
+
+Version 10.17.2.1
+	01/21/2009
+	* Added code to the ProjectInstaller.cs to set the Recovery parameters of the service.
+	01/20/2009
+	* Added symbol USE_GRAPH_STATELOCK. When this symbol is defined, there is locking in place per-Graph on the Run, Stop and Abort methods.
+	  This should alleviate hangs due to multiple threads calling Run and/or Stop at the same time.
+	  When Run and Stop are executing at the same time, it can destroy the state of the MangoCapture.dll
+	01/16/2009
+	* Changed code in BaseGraph.Run and Stop to disable the abort timer if an exception is thrown.
+	kdixon
+
+Version 10.17.2.0
+	01/16/2009
+	* Always use FrameRateFilter in MangoCapture, even @ 30fps - appears to fix 30fps crash (see Kevin)
+	* Try MangoX_CardEnable 10 times, then throw MangoXException if all attempts fail.  Previously it tried forever.
+	* Fix possible (but unlikely) race condition in Mango.cpp.  Use InterlockedIncrement() on sReferenceCount.
+	* Added 5 second timeout on TimeTag reads in MangoStream.cpp (MangoCapture).  
+	Mantis: 829, 832
+	darnold
+	* Exception is thrown if no port in the $PortRange macro can be selected.
+	kdixon
+	
+Version 10.17.1.3
+	01/16/2009
+	* Adds preliminary support for HDTV streaming over network.
+	kdixon
+
+Version 10.17.1.2
+	01/14/2009
+	* If symbol SUICIDE_ON_DSHANG is defined, then the media server will kill its own process when a DirectShow hang needs to be
+	  aborted.
+	  Mantis: 819
+	kdixon
+
+Version 10.17.1.1
+	01/13/2009
+	* Disabled abort implementation
+	  Mantis: 819
+	kdixon
+
+Version 10.17.1.0
+	01/12/2009
+	* added watchdog/abort timer to both Run and Stop implementations of BaseGraph. This should allow the Media Server
+	  higher availablility and recoverability from bad errors at the DirectShow level.
+	 Mantis: 819
+	kdixon
+
+Version 10.17.0.3
+	01/05/2009
+	* added BaseGraph.BuildSinkURL method to get templated SinkURL to be expanded as needed
+	  Mantis: 775
+	* Changed BaseGraph.ClientList to fetch users for CommonStreamService instead of just StreamService
+	  Mantis: 750
+	* Changed "PanTilt Roof" to "Roof Pan/Tilt/Zoom" in source description template data
+	kdixon
+
+Version 10.17.0.2
+	01/02/2009
+	* Replaced the guts of QueryOriginServers with the Client.QueryMediaServers class (require MediaClient 1.0.4.0)
+	* set the mask on QueryMediaServers.RequestedStreamSourceInfoParams to exclude CameraControl info
+	  Mantis: 348
+	* Changed the app.config for ReliableSession128 to have an inactivityTimeout of 40 seconds. This will help compensate for
+	  both high latency conditions, and the possiblity of "missing" 1 keep alive.
+	kdixon
+
+Version 10.17.0.1
+	12/31/2008 - 01/02/2009
+	* Clients send struct ClientConnectRequest. The Server then uses that struct to create an OpenGraphRequest which is
+	  only used to call the constructor of a graph.
+	   - Moved Media.OpenGraphRequest to Media.Server.OpenGraphRequest
+	* Fixes problem where ServerGraphRebuild would cause the graph to get constructed with the default profile
+	  Mantis: 753
+	kdixon
+
+Version 10.17.0.0
+	12/31/2008
+	* added Antares icon to installer
+	  Mantis: 765
+	kdixon
+	12/30/2008
+	* Added Reconnect() method to IStream and the StreamService.
+	* Removed the ProfileName hack to determine if client was reconnecting.
+	darnold
+
+Version 10.16.0.7
+	12/24/2008
+	* re-enabled USE_GLOBAL_GRAPHSERVICELOCK
+	* updated SHOW_ADDCLIENTS symbol to show total clients after each action.
+	kdixon
+
+Version 10.16.0.6
+	12/22/2008
+	* Media Server Configurator 1.0.1.2
+	  Mantis: 728
+	* Disabled FastVDO multiple-self-retry. It drops the connection after "1" retry, which reverts to old behavior (pre 10.16.0.1).
+	  Mantis: 722
+	* Added "<serviceThrottling maxConcurrentSessions="100"/>" to the behavior "OurDefaultBehavior" in the app.config.
+	  Mantis: 720, 359
+	* Added symbol SHOW_ADDCLIENTS for compilation, which shows when BaseGraph.AddClient and RemoveClient are called
+	kdixon
+
+Version 10.16.0.5
+	12/17/2008
+	* Moved WinTV graph from Server.WinTV to Server.Graphs.WinTV
+	* EVDO-TCP:Poor Signal had its framerate set to 15fps instead of 20fpm.
+	  Mantis: 713
+	* Renamed some items in EVDO and EVDO-TCP to be more clear
+	  - old scale: Poor Signal, Super Low, Low, Medium, High
+	  - new scale: Still Frames, Low, Medium-Low, Medium, High
+	* Removed Zap2It entries from app.config
+	* Added keys to app.config / appSettings
+	  - DispatchClientsUpdate (bool) Controls StreamingGraph.SendClientUpdate
+	  - DispatchProfileUpdate (bool) Controls StreamingGraph.SendProfileUpdate
+	kdixon
+
+Version 10.16.0.4
+	12/15/2008
+	* Fixes to default Config data so all UDP ports are in the range.
+	  Mantis: 665
+	* Media Server Configurator 1.0.1.1
+	kdixon
+
+Version 10.16.0.3
+	12/05/2008
+	* Altered app.config to avoid doing runtime checks against Certificate Revocation List. Improves startup time.
+	kdixon
+
+Version 10.16.0.2
+	12/02/2008
+	* Disabled service-wide lock on CommonStreamService.OpenGraph and SetProfile. It can be re-enabled by defining USE_GLOBAL_GRAPHSERVICELOCK
+	Mantis: 604 (hopefully)
+	12/03/2008
+	* Removed cruft files (app.config configurations for pre Sources.xml era)
+	* In BaseGraph.AddClient, moved the lock to only cover the list-altering operation. Run() is now outside the lock, so that even if that call blocks,
+	  the streams can still operate on the list, which should keep the server more responsive.
+	kdixon
+
+Version 10.16.0.1
+	11/21/2008
+	* Fixed issue where any profile change would cause a re-buffering
+	darnold
+	11/24/2008
+	* FastVDO now does 4 retries on resetting itself per connect. If the 4 try fails, then it fails the connection, causing
+	  the server to destroy the graph, which causes SVD to re-initiate a connect attempt.
+	kdixon
+
+Version 10.16.0.0
+	11/03/2008 - 11/17/2008
+	* WebRestreamer added. Configure a source called "webrestreamer" to activate it.
+	  Mantis: 362
+	* Changed the way that MediaServer determines if it is a Restreamer. It now determines if there are any sources of type Restreamer.
+	  If so, it starts the QueryOriginServers thread. These are listed.
+	* MediaServer writes its version information to the Debug console whether or not it is in debug mode
+	kdixon
+	11/17/2008 - 11/20/2008
+	* For new OpenGraph() requests, reset profile to defaultprofile, not just when client count > 1
+	  Mantis: 602
+	* Fixed a bug where OpenGraph() could throw an uncaught ServerGraphRebuildException
+	* added SuperLow profiles (32kbps) to EVDO and EVDO-TCP
+	darnold
+	11/20/2008
+	* Added method GetServerInfoSpecific (and supporting methods) to lower bandwidth usage for multiple subsequent calls to GetServerInfo
+	  Mantis: 542
+	kdixon
+
+Version 10.15.2.0
+	10/29/2008 - 10/31/2008
+	* Restreamer works. It queries servers via the normal GetAdvertisedServices. If a server is configured as a restreamer,
+	  then it will restream any video source it can find. When a restreamer is connected, you will see the user "Restreamer (<IP>)"
+	  connected to the source.
+	* Added MediaServerConfigurator to installer.
+		- This eliminates the process of editing the Sources.xml file after install.
+		- If you run the installer, and select "Repair" you can install a different configuration.
+		- The Media Server Configurator is also installed, so you can use it to edit the server's configuration.
+			Please use the application with care, as it has not been thoroughly tested.
+	kdixon
+	
+Version 10.15.1.0
+	10/01/2008
+	* Change to Server.IndigoServices.CameraControlService
+	  - Requested pan/tilt/zoom values are limited based on the configured Capabilities
+	  instead of the universal degrees system.
+	  - Now plugins must update their CurrentPanAngle, CurrentTiltAngle, and CurrentZoomLevel as they're being invoked.
+	* Built against CameraControls 1.0.3.0. Fixes Mantis #451
+	  Mantis: 451
+	* Adds support for WonwooWCC261 camera control
+	kdixon
+
+		
+Version 10.15.0.2
+	09/12/2008
+	* (darnold) Removed lock(graphServiceLock) in CommonStreamService.KeepAlive()
+		this might have been causing a backlog of queued one-way requests.
+	* (darnold) Removed erroneous call to GraphManager.RemoveGraph() in 
+		CommonStreamService.OpenGraph().  This might have been causing
+		two running server graphs connected to the same source or a MS crash.
+	* (darnold) Check Graph.NumberOfClients against Config.MaxClients.
+		If a connect request is made on a source that is at the limit,
+		the MS will now throw the new SourceHasMaxClientsException().
+		SVD will catch this exception and stop the connection process.
+	* (darnold) Set MaxClients to 4 for: surveyor1, Vid1, Vid2, Vid3, Vid4.
+
+Version 10.15.0.1
+	09/12/2008
+	* (darnold) Removed some SourceType's that were no longer being used
+	* (darnold) use new SourceType.Restreamer
+	* (darnold) Changed StreamService port from 8099 to 8098 to isolate it
+		from other services
+	* (darnold) Created custom binding for StreamService so that maxPendingChannels
+		could be configured
+		Mantis: 359

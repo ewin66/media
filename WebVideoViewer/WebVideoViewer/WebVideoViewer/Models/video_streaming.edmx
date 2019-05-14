@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="video_streamingModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="moniker" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="agency" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="subnet" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="min_ip" Type="smallint" Nullable="false" />
+          <Property Name="max_ip" Type="smallint" Nullable="false" />
+          <Property Name="is_active" Type="tinyint" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.video_streaming.online_clients' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="online_clients">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="last_reported" />
+          </Key>
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="last_reported" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.video_streaming.permissions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="permissions">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="allowed_id" />
+          </Key>
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="allowed_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sources">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="device_source_url" Type="text" Nullable="false" />
+          <Property Name="source_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="restream_source_url" Type="text" Nullable="false" />
+          <Property Name="source_description" Type="text" Nullable="false" />
+          <Property Name="camera_control_address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="has_audio" Type="bool" Nullable="false" />
+          <Property Name="mime_type" Type="tinytext" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="video_streamingModelStoreContainer">
+          <EntitySet Name="clients" EntityType="Self.clients" Schema="video_streaming" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="video_streaming" store:Type="Tables" />
+          <EntitySet Name="sources" EntityType="Self.sources" Schema="video_streaming" store:Type="Tables" />
+          <EntitySet Name="online_clients" EntityType="Self.online_clients" store:Type="Tables" store:Schema="video_streaming">
+            <DefiningQuery>SELECT
+`online_clients`.`client_id`, 
+`online_clients`.`last_reported`
+FROM `online_clients` AS `online_clients`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="permissions" EntityType="Self.permissions" store:Type="Tables" store:Schema="video_streaming">
+            <DefiningQuery>SELECT
+`permissions`.`client_id`, 
+`permissions`.`allowed_id`
+FROM `permissions` AS `permissions`</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="video_streamingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="client">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="moniker" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="agency" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="subnet" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="min_ip" Type="Int16" Nullable="false" />
+          <Property Name="max_ip" Type="Int16" Nullable="false" />
+          <Property Name="is_active" Type="SByte" Nullable="false" />
+          <Property Name="device_id" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="source">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="device_source_url" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="source_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="restream_source_url" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="source_description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="camera_control_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="has_audio" Type="Boolean" Nullable="false" />
+          <Property Name="mime_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="online_clients">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="last_reported" />
+          </Key>
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="last_reported" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="permission">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="allowed_id" />
+          </Key>
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="allowed_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="video_streamingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="clients" EntityType="Self.client" />
+          <EntitySet Name="logins" EntityType="Self.login" />
+          <EntitySet Name="sources" EntityType="Self.source" />
+          <EntitySet Name="online_clients" EntityType="Self.online_clients" />
+          <EntitySet Name="permissions" EntityType="Self.permission" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="video_streamingModelStoreContainer" CdmEntityContainer="video_streamingEntities">
+          <EntitySetMapping Name="clients">
+            <EntityTypeMapping TypeName="video_streamingModel.client">
+              <MappingFragment StoreEntitySet="clients">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="moniker" ColumnName="moniker" />
+                <ScalarProperty Name="agency" ColumnName="agency" />
+                <ScalarProperty Name="subnet" ColumnName="subnet" />
+                <ScalarProperty Name="min_ip" ColumnName="min_ip" />
+                <ScalarProperty Name="max_ip" ColumnName="max_ip" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="video_streamingModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sources">
+            <EntityTypeMapping TypeName="video_streamingModel.source">
+              <MappingFragment StoreEntitySet="sources">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="device_source_url" ColumnName="device_source_url" />
+                <ScalarProperty Name="source_name" ColumnName="source_name" />
+                <ScalarProperty Name="restream_source_url" ColumnName="restream_source_url" />
+                <ScalarProperty Name="source_description" ColumnName="source_description" />
+                <ScalarProperty Name="camera_control_address" ColumnName="camera_control_address" />
+                <ScalarProperty Name="has_audio" ColumnName="has_audio" />
+                <ScalarProperty Name="mime_type" ColumnName="mime_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="online_clients">
+            <EntityTypeMapping TypeName="video_streamingModel.online_clients">
+              <MappingFragment StoreEntitySet="online_clients">
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="last_reported" ColumnName="last_reported" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="permissions">
+            <EntityTypeMapping TypeName="video_streamingModel.permission">
+              <MappingFragment StoreEntitySet="permissions">
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="allowed_id" ColumnName="allowed_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

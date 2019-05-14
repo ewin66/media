@@ -1,0 +1,13 @@
+;===========================================================================
+;  Copyright (c) 2007  Future Concepts.  All Rights Reserved.
+;===========================================================================
+
+LIBRARY     H264ByteStream.dll
+
+EXPORTS
+            DllMain                 PRIVATE
+            DllGetClassObject       PRIVATE
+            DllCanUnloadNow         PRIVATE
+            DllRegisterServer       PRIVATE
+            DllUnregisterServer     PRIVATE
+

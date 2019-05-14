@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<WOWZAServerConfig>
+  <PollInterval>30000</PollInterval>
+  <RefreshInterval>300000</RefreshInterval>
+  <HostAddress>restreamer.antaresx.net</HostAddress>
+  <HostPort>8086</HostPort>
+  <Username>antaresx</Username>
+  <Password>shuttle88</Password>
+</WOWZAServerConfig>

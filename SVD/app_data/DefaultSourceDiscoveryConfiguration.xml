@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SourceDiscoveryConfiguration>
+
+<Items>
+
+  <SourceDiscoveryDefinition>
+    <Name>LocalSources</Name>
+    <Path1>C:/AntaresXData/StaticSettings/SVD/LocalSources.xml</Path1>
+    <PollInterval>30000</PollInterval>
+    <Type>LocalSourceDiscovery</Type>
+  </SourceDiscoveryDefinition>
+  
+<SourceDiscoveryDefinition>
+    <Name>VSM</Name>
+  <PollInterval>30000</PollInterval>
+  <Type>MasterSourceDiscovery</Type>
+    <URL>http://10.200.0.245/online_sources.php</URL>
+</SourceDiscoveryDefinition>
+
+<SourceDiscoveryDefinition>
+    <Name>VehicleIPCameras</Name>
+  <Type>MasterSourceDiscovery</Type>
+    <URL>http://netmanager/cgi-bin/getCameraGroups.php</URL>
+    <PollInterval>30000</PollInterval>
+</SourceDiscoveryDefinition>
+
+<SourceDiscoveryDefinition>
+  <Name>LegacyNetManager</Name>
+  <Type>NetMgrSourceDiscovery</Type>
+  <PollInterval>15000</PollInterval>
+  <RefreshInterval>15000</RefreshInterval>
+  <PopulateRegularServers>True</PopulateRegularServers>
+  <PopulateRestreamers>True</PopulateRestreamers>
+  <UseGetServerInfoSpecific>True</UseGetServerInfoSpecific>
+  <RequestedServerInfoParams>127</RequestedServerInfoParams>
+  <RequestedStreamSourceInfoParams>65535</RequestedStreamSourceInfoParams>
+  <AcceptAllSourceTypes>False</AcceptAllSourceTypes>
+</SourceDiscoveryDefinition>
+
+</Items>
+</SourceDiscoveryConfiguration>

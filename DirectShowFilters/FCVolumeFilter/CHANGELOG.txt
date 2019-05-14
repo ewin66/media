@@ -1,0 +1,16 @@
+== FC Volume Filter ==
+
+Version 1.0.2.0
+	12/21/2011
+	* Change CheckTransform to verify that in/out sample rate and bit depth are the same
+	kdixon
+
+Version 1.0.1.0
+	06/10/2009
+	* Changed mute to use Win32 BOOL instead of C++ bool to try to avoid marshalling problems
+	kdixon
+
+Version 1.0.0.0
+	01/20/2009
+	* Initial build of FC Volume Filter
+	kdixon

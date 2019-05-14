@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="StreamingVideoDesktop.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SnapshotPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\AntaresXData\Snapshots</Value>
+    </Setting>
+    <Setting Name="RecordingPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\AntaresXData\Recordings</Value>
+    </Setting>
+    <Setting Name="MediaViewerPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\Future Concepts\AntaresX\TV Scanner\RecordingViewer.exe</Value>
+    </Setting>
+    <Setting Name="BeaconServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.183</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

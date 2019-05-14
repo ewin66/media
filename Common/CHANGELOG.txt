@@ -1,0 +1,266 @@
+﻿== FutureConcepts.Media Common Library ==
+
+=== 10.19.7 Series ===
+
+Version 1.5.0.4
+	06/27/2011
+	* Fix EncryptionInfo.ParseHex to support letter digits
+	kdixon
+
+Version 1.5.0.3
+	03/24/2011
+	* Fix MicrowaveControlInfo so that SVD 10.19.1.4 can still receive server info
+	kdixon
+
+Version 1.5.0.2
+	03/23/2011
+	* Fixed math in EncryptionInfo -- 1 hex digit = 4 bits
+	kdixon
+
+Version 1.5.0.1
+	03/17/2011
+	* Added MicrowaveCapabilities.ReceivedCarrierLevelMinimum field
+	kdixon
+
+Version 1.5.0.0
+	02/01/2011
+	* Added data structures and contracts support for Digital Microwave and new Microwave Service
+	  - MicrowaveTuningPreset
+	  - EncryptionInfo
+	  - IMicrowaveControl2
+	  - IMicrowaveControl2Callback
+	  - MicrowaveTuning
+	  - MicrowaveLinkQuality
+	  - MicrowaveReceiverType.Vislink_HDR1000
+	  - RFModulationType
+	  - RFVideoStandard
+	* Refactored Enumerations.cs into Enumerations folder with 1 file per enumeration
+	kdixon
+	
+=== 10.19 Series ===
+
+Version 1.3.1.0
+	01/26/2011
+	* Changed Media.PathMapper to Media.Server.PathMapper. Only Media Server and its supporting applications should
+	  call this class, since it returns values specific to Media Server
+	kdixon
+
+Version 1.3.0.0
+	01/14/2011
+	* Rebuilt in VS2010 / .NET 4
+	* Changed assembly name to FutureConcepts.Media
+	kdixon
+
+Version 1.2.1.2
+	01/05/2010
+	* Removed ServerStatusCallback (unused class)
+	* Changed session mode on ServerStatus to "Allowed" instead of "Required"
+	kdixon
+
+Version 1.2.1.1
+	11/16/2009
+	* Added class Extensions for use with extension methods on Media common types.
+	kdixon
+
+Version 1.2.1.0
+	11/13/2009
+	* Added ContainerCodecType enumeration
+	kdixon
+
+Version 1.2.0.4
+	10/27/2009
+	* Changed DefaultValue attribute on DeviceAddress fields to be Int32.MinValue so that using values of 0
+	  doesn't result in a null-serialized object.
+	kdixon
+
+Version 1.2.0.3
+	10/09/2009
+	* Added CompositeVideoType enumeration for NTSC, PAL, and SECAM
+	kdixon
+
+Version 1.2.0.2
+	10/01/2009
+	* Changed StreamSourceInfo.Enabled to StreamSourceInfo.Hidden
+	kdixon
+
+Version 1.2.0.1
+	09/30/2009
+	* Added VideoCodecType.MPEG1 and renamed MJ2K to MJPEG2000 for clarity
+	* Removed "Size_" prefix from the members of the VideoImageSize enumeration
+	  - 2CIF is now TwoCIF
+	  - 4CIF is now FourCIF
+	kdixon
+
+Version 1.2.0.0
+	09/24/2009
+	* Added new SourceType SRM314 (Sensoray Model 314 Frame Grabber)
+	* Adds Contract.IServerStatus and Contract.IServerStatusCallback
+
+=== 10.18 Series ===
+
+Version 1.1.2.0
+	08/21/2009
+	* Added new VideoImageSize values
+		- HD1080 = 1920 x 1080
+		- HD720 = 1024 x 720
+		- HD480 = 720 x 480
+	kdixon
+
+Version 1.1.1.0
+	07/22/2009
+	* Added enumeration SourceControlTypeState to SourceControlTypeEventArgs.cs
+	  - defines states for SourceControlTypes
+	kdixon
+
+Version 1.1.0.9
+	07/01/2009
+	* Added VideoCodecType "H263" and "MJPEG"
+	kdixon
+
+Version 1.1.0.8
+	06/25/2009
+	* Added ITVStreamCallback.TVModeChanged method
+	  Mantis: 1271
+	kdixon
+
+Version 1.1.0.7
+	06/09/2009
+	* Added "RevisionNumber" field to ServerInfo. If this number changes, the server should be re-queried for its information.
+	* Added Contract.RequestedServerInfoParams.RevisionNumber member.
+	* Changed RequestedServerInfoParams and RequestedStreamSourceInfoParams to use "public const int" instead of "public static readonly int"
+	kdixon
+
+Version 1.1.0.6
+	06/05/2009
+	* Added convienence methods to retreive data from the SessionDescription
+	  - CurrentProfileIsCustom: returns true if the current profile is custom, and therefore not in the ProfileGroups collection
+	  - CurrentProfile: returns the Profile from the ProfileGroups collection as indicated by CurrentProfileName
+	* Added Profile.GetProfileNameParts to break up fully qualified profile names
+	* Added Enabled property on StreamSourceInfo
+	kdixon
+
+Version 1.1.0.5
+	06/04/2009
+	* Added new SinkProtocolType: SinkProtocolType.RTP
+	* Added SinkProtocolMapper class
+	kdixon
+
+Version 1.1.0.4
+	06/03/2009
+	* Added new method to Contract.ITVStreamCallback -- ChannelChanged
+	kdixon
+
+Version 1.1.0.3
+	05/27/2009
+	* Added IPresetProviderItems interface.
+	* Added ICameraControlCallback.StatusMessageChanged method
+	* Added ICameraControlProperties.StatusMessage property
+	* Changed some Enumerations to try to future-proof
+	kdixon
+
+Version 1.1.0.2
+	05/21/2009
+	* Updated PathMapper
+	  - Removed ThumbnailsPath method
+	  - Added comments to AppData method
+	kdixon
+
+Version 1.1.0.1
+	05/11/2009
+	* Changed enumeration for Wonwoo cameras to
+	  - WWCC for WCC 261
+	  - WWCA for WCA 261
+	* Added field RelinquishTimer to MicrowaveControlInfo
+	kdixon
+
+Version 1.1.0.0
+	02/09/2009
+	* Added class UserPresetItem, which is a base class for presets communicated between client and server
+	* Changed NamedCameraPosition and NamedCameraPositions to CameraPositionPreset and UserPresetStore respectively
+	* CameraPositionPreset inherits from UserPresetItem
+	* Added Media.Contract namespace for Client/Server contract related items
+	01/31/2009
+	* Added Media.TV.IChannelScanProvider interface
+	01/30/2009
+	* Added Media.TV.IVirtualChannelProvider interface
+	* Added Media.ITVStreamCallback interface
+	01/26/2009
+	* added AudioCodecType MPEG1
+	* added DefaultValue tags for Profile, AudioSettings, and VideoSettings to reduce generated XML
+	kdixon
+	01/23/2009
+	* purged old Media.TV data structures for 10.18
+	* Add AudioCodecType "DolbyDigital" and "MP3"
+	kdixon
+
+=== 10.17 Series ===
+
+Version 1.0.3.0
+	01/15/2009
+	* Added TV.ChannelCollection; used to be TV.Scanner.ChannelCollection in the TVScanner.exe assembly
+	* Removed dependency on System.Drawing
+	* added WinTV418ATSC to the SourceType enumeration
+	kdixon
+
+=== 10.16 Series ===
+
+Version 1.0.2.2
+	12/24/2008
+	* Removed StreamSourceInfoEventArgs; superceeded by Media.Client.StreamViewer.FullViewClickedEventArgs
+	  Mantis: 764
+	kdixon
+
+Version 1.0.2.1
+	12/15/2008
+	* Fixed potential issue in Media.Profile where GetHashCode could throw a null reference exception
+	kdixon
+
+Version 1.0.2.0
+11/19/2008
+	* Added CameraCapabilitiesAndLimits.PanOffset and CameraCapabilitiesAndLimits.FieldOfView
+	  Mantis: 466
+	* Re-sorted changelog to reverse-chronological order
+	* Made ServerInfo._serverAddress private
+	  Mantis: 361
+	kdixon
+
+Version 1.0.1.0
+	10/09/2008
+	* Added TV.Channel class, which represents a channel.
+	* Added TVSource to Enumerations
+	kdixon
+
+Version 1.0.0.5
+	09/23/2008
+	* Changed Enumerations.cs PTZType.PelcoD_RS485LB to PTZType.WonwooWCC261
+	kdixon
+
+=== 10.15 Release ===
+
+1.0.0.4 - 09/08/2008
+
+- added Enumerations.cs PTZType.PelcoD_RS485LB
+
+1.0.0.3 - 08/25/2008
+
+- added StreamSourceInfo --superceeds Media.SourceInfo and Server.Config.Source
+
+- added TVSourceInfo --superceeds Server.Config.TVSource
+
+- added DeviceAddress --superceeds Server.Config.MX
+
+1.0.0.2 - 08/11/2008
+
+- changed CameraCapabilities to CameraCapabilitiesAndLimits
+
+1.0.0.1 - 7/28/2008
+
+- moved NoSignalPresentException from Media.TV.Scanner to Media.TV
+
+1.0.0.0 - 07/24/2008
+
+- Inception. Antares.Video -> FutureConcepts.Media. Not all classes were transported, cruft was left behind.
+	This library is to contain the following:
+	 - components common to all applications in the Media namespace.
+	 - Exceptions in the Media namespace
+	 - Interfaces when applicable

@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{42E61DAD-BD29-41A1-9829-D902C9ED7F67}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FutureConcepts.Media.SVD.Controls</RootNamespace>
+    <AssemblyName>FutureConcepts.Media.SVD.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EncryptionKeyInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EncryptionKeyInput.Designer.cs">
+      <DependentUpon>EncryptionKeyInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FavoriteStreams.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FavoriteStreams.designer.cs">
+      <DependentUpon>FavoriteStreams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetIP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetIP.designer.cs">
+      <DependentUpon>GetIP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IControlPalette.cs" />
+    <Compile Include="MicrowaveTuner.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MicrowaveTuner.Designer.cs">
+      <DependentUpon>MicrowaveTuner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MicrowaveFreqSweep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MicrowaveFreqSweep.Designer.cs">
+      <DependentUpon>MicrowaveFreqSweep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MicrowavePalette.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MicrowavePalette.Designer.cs">
+      <DependentUpon>MicrowavePalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaletteBusy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PaletteBusy.Designer.cs">
+      <DependentUpon>PaletteBusy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanTiltZoomAbsoluteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanTiltZoomAbsoluteControl.designer.cs">
+      <DependentUpon>PanTiltZoomAbsoluteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileGroupSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProfileGroupSelector.designer.cs">
+      <DependentUpon>ProfileGroupSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserPresetItemView.cs" />
+    <Compile Include="UserPresetsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserPresetsControl.designer.cs">
+      <DependentUpon>UserPresetsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PTZPalette.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PTZPalette.Designer.cs">
+      <DependentUpon>PTZPalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TelemetryViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TelemetryViewer.designer.cs">
+      <DependentUpon>TelemetryViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserPresetSnapshotTimer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CHANGELOG.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EncryptionKeyInput.resx">
+      <DependentUpon>EncryptionKeyInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FavoriteStreams.resx">
+      <DependentUpon>FavoriteStreams.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetIP.resx">
+      <DependentUpon>GetIP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MicrowaveTuner.resx">
+      <DependentUpon>MicrowaveTuner.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MicrowaveFreqSweep.resx">
+      <DependentUpon>MicrowaveFreqSweep.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MicrowavePalette.resx">
+      <DependentUpon>MicrowavePalette.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaletteBusy.resx">
+      <DependentUpon>PaletteBusy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PanTiltZoomAbsoluteControl.resx">
+      <DependentUpon>PanTiltZoomAbsoluteControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfileGroupSelector.resx">
+      <DependentUpon>ProfileGroupSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserPresetsControl.resx">
+      <DependentUpon>UserPresetsControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PTZPalette.resx">
+      <DependentUpon>PTZPalette.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TelemetryViewer.resx">
+      <DependentUpon>TelemetryViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Settings\FutureConcepts.Settings.csproj">
+      <Project>{0D2E6EB4-763A-46A7-8C8F-DA287C578071}</Project>
+      <Name>FutureConcepts.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\ErrorLogger\ErrorLogger.csproj">
+      <Project>{E5D72FE7-156D-40B5-9424-4C3A3B70A932}</Project>
+      <Name>ErrorLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\Utilities\Utilities.csproj">
+      <Project>{F2B906A7-6EE8-46AA-91C5-EADE645BE1D4}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\CameraControlClients\FutureConcepts.Media.Client.CameraControlClients.csproj">
+      <Project>{68F49D81-D634-4957-8B30-126B76420D15}</Project>
+      <Name>FutureConcepts.Media.Client.CameraControlClients</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\Common\FutureConcepts.Media.Client.csproj">
+      <Project>{CF9E3026-2CE5-4A08-ACA4-34765D02C6EF}</Project>
+      <Name>FutureConcepts.Media.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\SourceDiscovery\FutureConcepts.Media.Client.SourceDiscovery.csproj">
+      <Project>{E1994CAF-3A32-46D5-82E1-CACD8A052AFF}</Project>
+      <Name>FutureConcepts.Media.Client.SourceDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\StreamViewer\FutureConcepts.Media.Client.StreamViewer.csproj">
+      <Project>{ECB0766D-B634-4144-8F36-F4F903E56735}</Project>
+      <Name>FutureConcepts.Media.Client.StreamViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CommonControls\FutureConcepts.Media.CommonControls.csproj">
+      <Project>{CDCEE6A0-FE97-44A2-BE19-2F0987E721F0}</Project>
+      <Name>FutureConcepts.Media.CommonControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FutureConcepts.Media.csproj">
+      <Project>{3228BE2B-CFED-40CB-B530-D61EF325682C}</Project>
+      <Name>FutureConcepts.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SourceDiscoveryCommon\FutureConcepts.Media.SourceDiscoveryCommon.csproj">
+      <Project>{E3EEC39A-E969-403F-88DE-3F9B967279E6}</Project>
+      <Name>FutureConcepts.Media.SourceDiscoveryCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

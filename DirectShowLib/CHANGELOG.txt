@@ -1,0 +1,77 @@
+==== DirectShowLib / FC Version ====
+
+Version 2.1.0.1
+	02/03/2011
+	* Upgraded to DirectShowLib 2.1
+	* Changed to explicit versioning
+	* carried over most changes shown below
+	* Moved FCInterfaces to DirectShowLib.Framework assembly
+	kdixon
+
+Version 1.5.1.9
+	11/03/2010
+	* Added Uuids.cs: new class NetworkProvider, with CLSID {B2F3A67C-29DA-4C78-8831-091ED509A475},
+	  which is the new for Windows 7 generic Network Provider for all BDA graphs
+	kdixon
+
+Version 1.5.1.8
+	02/05/2010
+	* Added DsResult.MXE_E_Timeout = 0x80070015, which is the same as HRESULT_FROM_WIN32(ERROR_NOT_READY)
+	kdixon
+
+Version 1.5.1.7
+	12/28/2009
+	* Added method to generate Media Type GUID from Four CC (MediaType.FromFourCC)
+	kdixon
+
+Version 1.5.1.6
+	12/22/2009
+	* Added IFCTimeStampAdjust interface
+	kdixon
+
+Version 1.5.1.5
+	11/17/2009
+	* Changed the following types from struct to class. This allows their usage with Marshal.PtrToStructure
+	  - MPEG1VideoInfo
+	  - MPEG2VideoInfo
+	  - AnalogVideoInfo
+	kdixon
+
+Version 1.5.1.4
+	11/16/2009
+	* Added MediaSubType.OGM
+	kdixon
+
+Version 1.5.1.3
+	10/26/2009
+	* Dropped IFCSRM314CaptureAPI
+	* Added DsError.Succeeded and DsError.Failed methods
+	kdixon
+
+Version 1.5.1.2
+	10/13/2009
+	* Dropped HResult.cs -- use DsResult class instead, migrated our specific values over there too
+	* Added DsUtils.MakeFourCC
+	10/09/2009
+	* Adds IFCSRM314CaptureAPI interface
+	kdixon
+
+Version 1.5.1.1
+	09/28/2009
+	* Added CodecAPIParam.cs, originally from the Server namespace
+	* Added HResult.MXE_E_FAIL and HResult.MXE_E_MANGODEAD
+	kdixon
+
+Version 1.5.1.0
+	06/05/2009
+	* Changed to explicit versioning
+	* Added HResult.cs -- contains definitions for various interesting HRESULTS
+	kdixon
+
+Version 01/28/2009
+	* Moved all FutureConcepts written code from AxExtend.cs to FCInterfaces.cs
+	kdixon
+
+Version 01/20/2009
+	* Added to AxExtend.cs: Interface IFCVolumeMute
+	kdixon

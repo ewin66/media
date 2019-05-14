@@ -1,0 +1,193 @@
+﻿==== SVD.Controls Library Changelog ====
+
+Version 1.1.0.6
+	06/27/2011
+	* Fix issue with Key Input not accepting letters
+	* Show progress bar while restoring preset
+	kdixon
+
+Version 1.1.0.5
+	06/24/2011
+	* Fixed weirdness in frequency changing control
+	  - raised timeouts for users
+	  - truncate decimal place to ".0" when using arrows
+	  Mantis: 3968, 4377
+	kdixon
+
+Version 1.1.0.4
+	06/09/2011
+	* Fix bug where MRX telemetry info streaming in the server could make the MRX Key Input
+	  dialog get shoved off the screen.
+	  Mantis: 3969
+	* Fix issue with sending Sweep settings to MRX service
+	kdixon
+
+Version 1.1.0.3
+	03/24/2011
+	* Catch potential crash in client_PropertyChanged
+	* Fix bug with comparing to "disabled" key in EncryptionKeyInput
+	kdixon
+
+Version 1.1.0.2
+	03/23/2011
+	* Correct math on Key Length -- 1 Hex digit = 4 bits in EncryptionKeyInput
+	kdixon
+
+Version 1.1.0.1
+	03/18/2011
+	* MicrowaveTuner
+	  - support ReceivedCarrierLevelMinimum
+	  - More accurate tool tips for decryption active
+	  - Change "decryption active" icon
+	* EncryptionKeyInput to return "None" if the user has clicked "Clear"
+	kdixon
+
+Version 1.1.0.0
+	02/14/2011
+	* Enhancements to support new Microwave Control scheme
+	kdixon
+
+Version 1.0.6.2
+	02/06/2011
+	* Update to FavoriteServers to use new QueryMediaServers features
+	  Mantis: 1965
+	* Made ProfileGroup drop down auto-select its drop down item count, up to 30
+	  Mantis: 1958
+	kdixon
+
+Version 1.0.6.1
+	02/05/2010
+	* Changed code in MicrowavePalette.Stop to actually Close the client when it should be stopped.
+	  Mantis: 1961
+	kdixon
+
+Version 1.0.6.0
+	11/09/2009
+	* Resolve issue in UserPresetsControl in the UpdatePresets method that caused the server and SVD to
+	  become de-synchronized, confusing SVD, causing a crash
+	  - Fixed the mechanism that removes deleted presets to not remove "random" presets
+	  - Fixed the mechanism that receives updates to presets, to not update the data on presets to "null"
+	  - Fixed lv_RetreiveVirtualItem to return an item with a "?" for the name instead of crashing if it cannot
+	    satisfy the UI's request for an item
+	  Mantis: 1768
+	* fix potential crash in MicrowavePalette.Stop
+	kdixon
+
+Version 1.0.5.9
+	10/26/2009
+	* Disable bitrate slider for MJPEG and MJPEG2000 codecs.
+	kdixon
+
+Version 1.0.5.8
+	10/15/2009
+	* Put user list tooltip on all of the users label, and show/reshow faster to make it easier to see
+	  the use list.
+	kdixon
+
+Version 1.0.5.7
+	10/06/2009
+	* Added Shutdown method to FavoriteStreams to disable QueryMediaServers' threads.
+	kdixon
+
+Version 1.0.5.6
+	10/01/2009
+	* Updated FavoriteStreams to utilize QueryMediaServers new support of the StreamSourceInfo.Hidden property
+	kdixon
+
+Version 1.0.5.5
+	07/22/2009
+	* Moved PTZPalette control initialization code onto the VisibleChanged method. This avoids problems when the
+	  palette does not have a HWND yet.
+	  Mantis: 1518
+	* Any PropertyChanged events that get fired before the window handle is created are enqueued, then executed when
+	  the panel becomes visible. This fix was implemented for both PTZPalette and MicrowavePalette
+	  Mantis: 1518
+	* Fixes potential issue where camera control is not cleaned up properly on errors while closing
+	07/21/2009
+	* Fixed crash in UserPresetsControl.Delete method if you try to delete an item that no longer exists
+	kdixon
+
+Version 1.0.5.4
+	07/15/2009
+	* Update to register favorite thumbnails as Non-Targets for DragDrop operations (requires CommonControls 0.0.1.1)
+	  Mantis: 1500
+
+Version 1.0.5.3
+	07/15/2009
+	* Rebuilt against StreamViewer 1.2.2.0
+	* Avoid invoking DragDropManager more than once when dragging a StreamViewer.Thumbnail
+	* TelemetryViewer shows Latency if not playing and not available, and also if playing but bitrate is unknown 
+	* Clear out Bitrate and Users if State changes to Available no matter what.
+	  Mantis: 1498
+	kdixon
+
+Version 1.0.5.2
+	07/08/2009
+	* Updated code in FavoriteStreams to use MediaClient 1.1.2.0 code.
+	  -- resolves Mantis 1261 where the expanded state of origin servers would be closed always
+	  Mantis: 1261
+	kdixon
+
+Version 1.0.5.1
+	06/02/2009
+	* Fixed a couple of null-reference and other potential problems in FavoriteStreams
+	  Mantis: 1241
+	* If a server has no sources, a special node with tag "BOGUS" and text "<No Available Sources>" under that server
+	  Mantis: 1246
+	* Changed to new Media.ApplicationSettings class
+	* Cleaned up extranious references
+	kdixon
+
+Version 1.0.5.0
+	04/08/2009
+	* Removed "NetSource" accepted source type. The Media Server forwards the actual types to SVD.
+	* Fixed some issues with manually populated servers. They will no longer disappear when a refresh occurs.
+	* Added Delete confirmation dialogs for UserPresetsControl for Delete and Clear All buttons.
+	  Mantis: 1027
+	kdixon
+
+Version 1.0.4.1
+	02/17/2009
+	* Added some more resiliancy to Profile Group Selector.set_SelectedProfileButton.
+	  If it catches an exception, it hides itself, because it would be in a bad state.
+	  Mantis: 902
+	kdixon
+﻿Version 1.0.4.0
+	01/02/2009
+	* Changed FavoriteStreams to use QueryMediaServers control
+	kdixon
+
+Version 1.0.3.0
+	11/19/2008
+	* Updated CalibrateNudgeValues to use new properties
+	kdixon
+
+Version 1.0.2.0
+	10/09/2008
+    * Removed TiltSpeed property from PanTiltZoomAbsoluteControl
+    10/21/2008
+    * StreamViewerControl: First source of a server, if dragged, will be opened, as long as there is at least one
+	  Mantis: 484
+	* PanTiltZoomAbsoluteControl
+	  - PanAngleOffset property.
+	  - Set pan degrees to display from (-180, 180]
+	  - private CalibrateNudgeValues method is called when ZoomLevel changes. For this version, its hardcoded for the RVision.
+	* Requires AntaresXControls 1.0.1.5
+	kdixon
+
+1.0.1.0 - 09/09/2008
+
+- (kdixon) changed FavoriteStreams to work with a dynamic amount of thumbnails
+
+- (darnold) changed FavoriteStreams to work with restream sources
+
+1.0.0.1 - 08/21/2008
+
+- fixed bug in PGS where it would not update framerate correctly upon receiving a custom profile
+
+- changed GetIP form to handle hostnames
+
+1.0.0.0 - 08/14/2008
+
+- inception. Added: FavoriteStreams, GetIP, PanTiltZoomAbsoluteControl, ProfileGroupSelector, PTZFavorite,
+					PTZFavoritesCollection, PTZFavoritesControl, TelemetryViewer>>>>>>> .merge-right.r662

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraControls", "CameraControls.csproj", "{1A121169-E4CD-42C8-8EB2-AAABCF919A3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Media", "..\Common\Media.csproj", "{8417E910-4248-41F9-B012-997E8D89FCA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "..\..\SystemTools\Settings\Settings.csproj", "{79EE5513-37FD-40F8-A348-8468C6B03694}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A121169-E4CD-42C8-8EB2-AAABCF919A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A121169-E4CD-42C8-8EB2-AAABCF919A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A121169-E4CD-42C8-8EB2-AAABCF919A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A121169-E4CD-42C8-8EB2-AAABCF919A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8417E910-4248-41F9-B012-997E8D89FCA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8417E910-4248-41F9-B012-997E8D89FCA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8417E910-4248-41F9-B012-997E8D89FCA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8417E910-4248-41F9-B012-997E8D89FCA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79EE5513-37FD-40F8-A348-8468C6B03694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79EE5513-37FD-40F8-A348-8468C6B03694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79EE5513-37FD-40F8-A348-8468C6B03694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79EE5513-37FD-40F8-A348-8468C6B03694}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

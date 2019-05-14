@@ -1,0 +1,10 @@
+=== TimeStampAdjust Changelog ===
+
+Version 1.0.0.0
+	12/22/2009
+	* Takes a running average of the timestamps, starting with the first sample. If a change
+	  in timestamps occurs that is greater than 4x the running average, the timestamps are
+	  adjusted to be continuous from the last known good sample, with a delta of the running average
+	12/21/2009
+	* TimeStampAdjust inception. Based on the TimeStamp dump filter written by darnold
+	kdixon

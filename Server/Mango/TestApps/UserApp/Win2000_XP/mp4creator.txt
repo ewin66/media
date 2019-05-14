@@ -1,0 +1,7 @@
+Mp4Creator is part of the mpeg4ip package, available with full source code at:
+
+http://www.sourceforge.net/projects/mpeg4ip
+
+The version included here is unmodified from these sources.
+
+mpeg4ip is distributed under the Mozilla Public License.

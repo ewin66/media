@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  
+  <!-- LT v17.5 -->
+  <?define LTSourceRoot="C:\Projects20\Libraries\External\LEADTOOLSv175patch1\"?>
+  <?define LTPlatformRoot="$(var.LTSourceRoot)$(var.Platform)\"?>
+  <?define LTVersion=17.5?>
+  <!-- LT v15 -->
+  <!--<?define LTSourceRoot="C:\Projects\Libraries\External\LEADTOOLS\" ?>
+  <?define LTPlatformRoot=$(var.LTSourceRoot) ?>
+  <?define LTVersion=15?>-->
+
+  <?define GMFSourceRoot="C:\Projects20\Libraries\External\GMFBridge\$(var.Platform)\" ?>
+  <?define AudioDecoderSourceRoot="C:\Projects20\Libraries\External\MediaLooks\" ?>
+  <?define ElecardRoot="C:/Projects20/Libraries/External/Elecard/DSFilters/" ?>
+
+  <?define WCA=$(var.WiXCustomAction.ProjectDir)?>
+
+  <?if $(var.Platform)=x64 ?>
+    <?define msiProductId="e2a9b311-72dc-4ef4-a5ee-925716cd399d" ?>
+    <?define win64Flag="yes" ?>
+    <?define NativeProgramFiles = "ProgramFiles64Folder" ?>
+    <?define LTFileNameSuffix="x.dll" ?>
+    <?define ElecardPrefix="x64/" ?>
+  <?else ?>
+    <?define msiProductId="bebe7331-5bc4-43b7-a027-241cb7c6352a" ?>
+    <?define win64Flag="no" ?>
+    <?define NativeProgramFiles = "ProgramFilesFolder" ?>
+    <?define LTFileNameSuffix=".dll" ?>
+    <?define ElecardPrefix="x86/" ?>
+      
+    <?define COMRegister_AD=AudioDecoderL.dll?>
+    <?define COMRegister_MISC=hcwCCnv2.ax?>
+  <?endif ?>
+
+  <?define LTFilesCDLL=DSKernel2;ltmm175;LCODCJ2K2;LDecH2643;LMNETCON2;LMNETDMX2;LMNETSRC2;LMOggMux;LMMpg2Mx2;LMMpgDmxP;LMOggSpl;LMVYUVxf;LMRTSPSrc;LMUDPSrc;LMVCalBk2?>
+  <?define LTFilesDOTNET=LeadTools.Multimedia.DLL?>
+  <?define LTFilesCOM=$(var.LTFilesCDLL)?>
+
+  <?define ElecardFilters=ertspnws.ax;eavcdec.ax;ear.ax?>
+  
+  <?define COMRegister_GMFBridge=GMFBridge.dll?>
+  
+  <?define COMRegister_FC=$(var.DGramProtocol.TargetFileName);$(var.DVRWriter.TargetFileName);$(var.FCVolumeFilter.TargetFileName);$(var.TimeStampAdjust.TargetFileName)?>
+
+
+  <Product Id="$(var.msiProductId)"
+           Name="!(loc.PRODUCT) ($(var.Platform)-LT$(var.LTVersion))"
+           Language="1033" Codepage="1252"
+           Version="2.0.2.10"
+           Manufacturer="!(loc.MANUFACTURER)"
+           UpgradeCode="96FD1216-B73C-4B62-930D-495399EC920C">
+    <Package Id="*"
+             Keywords="Installer"
+             Description="!(loc.PRODUCT) ($(var.Platform)-LT$(var.LTVersion))"
+             Comments="!(loc.COPYRIGHT)"
+             InstallerVersion="200"
+             InstallScope="perMachine"
+             Compressed="yes" />
+
+    <Icon Id="AntaresX.exe" SourceFile="C:\Projects\Buttons-Icons-Graphics\2.0\icons\appicon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AntaresX.exe"/>
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+
+    <UI>
+      <!-- bind the UI control to the property INSTALLOCATION -->
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+      <UIRef Id="WixUI_InstallDir"/>
+      <UIRef Id="WixUI_ErrorProgressText" />
+
+      <!-- skip license agreement dialog -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">NOT Installed</Publish>
+    </UI>
+
+    <Media Id="1" Cabinet="MediaDependencies.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.NativeProgramFiles)">
+        <Directory Id="DirManf" Name="!(loc.MANUFACTURER)">
+          <Directory Id="INSTALLLOCATION" Name="!(loc.PRODUCT)" />
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="INSTALLLOCATION">
+      
+      <!-- LEADTOOLS -->
+      <?foreach LTDLL in $(var.LTFilesCDLL)?>
+      <Component Id="$(var.LTDLL)" Guid="*">
+        <File Id="$(var.LTDLL)" Source="$(var.LTPlatformRoot)$(var.LTDLL)$(var.LTFileNameSuffix)" KeyPath="yes" DefaultLanguage="0" />
+      </Component>
+      <?endforeach?>
+      <?foreach LTDLL in $(var.LTFilesDOTNET)?>
+      <Component Id="$(var.LTDLL)" Guid="*">
+        <File Id="$(var.LTDLL)" Source="$(var.LTPlatformRoot)$(var.LTDLL)" KeyPath="yes" DefaultLanguage="0" />
+      </Component>
+      <?endforeach?>
+      
+      <!-- Elecard -->
+      <?foreach ElecardDLL in $(var.ElecardFilters)?>
+        <Component Id="$(var.ElecardDLL)" Guid="*">
+          <File Id="$(var.ElecardDLL)" Source="$(var.ElecardRoot)$(var.ElecardPrefix)$(var.ElecardDLL)" KeyPath="yes" DefaultLanguage="0" />
+        </Component>
+      <?endforeach?>
+      
+      <!-- AC3 decoder -->
+      <Component Id="AudioDecoder.lic" Guid="5D2E0422-DEF4-4C06-A854-240DAAA531F9">
+        <File Id="AudioDecoder.lic" Source="$(var.AudioDecoderSourceRoot)AudioDecoder.lic" KeyPath="yes"/>
+      </Component>
+      <Component Id="AudioDecoderL.dll" Guid="A3228DE9-D607-4644-B6DF-41DCDEB7EEFF">
+        <File Id="AudioDecoderL.dll" Source="$(var.AudioDecoderSourceRoot)1.0.0.5\AudioDecoderL.dll" KeyPath="yes"/>
+      </Component>
+      
+      <!-- GMFBridge -->
+      <Component Id="GMFBridge" Guid="C56BE99F-5E50-4E58-9920-4660B94FDCF6">
+        <File Id="GMFBridge" Source="$(var.GMFSourceRoot)GMFBridge.dll" KeyPath="yes"/>
+      </Component>
+      
+      <!-- misc -->
+      <Component Id="hcwCCnv2.ax" Guid="77D34402-0709-47E0-BDEA-183BDDAC6E68">
+        <File Id="hcwCCnv2.ax" Source="C:\Projects\Media\DirectShowFilters\External\hcwCCnv2.ax" KeyPath="yes"/>
+      </Component>
+      
+      <!-- Custom Action Support -->
+      <?include $(var.WCA)RuntimeConfigComponent.wxi?>
+      <Component Id="COMRegHelper" Guid="F63E392B-B0AE-47CC-A5D9-F3A0EB548470">
+        <File Id="COMRegHelper"
+              Name="$(var.FutureConcepts.Media.Tools.COMRegHelper.TargetFileName)"
+              Source="$(var.FutureConcepts.Media.Tools.COMRegHelper.TargetPath)"
+              KeyPath="yes"/>
+      </Component>
+      <Component Id="LicenseHelper" Guid="85B0E913-164C-4FC7-91DE-72E226EF2432">
+        <File Id="LicenseHelper"
+              Name="$(var.FutureConcepts.Media.Tools.License.TargetFileName)"
+              Source="$(var.FutureConcepts.Media.Tools.License.TargetPath)"
+              KeyPath="yes"/>
+      </Component>
+      
+    </DirectoryRef>
+    
+    <ComponentGroup Id="LEADTOOLS">
+      <?foreach LTDLL in $(var.LTFilesCOM)?>
+        <ComponentRef Id="$(var.LTDLL)"/>
+      <?endforeach?>
+      <?foreach LTDLL in $(var.LTFilesDOTNET)?>
+        <ComponentRef Id="$(var.LTDLL)"/>
+      <?endforeach?>
+    </ComponentGroup>
+
+    <ComponentGroup Id="Elecard">
+      <?foreach ElecardDLL in $(var.ElecardFilters)?>
+        <ComponentRef Id="$(var.ElecardDLL)"/>
+      <?endforeach?>
+    </ComponentGroup>
+    
+    <ComponentGroup Id="DSFilters">
+      <ComponentRef Id="AudioDecoder.lic"/>
+      <ComponentRef Id="AudioDecoderL.dll"/>
+      <ComponentRef Id="GMFBridge"/>
+      <ComponentRef Id="hcwCCnv2.ax"/>
+    </ComponentGroup>
+
+    <Feature Id="Complete" Title="!(loc.PRODUCT)" Level="1"
+             Display="expand" ConfigurableDirectory="INSTALLLOCATION">
+
+      <ComponentGroupRef Id="Product.Generated" />
+      <ComponentGroupRef Id="LEADTOOLS"/>
+      <ComponentGroupRef Id="Elecard"/>
+      <ComponentGroupRef Id="DSFilters" />
+      
+      <?include $(var.WCA)RuntimeConfigComponentRef.wxi?>
+      <ComponentRef Id="COMRegHelper"/>
+      <ComponentRef Id="LicenseHelper"/>
+    </Feature>
+    
+    <!-- put InstallUtilLib.dll in the Binary table -->
+    <?include $(var.WCA)InstallUtilBinary.wxi?>
+
+    <!-- setup stuff that needs to be COM-registered -->
+    <?ifdef COMRegister_Total?>
+    <?undef COMRegister_Total?>
+    <?endif?>
+    <?ifdef COMRegister_Total_temp?>
+    <?undef COMRegister_Total_temp?>
+    <?endif?>
+    <?define COMRegister_Total_temp=""?>
+
+    <?foreach LTDLL in $(var.LTFilesCOM)?>
+      <?ifdef COMRegister_Total?>
+        <?undef COMRegister_Total?>
+      <?endif?>
+
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp)$(var.LTDLL)$(var.LTFileNameSuffix);?>
+
+      <?undef COMRegister_Total_temp?>
+      <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+    <?endforeach?>
+
+    <?foreach ElecardDLL in $(var.ElecardFilters)?>
+      <?ifdef COMRegister_Total?>
+        <?undef COMRegister_Total?>
+      <?endif?>
+
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp)$(var.ElecardDLL);?>
+
+      <?undef COMRegister_Total_temp?>
+      <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+    <?endforeach?>
+
+    <?ifdef var.COMRegister_FC ?>
+      <?undef COMRegister_Total?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_FC)?>
+    <?endif?>
+
+    <?undef COMRegister_Total_temp?>
+    <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+
+    <?ifdef var.COMRegister_AD ?>
+      <?undef COMRegister_Total?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_AD)?>
+    <?endif?>
+
+    <?undef COMRegister_Total_temp?>
+    <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+
+    <?ifdef var.COMRegister_MISC ?>
+      <?undef COMRegister_Total?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_MISC)?>
+    <?endif?>
+
+    <?undef COMRegister_Total_temp?>
+    <?define COMRegister_Total_temp=$(var.COMRegister_Total)?>
+    <?undef COMRegister_Total?>
+
+    <?ifdef var.COMRegister_GMFBridge ?>
+      <?define COMRegister_Total=$(var.COMRegister_Total_temp);$(var.COMRegister_GMFBridge)?>
+    <?endif?>
+
+    <!-- Custom Action -->
+
+    <CustomAction Id="COMRegHelper.install" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="COMRegHelper.install.setprop" Property="COMRegHelper.install" Value="/installtype=notransaction /action=install /LogFile= /targets=&quot;$(var.COMRegister_Total)&quot; &quot;[#COMRegHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="COMRegHelper.commit" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="commit" Impersonate="no" />
+    <CustomAction Id="COMRegHelper.commit.setprop" Property="COMRegHelper.commit" Value="/installtype=notransaction /action=commit /LogFile=  &quot;[#COMRegHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="COMRegHelper.rollback" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="rollback" Impersonate="no" />
+    <CustomAction Id="COMRegHelper.rollback.setprop" Property="COMRegHelper.rollback" Value="/installtype=notransaction /action=rollback /LogFile=  &quot;[#COMRegHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="COMRegHelper.uninstall" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="COMRegHelper.uninstall.setprop" Property="COMRegHelper.uninstall" Value="/installtype=notransaction /action=uninstall /LogFile=  &quot;[#COMRegHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+
+    <CustomAction Id="LicenseHelper.install" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="LicenseHelper.install.setprop" Property="LicenseHelper.install" Value="/installtype=notransaction /action=install /LogFile=  &quot;[#LicenseHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="LicenseHelper.commit" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="commit" Impersonate="no" />
+    <CustomAction Id="LicenseHelper.commit.setprop" Property="LicenseHelper.commit" Value="/installtype=notransaction /action=commit /LogFile=  &quot;[#LicenseHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="LicenseHelper.rollback" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="rollback" Impersonate="no" />
+    <CustomAction Id="LicenseHelper.rollback.setprop" Property="LicenseHelper.rollback" Value="/installtype=notransaction /action=rollback /LogFile=  &quot;[#LicenseHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+    <CustomAction Id="LicenseHelper.uninstall" BinaryKey="InstallUtil" DllEntry="ManagedInstall" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="LicenseHelper.uninstall.setprop" Property="LicenseHelper.uninstall" Value="/installtype=notransaction /action=uninstall /LogFile=  &quot;[#LicenseHelper]&quot; &quot;[#CustomActionRuntimeConfig]&quot;" />
+
+
+    <InstallExecuteSequence>
+      <Custom Action="COMRegHelper.install.setprop" After="StartServices">$COMRegHelper>2</Custom>
+      <Custom Action="COMRegHelper.install" After="COMRegHelper.install.setprop">$COMRegHelper>2</Custom>
+      <Custom Action="COMRegHelper.commit.setprop" After="COMRegHelper.install">$COMRegHelper>2</Custom>
+      <Custom Action="COMRegHelper.commit" After="COMRegHelper.commit.setprop">$COMRegHelper>2</Custom>
+      <Custom Action="COMRegHelper.rollback.setprop" After="COMRegHelper.commit">$COMRegHelper>2</Custom>
+      <Custom Action="COMRegHelper.rollback" After="COMRegHelper.rollback.setprop">$COMRegHelper>2</Custom>
+      
+      <Custom Action="LicenseHelper.install.setprop" After="COMRegHelper.rollback">$LicenseHelper>2</Custom>
+      <Custom Action="LicenseHelper.install" After="LicenseHelper.install.setprop">$LicenseHelper>2</Custom>
+      <Custom Action="LicenseHelper.commit.setprop" After="LicenseHelper.install">$LicenseHelper>2</Custom>
+      <Custom Action="LicenseHelper.commit" After="LicenseHelper.commit.setprop">$LicenseHelper>2</Custom>
+      <Custom Action="LicenseHelper.rollback.setprop" After="LicenseHelper.commit">$LicenseHelper>2</Custom>
+      <Custom Action="LicenseHelper.rollback" After="LicenseHelper.rollback.setprop">$LicenseHelper>2</Custom>
+      
+      <Custom Action="LicenseHelper.uninstall.setprop" After="MsiUnpublishAssemblies">$LicenseHelper=2</Custom>
+      <Custom Action="LicenseHelper.uninstall" After="LicenseHelper.uninstall.setprop">$LicenseHelper=2</Custom>
+      
+      <Custom Action="COMRegHelper.uninstall.setprop" After="LicenseHelper.uninstall">$COMRegHelper=2</Custom>
+      <Custom Action="COMRegHelper.uninstall" After="COMRegHelper.uninstall.setprop">$COMRegHelper=2</Custom>
+    </InstallExecuteSequence>
+
+    </Product>
+</Wix>

@@ -1,0 +1,17 @@
+=== H.264 Byte Stream Transform ===
+Implements NALU to AnnexB conversion
+
+Version 1.0.0.2
+	05/11/2011
+	* Fix for building in release mode -- forgot to include definitions file in Release config
+	  Mantis: 3965
+	kdixon
+
+Version 1.0.0.1
+	02/12/2010
+	* Fixed call to swprintf to include max character count parameter, per ISO C spec
+	kdixon
+
+Version 1.0.0.0
+	05/16/2008 or earlier
+	darnold

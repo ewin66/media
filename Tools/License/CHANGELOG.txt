@@ -1,0 +1,23 @@
+﻿=== FutureConcepts.Media.License Changelog ===
+
+This Assembly supports licening for Media-specific components
+
+Version 1.0.0.5
+	12/19/2012
+	* Add LEADTOOLS V17.5 licenses
+
+Version 1.0.0.4
+	06/06/2011
+	* Add LEADTOOLS v17 licenses
+
+Version 1.0.0.1
+	01/04/2010
+	* Added UnlockPair call for MCMP Decoder
+	* Added AssemblyInfo.cs
+	* Added CHANGELOG.txt
+	kdixon
+	
+Version 1.0.0.0
+	??
+	* LEADTOOLS licensing calls
+	darnold

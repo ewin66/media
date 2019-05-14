@@ -1,0 +1,172 @@
+﻿<?xml version="1.0"?>
+<SourcesConfig>
+  <!-- Happauge HVR 1600 PCI -->
+  <Source>
+    <Name>Hauppauge WinTV 418 Video Capture</Name>
+    <Graph Type="LocalAnalog">
+      <Class>WinTV</Class>
+      <Filter Type="Capture" Name="Hauppauge WinTV 418 Video Capture"/>
+      <Filter Type="Tuner" Name="Hauppauge WinTV 418 Tuner"/>
+      <Filter Type="TVAudio" Name="Hauppauge WinTV 418 TvAudio"/>
+      <Filter Type="Crossbar" Name="Hauppauge WinTV 418 Crossbar">
+        <InPin>0: Video Tuner In</InPin>
+        <InPin>5: Audio Tuner In</InPin>
+      </Filter>
+      <Filter Type="VideoEncoder" Name="Hauppauge WinTV 418 Encoder"/>
+      <Filter Type="ColorConverter" Name="Hauppauge WinTV 418 Color Format Converter"/>
+      <Filter Type="Writer" Name="DVR Writer"/>
+      <VideoBitrate>
+        <MinBitRate>5000</MinBitRate>
+        <MaxBitRate>7000</MaxBitRate>
+      </VideoBitrate>
+    </Graph>
+    <Graph Type="LocalDigital">
+      <Class>WinTVATSC</Class>
+      <Filter Type="Tuner" Name="Hauppauge WinTV 418 BDA Tuner"/>
+      <Filter Type="Capture" Name="Hauppauge WinTV 418 TS Capture"/>
+      <Filter Type="VideoDecoder" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+      <Filter Type="AudioDecoder" Name="MediaLooks Audio Decoder">
+        <InPin>In</InPin>
+        <OutPin>Out</OutPin>
+      </Filter>
+      <Filter Type="Writer" Name="DVR Writer">
+        <InPin>Input</InPin>
+      </Filter>
+    </Graph>
+  </Source>
+  <!-- Happauge HVR 1950 USB -->
+  <Source>
+    <Name>Hauppauge HVR USB2 Video Capture</Name>
+    <Graph Type="LocalAnalog">
+      <Class>WinTV</Class>
+      <Filter Type="Capture" Name="Hauppauge HVR USB2 Video Capture"/>
+      <Filter Type="Tuner" Name="Hauppauge HVR USB2 Tuner"/>
+      <Filter Type="TVAudio" Name="Hauppauge HVR USB2 TvAudio"/>
+      <Filter Type="Crossbar" Name="Hauppauge HVR USB2 Crossbar">
+        <InPin>0: Video Tuner In</InPin>
+        <InPin>3: Audio Tuner In</InPin>
+      </Filter>
+      <Filter Type="VideoEncoder" Name="Hauppauge HVR USB2 MPEG Encoder"/>
+      <Filter Type="ColorConverter" Name="Hauppauge WinTV Color Format Converter 2"/>
+      <Filter Type="Writer" Name="DVR Writer"/>
+      <VideoBitrate>
+        <MinBitRate>5000</MinBitRate>
+        <MaxBitRate>7000</MaxBitRate>
+      </VideoBitrate>
+    </Graph>
+    <Graph Type="LocalDigital">
+      <Class>ATSCTuner</Class>
+      <Filter Type="Tuner" Name="Hauppauge HVR USB2 BDA Tuner/Demod"/>
+      <Filter Type="Capture" Name="Hauppauge HVR USB2 TS Capture"/>
+      <Filter Type="VideoDecoder" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+      <Filter Type="AudioDecoder" Name="MediaLooks Audio Decoder">
+        <InPin>In</InPin>
+        <OutPin>Out</OutPin>
+      </Filter>
+      <Filter Type="Writer" Name="DVR Writer">
+        <InPin>Input</InPin>
+      </Filter>
+    </Graph>
+  </Source>
+  <!-- AVerMedia A307 -->
+  <Source>
+    <Name>AVerMedia 23885 Video Capture</Name>
+    <Graph Type="LocalAnalog">
+      <Class>AverA307Analog</Class>
+      <Filter Type="Capture" Name="AVerMedia 23885 Video Capture"/>
+      <Filter Type="Tuner" Name="AVerMedia 23885 Tuner"/>
+      <Filter Type="TVAudio" Name="AVerMedia 23885 TvAudio"/>
+      <Filter Type="Crossbar" Name="AVerMedia 23885 Crossbar"/>
+      <Filter Type="Writer" Name="DVR Writer"/>
+    </Graph>
+    <Graph Type="LocalDigital">
+      <Class>AverATSC</Class>
+      <Filter Type="Tuner" Name="AVerMedia 23885 BDA Tuner/Demod"/>
+      <Filter Type="Capture" Name="AVerMedia 23885 AVStream TS Capture"/>
+      <Filter Type="VideoDecoder" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+      <Filter Type="AudioDecoder" Name="MediaLooks Audio Decoder">
+        <InPin>In</InPin>
+        <OutPin>Out</OutPin>
+      </Filter>
+      <Filter Type="Writer" Name="DVR Writer">
+        <InPin>Input</InPin>
+      </Filter>
+    </Graph>
+  </Source>
+  <!-- AVerMedia A312 -->
+  <Source>
+    <Name>AVerMedia 716x BDA Analog Capture</Name>
+    <Graph Type="LocalAnalog">
+      <Class>AverA317Analog</Class>
+      <Filter Type="Capture" Name="AVerMedia 716x BDA Analog Capture"/>
+      <Filter Type="Tuner" Name="AVerMedia 716x BDA Analog TV Tuner"/>
+      <Filter Type="TVAudio" Name="AVerMedia 716x BDA Analog TV Audio"/>
+      <Filter Type="Crossbar" Name="AVerMedia 716x BDA Analog Xbar"/>
+      <Filter Type="Writer" Name="DVR Writer"/>
+    </Graph>
+    <Graph Type="LocalDigital">
+      <Class>AverATSC</Class>
+      <Filter Type="Tuner" Name="AVerMedia 716x BDA ATSC DC Tuner"/>
+      <Filter Type="Capture" Name="AVerMedia 716x BDA Digital Capture"/>
+      <Filter Type="VideoDecoder" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+      <Filter Type="AudioDecoder" Name="MediaLooks Audio Decoder">
+        <InPin>In</InPin>
+        <OutPin>Out</OutPin>
+      </Filter>
+      <Filter Type="Writer" Name="DVR Writer">
+        <InPin>Input</InPin>
+      </Filter>
+    </Graph>
+  </Source>
+  <!-- AVerMedia A323 -->
+  <Source>
+    <Name>AVerMedia Capture</Name>
+    <Graph Type="LocalAnalog">
+      <Class>AverA323Analog</Class>
+      <Filter Type="Capture" Name="AVerMedia Capture"/>
+      <Filter Type="Tuner" Name="AVerMedia Tuner"/>
+      <Filter Type="TVAudio" Name="AVerMedia TVAudio"/>
+      <Filter Type="Crossbar" Name="AVerMedia Crossbar"/>
+      <Filter Type="VideoEncoder" Name="AVerMedia Encoder"/>
+      <Filter Type="Writer" Name="DVR Writer"/>
+    </Graph>
+    <Graph Type="LocalDigital">
+      <Class>AverATSC</Class>
+      <Filter Type="Tuner" Name="AVerMedia BDA ATSC Tuner"/>
+      <Filter Type="Capture" Name="AVerMedia BDA Capture"/>
+      <Filter Type="VideoDecoder" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+      <Filter Type="AudioDecoder" Name="MediaLooks Audio Decoder">
+        <InPin>In</InPin>
+        <OutPin>Out</OutPin>
+      </Filter>
+      <Filter Type="Writer" Name="DVR Writer">
+        <InPin>Input</InPin>
+      </Filter>
+    </Graph>
+  </Source>
+  <Source>
+    <Name>Network</Name>
+    <Graph Type="Network">
+      <Class>Network</Class>
+      <Filter Type="VideoDecoder" VideoCodec="MPEG2" Name="Elecard MPEG-2 Video Decoder">
+        <InPin>MPEG In</InPin>
+        <OutPin>Video Out</OutPin>
+      </Filter>
+    </Graph>
+  </Source>
+</SourcesConfig>
